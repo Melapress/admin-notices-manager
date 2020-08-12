@@ -1,0 +1,27 @@
+/**
+ * AdminNoticesManager - Admin Styles
+ */
+
+#wp-admin-bar-anm_notification_count {
+  display: none;
+}
+
+.anm-notification-counter {
+  background-color: #ca4a1f;
+  border-radius: 50% !important;
+  box-sizing: border-box !important;
+  font-size: 11px !important;
+  height: 18px !important;
+  line-height: 1.6 !important;
+  min-width: 18px;
+  text-align: center;
+  vertical-align: text-bottom;
+  display: inline;
+  padding: 4px 7px 4px 6px !important;
+  color: #fff;
+  margin-left: 7px !important;
+
+  > span {
+	line-height: 100% !important;
+  }
+}
