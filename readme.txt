@@ -1,9 +1,9 @@
 === Admin Notices Manager ===
 Contributors:      10up
-Tags: 
+Tags:
 Requires at least: 4.9
 Tested up to:      4.9
-Stable tag:        0.1.0
+Stable tag:        1.0.0
 
 A brief description of the plugin.
 
@@ -26,10 +26,10 @@ A brief description of the plugin.
 
 == Changelog ==
 
-= 0.1.0 =
+= 1.0.0 =
 * First release
 
 == Upgrade Notice ==
 
-= 0.1.0 =
+= 1.0.0 =
 First Release

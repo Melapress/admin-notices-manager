@@ -23,7 +23,7 @@
 			}, this.migration_delay );
 		},
 		transfer_notices() {
-			let notices = $( '#wpbody-content .wrap' ).find( 'div.updated, div.error, div.notice, #message' ).not( '.hidden' );
+			let notices = $( '#wpbody-content .wrap' ).children( 'div.updated, div.error, div.notice, #message' ).not( '.hidden' );
 			let notifications_count = notices.length;
 			if ( 1 > notifications_count ) {
 				return;
@@ -52,7 +52,7 @@
 			//	clear the interval after given time or when there are no notices left to move
 			let now = new Date().getTime();
 			let time_diff = now - this.migration_start;
-			if ( time_diff > this.migration_limit || 0 == $( '#wpbody-content' ).find( 'div.updated, div.error, div.notice, #message' ).not( '.hidden' ).length ) {
+			if ( time_diff > this.migration_limit || 0 == $( '#wpbody-content' ).children( 'div.updated, div.error, div.notice, #message' ).not( '.hidden' ).length ) {
 
 				//	stop interval
 				clearInterval( this.migration_interval );

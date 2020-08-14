@@ -2,14 +2,15 @@
 
 (function ($) {
   var AdminNoticesManager = {
-    container: '',
+    container: null,
+    counter_link: null,
     migration_delay: 100,
-    migration_interval: '',
-    migration_start: '',
+    migration_interval: null,
+    migration_start: 0,
     migration_limit: 2000,
     popup_delay: 50,
-    popup_interval: '',
-    popup_start: '',
+    popup_interval: null,
+    popup_start: 0,
     popup_limit: 1000,
     init: function init() {
       var _this2 = this;
@@ -24,7 +25,7 @@
       }, this.migration_delay);
     },
     transfer_notices: function transfer_notices() {
-      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden');
+      var notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden');
       var notifications_count = notices.length;
 
       if (1 > notifications_count) {
@@ -49,11 +50,10 @@
       var now = new Date().getTime();
       var time_diff = now - this.migration_start;
 
-      if (time_diff > this.migration_limit || 0 == $('#wpbody-content').find('div.updated, div.error, div.notice, #message').not('.hidden').length) {
+      if (time_diff > this.migration_limit || 0 == $('#wpbody-content').children('div.updated, div.error, div.notice, #message').not('.hidden').length) {
         //	stop interval
         clearInterval(this.migration_interval);
         this.migration_interval = null;
-        console.log('clear migration interval');
       }
     },
     adjust_modal_height: function adjust_modal_height() {
@@ -70,7 +70,6 @@
         if (time_diff > this.popup_limit) {
           clearInterval(this.popup_interval);
           this.popup_interval = null;
-          console.log('clear height interval');
         }
       }
     },
@@ -93,6 +92,7 @@
         return false;
       });
       $(window).resize(function () {
+        //	adjust thick box modal height on window resize
         _this.adjust_modal_height.call(_this);
       });
     }
