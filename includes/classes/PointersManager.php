@@ -16,6 +16,30 @@ class PointersManager {
 
 		$this->plugin_prefix = $plugin_prefix;
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_pointers' ), 1000 );
+		add_action( 'wp_ajax_wpws_dismiss_wp_pointer', array( $this, 'dismiss_wp_pointer' ) );
+	}
+
+	/**
+	 * Method: Ajax request handler to dismiss pointers.
+	 *
+	 * @since 3.2.4
+	 */
+	public function dismiss_wp_pointer() {
+
+		$pointer = sanitize_text_field( wp_unslash( $_POST['pointer'] ) );
+		if ( $pointer != sanitize_key( $pointer ) ) {
+			wp_die( 0 );
+		}
+
+		$dismissed = array_filter( explode( ',', (string) get_option( 'wpws-dismissed-pointers', '' ) ) );
+		if ( in_array( $pointer, $dismissed ) ) {
+			wp_die( 0 );
+		}
+
+		$dismissed[] = $pointer;
+
+		update_option( 'wpws-dismissed-pointers', implode( ',', $dismissed ), false );
+		wp_die( 1 );
 	}
 
 	public function add_pointer( $pointer ) {
@@ -34,7 +58,7 @@ class PointersManager {
 		}
 
 		$pointer['options']['pointerClass'] .= 'wp-pointer anm-pointer';
-		$this->pointers[$pointer['id']] = $pointer;
+		$this->pointers[ $pointer['id'] ]   = $pointer;
 	}
 
 	/**
@@ -56,18 +80,14 @@ class PointersManager {
 		foreach ( $this->pointers as $pointer_id => $pointer ) {
 
 			// don't display if already dismissed
-			$already_dismissed = false;
-			if ( $already_dismissed ) {
-				return;
-			}
-
-			// don't display if already dismissed
-			$already_dismissed = false;
+			$dismissed_pointer = explode( ',', (string) get_option( 'wpws-dismissed-pointers', '' ) );
+			$already_dismissed = in_array( $pointer_id, $dismissed_pointer );
 			if ( $already_dismissed ) {
 				return;
 			}
 
 			$pointer['pointer_id'] = $pointer['id'];
+			unset( $pointer['id'] );
 
 			// Add the pointer to $valid_pointers array.
 			$valid_pointers[] = $pointer;

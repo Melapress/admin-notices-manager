@@ -13,7 +13,7 @@ class Pointer {
 	public function register_pointers() {
 		$manager = new PointersManager( 'advanced_notices_manager_' );
 		$manager->add_pointer( [
-			'id' => 'initial_prompt',
+			'id'      => 'anm_initial_prompt',
 			'target'  => '#wp-admin-bar-anm_notification_count',
 			'options' => array(
 				'content'  => sprintf(
