@@ -264,12 +264,10 @@ gulp.task('customJS', () => {
 			})
 		)
 		.pipe(remember(config.jsCustomSRC)) // Bring all files back to stream.
-		.pipe(concat(config.jsCustomFile + '.js'))
 		.pipe(lineec()) // Consistent Line Endings for non UNIX systems.
 		.pipe(gulp.dest(config.jsCustomDestination))
 		.pipe(
 			rename({
-				basename: config.jsCustomFile,
 				suffix: '.min'
 			})
 		)

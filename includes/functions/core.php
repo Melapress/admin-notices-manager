@@ -9,6 +9,7 @@
 namespace AdminNoticesManager\Core;
 
 use AdminNoticesManager\Notices;
+use AdminNoticesManager\Pointer;
 use \WP_Error as WP_Error;
 
 /**
@@ -23,6 +24,7 @@ function setup() {
 
 	if ( is_admin() ) {
 		new Notices();
+		new Pointer();
 	}
 
 	add_action( 'init', $n( 'i18n' ) );
