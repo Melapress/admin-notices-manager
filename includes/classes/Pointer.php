@@ -24,7 +24,8 @@ class Pointer {
 				'position' => array(
 					'edge'  => 'top',
 					'align' => 'center',
-				)
+				),
+				'pointerClass' => '',
 			)
 		] );
 	}
