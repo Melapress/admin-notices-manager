@@ -20,7 +20,7 @@ class PointersManager {
 	}
 
 	/**
-	 * Method: Ajax request handler to dismiss pointers.
+	 * Ajax request handler to dismiss pointers.
 	 *
 	 * @since 3.2.4
 	 */
@@ -57,12 +57,11 @@ class PointersManager {
 			$this->pointers = [];
 		}
 
-		$pointer['options']['pointerClass'] .= 'wp-pointer anm-pointer';
-		$this->pointers[ $pointer['id'] ]   = $pointer;
+		$this->pointers[ $pointer['id'] ] = $pointer;
 	}
 
 	/**
-	 * Method: Load WSAL Notice Pointer.
+	 * Load Pointers.
 	 *
 	 * @param string $hook_suffix - Current hook suffix.
 	 *
