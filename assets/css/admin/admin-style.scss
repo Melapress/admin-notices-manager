@@ -2,6 +2,18 @@
  * AdminNoticesManager - Admin Styles
  */
 
+#wp-admin-bar-anm_notification_count {
+  > a {
+	cursor: not-allowed;
+  }
+
+  &.has-data {
+	> a {
+	  cursor: pointer;
+	}
+  }
+}
+
 .anm-notification-counter {
   background-color: #ca4a1f;
   border-radius: 50% !important;

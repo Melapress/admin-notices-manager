@@ -140,6 +140,11 @@ function admin_scripts() {
 		true
 	);
 
+	wp_localize_script('admin_notices_manager_admin', 'anm_i18n', [
+		'title' => esc_html__('Admin notices', 'admin-notices-manager'),
+		'title_empty' => esc_html__('No admin notices', 'admin-notices-manager'),
+	]);
+
 }
 
 /**

@@ -24,11 +24,21 @@
         _this2.transfer_notices();
       }, this.migration_delay);
     },
+    get_current_counter_value: function get_current_counter_value() {
+      var counter_elm = $('.anm-notification-counter span.count');
+
+      if (0 == counter_elm.length) {
+        return 0;
+      }
+
+      return parseInt(counter_elm.html(), 10);
+    },
     transfer_notices: function transfer_notices() {
       var notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden');
       var notifications_count = notices.length;
 
       if (1 > notifications_count) {
+        this.counter_link.find('a').html(anm_i18n.title_empty);
         return;
       }
 
@@ -36,14 +46,15 @@
 
       if (0 < $('.anm-notification-counter').length) {
         var counter_elm = $('.anm-notification-counter span.count');
-        var existing_count = parseInt(counter_elm.html(), 10);
+        var existing_count = this.get_current_counter_value();
         counter_elm.html(existing_count + notifications_count);
       } else {
-        var title = this.counter_link.find('a').text();
+        var title = anm_i18n.title;
+        this.counter_link.find('a').html(title);
         var bubble_html = '<div class="anm-notification-counter' + ' wp-core-ui wp-ui-notification">' + '<span aria-hidden="true" class="count">' + notifications_count + '</span>' + '<span class="screen-reader-text">' + notifications_count + ' ' + title + '</span>' + '</div>';
         this.counter_link.attr('data-popup-title', title);
         this.counter_link.find('a').append(bubble_html);
-        this.counter_link.show();
+        this.counter_link.addClass('has-data');
       } //	clear the interval after given time or when there are no notices left to move
 
 
@@ -80,6 +91,10 @@
         if (_this.popup_interval) {
           clearInterval(_this.popup_interval);
           _this.popup_interval = null;
+        }
+
+        if (0 == _this.get_current_counter_value()) {
+          return false;
         } //	open the ThickBox popup
 
 
