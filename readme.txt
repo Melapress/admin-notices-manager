@@ -13,9 +13,9 @@ Better manage admin notices and never miss important developer messages!
 
 == Description ==
 
-WordPress and plugins developers use admin notices to send important messages to the user. However, more often than not a cry wolf situation is being created due to the overwhelming number of notices users have and the nature of these messages.
+WordPress core, themes and plugins developers use admin notices to send you important messages about your website and their software that you use. However, more often than not a cry wolf situation is created due to the overwhelming number of notices and the nature of these messages.
 
-Use the Admin Notices Manager plugin to better manage your website’s admin notices, so you can read them at your own convenience and not miss any important WordPress core and developer messages.
+Use the Admin Notices Manager plugin to better manage your website’s admin notices. Read them at your own convenience and never miss an important WordPress core and developer message.
 
 ##The problem
 
