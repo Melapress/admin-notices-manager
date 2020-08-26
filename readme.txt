@@ -25,7 +25,7 @@ This has resulted in users ignoring the admin notices and not reading important 
 
 ##The solution
 
-The Admin Notices Manager plugin solves this problem by moving the admin notices out of the main dashboard view to a central place, so you are not disrupted. 
+The [Admin Notices Manager](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager/) plugin solves this problem by moving the admin notices out of the main dashboard view to a central place, so you are not disrupted. 
 
 This allows you to keep on working and read the notices at your convenience at a later time, without missing any important WordPress core, plugins and themes messages.
 
@@ -35,18 +35,23 @@ The plugin is very easy to use; simply install and activate it on your WordPress
 
 The plugin notifies you of new notices by highlighting the number of new notices in the WordPress toolbar next to your username.
 
-### FREE Plugin Support
+##FREE Plugin Support
 Support for the WP 2FA plugin is available for free via:
 
 * [forums](https://wordpress.org/support/plugins/wp-2fa/)
 
 * [email](https://www.wpwhitesecurity.com/support/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=WP2FA&utm_content=plugin+repos+description)
 
-### Maintained & Supported by WP White Security
+##Maintained & Supported by WP White Security
 
 WP White Security builds high-quality niche WordPress security & management plugins such as [Password Policy Manager](https://www.wpwhitesecurity.com/wordpress-plugins/password-policy-manager-wordpress/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=PPMWP&utm_content=plugin+repos+description) and [WP Activity Log](https://wpactivitylog.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=WSAL&utm_content=plugin+repos+description), the #1 user-rated activity log plugin for WordPress.
 
 Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress-plugins/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=all+plugins&utm_content=plugin+repos+description) that can help you better manage and improve the security of your WordPress websites and users.
+
+##Related Links and Documentation
+
+* [Official plugin page](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notifications-manager/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
+* [All our other plugins](https://www.wpwhitesecurity.com/wordpress-plugins//?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
 
 == Installation ==
 
