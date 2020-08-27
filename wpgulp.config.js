@@ -30,7 +30,6 @@ module.exports = {
 	// JS Custom options.
 	jsCustomSRC: './assets/js/admin/*.js', // Path to JS custom scripts folder.
 	jsCustomDestination: './assets/dist/js/', // Path to place the compiled JS custom scripts file.
-	jsCustomFile: 'admin', // Compiled JS custom file name. Default set to custom i.e. custom.js.
 
 	// Images options.
 	imgSRC: './assets/images/raw/**/*', // Source folder of images which should be optimized and watched. You can also specify types e.g. raw/**.{png,jpg,gif} in the glob.

@@ -62,7 +62,7 @@ const remember = require('gulp-remember') //  Adds all the files it has ever see
 const plumber = require('gulp-plumber') // Prevent pipe breaking caused by errors from gulp plugins.
 const beep = require('beepbeep')
 const zip = require('gulp-zip') // Gulp plugin to generate zip folder and remove unwanted files.
-const dateFormat = require('dateformat');
+const dateFormat = require('dateformat')
 
 /**
  * Custom Error Handler.
@@ -264,12 +264,10 @@ gulp.task('customJS', () => {
 			})
 		)
 		.pipe(remember(config.jsCustomSRC)) // Bring all files back to stream.
-		.pipe(concat(config.jsCustomFile + '.js'))
 		.pipe(lineec()) // Consistent Line Endings for non UNIX systems.
 		.pipe(gulp.dest(config.jsCustomDestination))
 		.pipe(
 			rename({
-				basename: config.jsCustomFile,
 				suffix: '.min'
 			})
 		)
@@ -350,12 +348,16 @@ gulp.task('translate', () => {
 		.pipe(notify({ message: '\n\n✅  ===> TRANSLATE — completed!\n', onLast: true }))
 })
 
-gulp.task('zip', function () {
+gulp.task('build', gulp.series( 'styles', 'vendorsJS', 'customJS', 'images', 'translate', function(done) {
+	done();
+}));
 
-	var fs = require('fs');
-	var time = dateFormat(new Date(), "yyyy-mm-dd_HH-MM");
-	var pkg = JSON.parse(fs.readFileSync('./package.json'));
-	var filename = pkg.name + '-' + pkg.version + '-' + time + '.zip';
+gulp.task('zip', gulp.series('build', function () {
+
+	var fs = require('fs')
+	var time = dateFormat(new Date(), 'yyyy-mm-dd_HH-MM')
+	var pkg = JSON.parse(fs.readFileSync('./package.json'))
+	var filename = 'admin-notices-manager-' + pkg.version + '-' + time + '.zip'
 
 	return gulp.src([
 		'./**/*',
@@ -380,7 +382,7 @@ gulp.task('zip', function () {
 	])
 		.pipe(zip(filename))
 		.pipe(gulp.dest('./../'))
-})
+}))
 
 /**
  * Watch Tasks.
@@ -389,11 +391,11 @@ gulp.task('zip', function () {
  */
 gulp.task(
 	'default',
-	gulp.parallel( 'styles', 'vendorsJS', 'customJS', 'images', browsersync, () => {
-		gulp.watch( config.watchPhp, reload ); // Reload on PHP file changes.
-		gulp.watch( config.watchStyles, gulp.parallel( 'styles' ) ); // Reload on SCSS file changes.
-		gulp.watch( config.watchJsVendor, gulp.series( 'vendorsJS', reload ) ); // Reload on vendorsJS file changes.
-		gulp.watch( config.watchJsCustom, gulp.series( 'customJS', reload ) ); // Reload on customJS file changes.
-		gulp.watch( config.imgSRC, gulp.series( 'images', reload ) ); // Reload on customJS file changes.
+	gulp.parallel('styles', 'vendorsJS', 'customJS', 'images', browsersync, () => {
+		gulp.watch(config.watchPhp, reload) // Reload on PHP file changes.
+		gulp.watch(config.watchStyles, gulp.parallel('styles')) // Reload on SCSS file changes.
+		gulp.watch(config.watchJsVendor, gulp.series('vendorsJS', reload)) // Reload on vendorsJS file changes.
+		gulp.watch(config.watchJsCustom, gulp.series('customJS', reload)) // Reload on customJS file changes.
+		gulp.watch(config.imgSRC, gulp.series('images', reload)) // Reload on customJS file changes.
 	})
-);
+)

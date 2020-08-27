@@ -22,10 +22,18 @@
 				this.transfer_notices();
 			}, this.migration_delay );
 		},
+		get_current_counter_value() {
+			let counter_elm = $( '.anm-notification-counter span.count' );
+			if ( 0 == counter_elm.length ) {
+				return 0;
+			}
+			return parseInt( counter_elm.html(), 10 );
+		},
 		transfer_notices() {
 			let notices = $( '#wpbody-content .wrap' ).children( 'div.updated, div.error, div.notice, #message' ).not( '.hidden' );
 			let notifications_count = notices.length;
 			if ( 1 > notifications_count ) {
+				this.counter_link.find( 'a' ).html( anm_i18n.title_empty );
 				return;
 			}
 
@@ -34,10 +42,11 @@
 			//	increase counter if already exists
 			if ( 0 < $( '.anm-notification-counter' ).length ) {
 				let counter_elm = $( '.anm-notification-counter span.count' );
-				let existing_count = parseInt( counter_elm.html(), 10 );
+				let existing_count = this.get_current_counter_value();
 				counter_elm.html( existing_count + notifications_count );
 			} else {
-				let title = this.counter_link.find( 'a' ).text();
+				let title = anm_i18n.title;
+				this.counter_link.find('a').html(title);
 				const bubble_html = '<div class="anm-notification-counter' +
 					' wp-core-ui wp-ui-notification">' +
 					'<span aria-hidden="true" class="count">' + notifications_count + '</span>' +
@@ -46,7 +55,7 @@
 
 				this.counter_link.attr( 'data-popup-title', title );
 				this.counter_link.find( 'a' ).append( bubble_html );
-				this.counter_link.show();
+				this.counter_link.addClass( 'has-data' );
 			}
 
 			//	clear the interval after given time or when there are no notices left to move
@@ -56,7 +65,7 @@
 
 				//	stop interval
 				clearInterval( this.migration_interval );
-				this.migration_interval = null
+				this.migration_interval = null;
 			}
 		},
 		adjust_modal_height() {
@@ -70,9 +79,9 @@
 			if ( this.popup_interval ) {
 				let now = new Date().getTime();
 				let time_diff = now - this.popup_start;
-				if (time_diff > this.popup_limit) {
-					clearInterval(this.popup_interval);
-					this.popup_interval = null
+				if ( time_diff > this.popup_limit ) {
+					clearInterval( this.popup_interval );
+					this.popup_interval = null;
 				}
 			}
 		},
@@ -81,7 +90,11 @@
 			this.counter_link.click( function() {
 				if ( _this.popup_interval ) {
 					clearInterval( _this.popup_interval );
-					_this.popup_interval = null
+					_this.popup_interval = null;
+				}
+
+				if ( 0 == _this.get_current_counter_value() ) {
+					return false;
 				}
 
 				//	open the ThickBox popup
@@ -90,15 +103,15 @@
 				//	start height adjustment using interval (there is no callback nor event to hook into)
 				_this.popup_start = new Date().getTime();
 				_this.popup_interval = setInterval( function() {
-					_this.adjust_modal_height.call(_this);
+					_this.adjust_modal_height.call( _this );
 				}, _this.popup_delay );
 				return false;
 			});
 
-			$( window ).resize(function() {
+			$( window ).resize( function() {
 
 				//	adjust thick box modal height on window resize
-				_this.adjust_modal_height.call(_this);
+				_this.adjust_modal_height.call( _this );
 			});
 		}
 	};

@@ -55,7 +55,7 @@ class Notices {
 		$admin_bar->add_menu(
 			[
 				'id'     => 'anm_notification_count',
-				'title'  => __('Admin Notices', 'admin-notices-manager'),
+				'title'  => __('No admin notices', 'admin-notices-manager'),
 				'href'   => '#',
 				'parent' => 'top-secondary',
 			]

@@ -16,6 +16,10 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/classes/Notices.php:58
-msgid "Admin Notices"
+#: includes/classes/Notices.php:58, includes/functions/core.php:145
+msgid "No admin notices"
+msgstr ""
+
+#: includes/functions/core.php:144
+msgid "Admin notices"
 msgstr ""
