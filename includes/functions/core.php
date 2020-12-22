@@ -140,10 +140,127 @@ function admin_scripts() {
 		true
 	);
 
-	wp_localize_script('admin_notices_manager_admin', 'anm_i18n', [
-		'title' => esc_html__('Admin notices', 'admin-notices-manager'),
-		'title_empty' => esc_html__('No admin notices', 'admin-notices-manager'),
-	]);
+	$system_messages = [
+		//  pages and posts
+		__( 'Post draft updated.' ),
+		__( 'Post updated.' ),
+		__( 'Page draft updated.' ),
+		__( 'Page updated.' ),
+		__( '1 post not updated, somebody is editing it.' ),
+		__( '1 page not updated, somebody is editing it.' ),
+
+		//  comments
+		__( 'Invalid comment ID.' ),
+		__( 'Sorry, you are not allowed to edit comments on this post.' ),
+		__( 'This comment is already approved.' ),
+		__( 'This comment is already in the Trash.' ),
+		__( 'This comment is already marked as spam.' ),
+
+		//  users
+		__( 'New user created.' ),
+		__( 'User updated.' ),
+		__( 'User deleted.' ),
+		__( 'Changed roles.' ),
+		__( 'The current user&#8217;s role must have user editing capabilities.' ),
+		__( 'Other user roles have been changed.' ),
+		__( 'You can&#8217;t delete the current user.' ),
+		__( 'Other users have been deleted.' ),
+		__( 'User removed from this site.' ),
+		__( "You can't remove the current user." ),
+		__( 'Other users have been removed.' ),
+
+		//  themes
+		__( 'The active theme is broken. Reverting to the default theme.' ),
+		__( 'Settings saved and theme activated.' ),
+		__( 'New theme activated.' ),
+		__( 'Theme deleted.' ),
+		__( 'You cannot delete a theme while it has an active child theme.' ),
+		__( 'Theme resumed.' ),
+		__( 'Theme could not be resumed because it triggered a <strong>fatal error</strong>.' ),
+		__( 'Theme will be auto-updated.' ),
+		__( 'Theme will no longer be auto-updated.' ),
+
+		//  plugins
+		__( 'Plugin activated.' ),
+		__( 'Plugin deactivated.' ),
+		__( 'Plugin downgraded successfully.' ),
+		__( 'Plugin updated successfully.' ),
+
+		//  settings
+		__( 'Settings saved.' ),
+		__( 'Permalink structure updated.' ),
+		__( 'You should update your %s file now.' ),
+		__( 'Permalink structure updated. Remove write access on %s file now!' ),
+		__( 'Privacy Policy page updated successfully.' ),
+		__( 'The currently selected Privacy Policy page does not exist. Please create or select a new page.' ),
+		__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ),
+
+		//  multisite
+		__( 'Sites removed from spam.' ),
+		__( 'Sites marked as spam.' ),
+		__( 'Sites deleted.' ),
+		__( 'Site deleted.' ),
+		__( 'Sorry, you are not allowed to delete that site.' ),
+		__( 'Site archived.' ),
+		__( 'Site unarchived.' ),
+		__( 'Site activated.' ),
+		__( 'Site deactivated.' ),
+		__( 'Site removed from spam.' ),
+		__( 'Site marked as spam.' ),
+
+		//  personal data export
+		__( 'Unable to initiate confirmation request.' ),
+		__( 'Unable to initiate user privacy confirmation request.' ),
+		__( 'Unable to add this request. A valid email address or username must be supplied.' ),
+		__( 'Invalid user privacy action.' ),
+		__( 'Confirmation request sent again successfully.' ),
+		__( 'Confirmation request initiated successfully.' )
+	];
+
+	$plural_system_messages = [
+		//  posts and pages
+		[ '%s post permanently deleted.', '%s posts permanently deleted.' ],
+		[ '%s post moved to the Trash.', '%s posts moved to the Trash.' ],
+		[ '%s post restored from the Trash.', '%s posts restored from the Trash.' ],
+		[ '%s page permanently deleted.', '%s pages permanently deleted.' ],
+		[ '%s page moved to the Trash.', '%s pages moved to the Trash.' ],
+		[ '%s page restored from the Trash.', '%s pages restored from the Trash.' ],
+		[ '%s post updated.', '%s posts updated.' ],
+		[ '%s post not updated, somebody is editing it.', '%s posts not updated, somebody is editing them.' ],
+		[ '%s page updated.', '%s pages updated.' ],
+		[ '%s page not updated, somebody is editing it.', '%s pages not updated, somebody is editing them.' ],
+
+		//  comments
+		[ '%s comment approved.', '%s comments approved.' ],
+		[ '%s comment marked as spam.', '%s comments marked as spam.' ],
+		[ '%s comment restored from the spam.', '%s comments restored from the spam.' ],
+		[ '%s comment moved to the Trash.', '%s comments moved to the Trash.' ],
+		[ '%s comment restored from the Trash.', '%s comments restored from the Trash.' ],
+		[ '%s comment permanently deleted.', '%s comments permanently deleted.' ],
+
+		//  users
+		[ '%s user deleted.', '%s users deleted.' ],
+
+		//  personal data export
+		[ '%d confirmation request failed to resend.', '%d confirmation requests failed to resend.' ],
+		[ '%d confirmation request re-sent successfully.', '%d confirmation requests re-sent successfully.' ],
+		[ '%d request marked as complete.', '%d requests marked as complete.' ],
+		[ '%d request failed to delete.', '%d requests failed to delete.' ],
+		[ '%d request deleted successfully.', '%d requests deleted successfully.' ]
+	];
+
+	foreach ( $plural_system_messages as $message ) {
+		array_push( $system_messages, _n( $message[0], $message[1], 0 ) );
+		array_push( $system_messages, _n( $message[0], $message[1], 1 ) );
+		array_push( $system_messages, _n( $message[0], $message[1], 2 ) );
+		array_push( $system_messages, _n( $message[0], $message[1], 5 ) );
+	}
+
+	wp_localize_script( 'admin_notices_manager_admin', 'anm_i18n', [
+		'title'           => esc_html__( 'Admin notices', 'admin-notices-manager' ),
+		'title_empty'     => esc_html__( 'No admin notices', 'admin-notices-manager' ),
+		'system_messages' => $system_messages
+	] );
 
 }
 

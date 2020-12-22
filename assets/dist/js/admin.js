@@ -12,6 +12,7 @@
     popup_interval: null,
     popup_start: 0,
     popup_limit: 1000,
+    system_messages: [],
     init: function init() {
       var _this2 = this;
 
@@ -23,6 +24,14 @@
       this.migration_interval = setInterval(function () {
         _this2.transfer_notices();
       }, this.migration_delay);
+      var smCount = anm_i18n.system_messages.length;
+
+      for (var i = 0; i < smCount; i++) {
+        var systemMessage = anm_i18n.system_messages[i];
+        this.system_messages.push(systemMessage.replace(/%[sdf]/g, ''));
+      }
+
+      console.log(this.system_messages);
     },
     get_current_counter_value: function get_current_counter_value() {
       var counter_elm = $('.anm-notification-counter span.count');
@@ -34,7 +43,23 @@
       return parseInt(counter_elm.html(), 10);
     },
     transfer_notices: function transfer_notices() {
-      var notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden');
+      var _this3 = this;
+
+      var notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden'); //	filter out the system notices
+
+      notices = notices.filter(function (index, notice) {
+        var smCount = _this3.system_messages.length;
+
+        for (var i = 0; i < smCount; i++) {
+          var systemMessage = _this3.system_messages[i];
+
+          if (notice.innerHTML.indexOf(systemMessage) > 0) {
+            return false;
+          }
+        }
+
+        return true;
+      });
       var notifications_count = notices.length;
 
       if (1 > notifications_count) {
