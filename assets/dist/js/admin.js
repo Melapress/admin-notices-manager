@@ -30,8 +30,6 @@
         var systemMessage = anm_i18n.system_messages[i];
         this.system_messages.push(systemMessage.replace(/%[sdf]/g, ''));
       }
-
-      console.log(this.system_messages);
     },
     get_current_counter_value: function get_current_counter_value() {
       var counter_elm = $('.anm-notification-counter span.count');
@@ -41,6 +39,42 @@
       }
 
       return parseInt(counter_elm.html(), 10);
+    },
+    get_notice_type: function get_notice_type(noticeElm) {
+      var jqNotice = $(noticeElm);
+
+      if (jqNotice.hasClass('notice-system')) {
+        return 'system';
+      }
+
+      if (jqNotice.hasClass('notice-error')) {
+        return 'error';
+      }
+
+      if (jqNotice.hasClass('notice-info')) {
+        return 'information';
+      }
+
+      if (jqNotice.hasClass('notice-warning')) {
+        return 'warning';
+      }
+
+      if (jqNotice.hasClass('notice-success') || jqNotice.hasClass('updated')) {
+        return 'success';
+      }
+
+      return 'no';
+    },
+    check_migration_interval: function check_migration_interval() {
+      //	clear the interval after given time or when there are no notices left to move
+      var now = new Date().getTime();
+      var time_diff = now - this.migration_start;
+
+      if (time_diff > this.migration_limit || 0 == $('#wpbody-content ,wrap').children('div.updated, div.error, div.notice, #message').not('.hidden').length) {
+        //	stop interval
+        clearInterval(this.migration_interval);
+        this.migration_interval = null;
+      }
     },
     transfer_notices: function transfer_notices() {
       var _this3 = this;
@@ -54,20 +88,42 @@
           var systemMessage = _this3.system_messages[i];
 
           if (notice.innerHTML.indexOf(systemMessage) > 0) {
-            return false;
+            $(notice).addClass('notice-system');
           }
         }
 
         return true;
       });
-      var notifications_count = notices.length;
 
-      if (1 > notifications_count) {
+      if (1 > notices.length) {
         this.counter_link.find('a').html(anm_i18n.title_empty);
+        this.check_migration_interval();
         return;
       }
 
-      notices.detach().appendTo(this.container); //	increase counter if already exists
+      var notifications_count = 0;
+      var _container = this.container;
+      notices.each(function (index, notice) {
+        var noticeType = _this3.get_notice_type(notice);
+
+        var actionTypeKey = 'system' === noticeType ? 'wordpress_system_admin_notices' : noticeType + '_level_notices';
+        var actionType = anm_i18n.settings[actionTypeKey];
+
+        if ('hide' === actionType) {
+          $(notice).remove();
+        } else if ('popup-only' === actionType) {
+          //	detach notices from the original place and increase the counter
+          $(notice).detach().appendTo(_container);
+          notifications_count++;
+        }
+      });
+
+      if (0 === notifications_count) {
+        this.counter_link.find('a').html(anm_i18n.title_empty);
+        this.check_migration_interval();
+        return;
+      } //	increase counter if already exists
+
 
       if (0 < $('.anm-notification-counter').length) {
         var counter_elm = $('.anm-notification-counter span.count');
@@ -80,17 +136,9 @@
         this.counter_link.attr('data-popup-title', title);
         this.counter_link.find('a').append(bubble_html);
         this.counter_link.addClass('has-data');
-      } //	clear the interval after given time or when there are no notices left to move
-
-
-      var now = new Date().getTime();
-      var time_diff = now - this.migration_start;
-
-      if (time_diff > this.migration_limit || 0 == $('#wpbody-content').children('div.updated, div.error, div.notice, #message').not('.hidden').length) {
-        //	stop interval
-        clearInterval(this.migration_interval);
-        this.migration_interval = null;
       }
+
+      this.check_migration_interval();
     },
     adjust_modal_height: function adjust_modal_height() {
       $('#TB_ajaxContent').css({
