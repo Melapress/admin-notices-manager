@@ -7,17 +7,29 @@
  */
 jQuery(document).ready(function ($) {
   function open_pointer(i) {
-    var pointer = wpws_pointers[i];
-    var options = $.extend(pointer.options, {
-      close: function close() {
-        $.post(ajaxurl, {
-          pointer: pointer.pointer_id,
-          action: 'wpws_dismiss_wp_pointer'
-        });
-      }
-    }); //	open the pointer
+    if (wpws_pointers[i]) {
+      var pointer = wpws_pointers[i];
+      var options = $.extend(pointer.options, {
+        close: function close() {
+          $.post(ajaxurl, {
+            pointer: pointer.pointer_id,
+            action: 'wpws_dismiss_wp_pointer'
+          }); //	open next pointer if available
 
-    $(pointer.target).first().pointer(options).pointer('open');
+          open_pointer(i + 1);
+        }
+      }); //	open the pointer
+
+      var pp = $(pointer.target).first().pointer(options);
+      $('html, body').animate({
+        // scroll page to pointer
+        scrollTop: pp.offset().top - 30
+      }, 300, function () {
+        // when scroll complete
+        var $widget = pp.pointer('widget');
+        pp.pointer('open');
+      });
+    }
   } //	open the first pointer
 
 
