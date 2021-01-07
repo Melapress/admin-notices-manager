@@ -44,7 +44,7 @@
       var jqNotice = $(noticeElm);
 
       if (jqNotice.hasClass('notice-system')) {
-        return 'wordpress_system';
+        return 'system';
       }
 
       if (jqNotice.hasClass('notice-error')) {
@@ -89,7 +89,6 @@
 
           if (notice.innerHTML.indexOf(systemMessage) > 0) {
             $(notice).addClass('notice-system');
-            return false;
           }
         }
 
@@ -107,7 +106,8 @@
       notices.each(function (index, notice) {
         var noticeType = _this3.get_notice_type(notice);
 
-        var actionType = anm_i18n.settings[noticeType + '_level_notices'];
+        var actionTypeKey = 'system' === noticeType ? 'wordpress_system_admin_notices' : noticeType + '_level_notices';
+        var actionType = anm_i18n.settings[actionTypeKey];
 
         if ('hide' === actionType) {
           $(notice).remove();

@@ -39,7 +39,7 @@
 		get_notice_type (noticeElm) {
 			var jqNotice = $(noticeElm)
 			if (jqNotice.hasClass('notice-system')) {
-				return 'wordpress_system'
+				return 'system'
 			}
 
 			if (jqNotice.hasClass('notice-error')) {
@@ -81,10 +81,8 @@
 					const systemMessage = this.system_messages[i]
 					if (notice.innerHTML.indexOf(systemMessage) > 0) {
 						$(notice).addClass('notice-system')
-						return false
 					}
 				}
-
 				return true
 			})
 
@@ -98,7 +96,8 @@
 			const _container = this.container
 			notices.each((index, notice) => {
 				const noticeType = this.get_notice_type(notice)
-				const actionType = anm_i18n.settings[noticeType + '_level_notices']
+				const actionTypeKey = ('system' === noticeType) ? 'wordpress_system_admin_notices' : noticeType + '_level_notices'
+				const actionType = anm_i18n.settings[actionTypeKey]
 				if ('hide' === actionType) {
 					$(notice).remove()
 				} else if ('popup-only' === actionType) {
