@@ -10,6 +10,7 @@ namespace AdminNoticesManager\Core;
 
 use AdminNoticesManager\Notices;
 use AdminNoticesManager\Pointer;
+use AdminNoticesManager\Settings;
 use \WP_Error as WP_Error;
 
 /**
@@ -25,6 +26,7 @@ function setup() {
 	if ( is_admin() ) {
 		new Notices();
 		new Pointer();
+		new Settings();
 	}
 
 	add_action( 'init', $n( 'i18n' ) );
@@ -259,7 +261,8 @@ function admin_scripts() {
 	wp_localize_script( 'admin_notices_manager_admin', 'anm_i18n', [
 		'title'           => esc_html__( 'Admin notices', 'admin-notices-manager' ),
 		'title_empty'     => esc_html__( 'No admin notices', 'admin-notices-manager' ),
-		'system_messages' => $system_messages
+		'system_messages' => $system_messages,
+		'settings'        => get_option( Settings::$option_name )
 	] );
 
 }
