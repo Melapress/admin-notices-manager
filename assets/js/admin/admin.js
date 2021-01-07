@@ -5,11 +5,12 @@
 		migration_delay: 100,
 		migration_interval: null,
 		migration_start: 0,
-		migration_limit: 2000,
+		migration_limit: 5000,
 		popup_delay: 50,
 		popup_interval: null,
 		popup_start: 0,
 		popup_limit: 1000,
+		removal_interval: null,
 		system_messages: [],
 		init () {
 			$('body').append('<div id="anm-container" style="display: none;"></div>')
@@ -64,18 +65,19 @@
 			//	clear the interval after given time or when there are no notices left to move
 			let now = new Date().getTime()
 			let time_diff = now - this.migration_start
-			if (time_diff > this.migration_limit || 0 == $('#wpbody-content ,wrap').children('div.updated, div.error, div.notice, #message').not('.hidden').length) {
+			if (time_diff > this.migration_limit) {
 
 				//	stop interval
 				clearInterval(this.migration_interval)
 				this.migration_interval = null
+				console.log('migration interval cleared')
 			}
 		},
 		transfer_notices () {
-			let notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden')
+			const notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden')
 
 			//	filter out the system notices
-			notices = notices.filter((index, notice) => {
+			notices.each((index, notice) => {
 				const smCount = this.system_messages.length
 				for (let i = 0; i < smCount; i++) {
 					const systemMessage = this.system_messages[i]
@@ -83,14 +85,7 @@
 						$(notice).addClass('notice-system')
 					}
 				}
-				return true
 			})
-
-			if (1 > notices.length) {
-				this.counter_link.find('a').html(anm_i18n.title_empty)
-				this.check_migration_interval()
-				return
-			}
 
 			let notifications_count = 0
 			const _container = this.container
@@ -107,32 +102,35 @@
 				}
 			})
 
-			if (0 === notifications_count) {
-				this.counter_link.find('a').html(anm_i18n.title_empty)
-				this.check_migration_interval()
-				return
-			}
+			//	number of notifications
+			let count_to_show = notifications_count
 
 			//	increase counter if already exists
 			if (0 < $('.anm-notification-counter').length) {
+				count_to_show += this.get_current_counter_value()
+			}
+
+			this.updateCounterBubble(count_to_show)
+			this.check_migration_interval()
+		},
+		updateCounterBubble (count) {
+
+			if (0 < $('.anm-notification-counter').length) {
 				let counter_elm = $('.anm-notification-counter span.count')
-				let existing_count = this.get_current_counter_value()
-				counter_elm.html(existing_count + notifications_count)
+				counter_elm.html(count)
 			} else {
 				let title = anm_i18n.title
 				this.counter_link.find('a').html(title)
 				const bubble_html = '<div class="anm-notification-counter' +
 					' wp-core-ui wp-ui-notification">' +
-					'<span aria-hidden="true" class="count">' + notifications_count + '</span>' +
-					'<span class="screen-reader-text">' + notifications_count + ' ' + title + '</span>' +
+					'<span aria-hidden="true" class="count">' + count + '</span>' +
+					'<span class="screen-reader-text">' + count + ' ' + title + '</span>' +
 					'</div>'
 
 				this.counter_link.attr('data-popup-title', title)
 				this.counter_link.find('a').append(bubble_html)
 				this.counter_link.addClass('has-data')
 			}
-
-			this.check_migration_interval()
 		},
 		adjust_modal_height () {
 			$('#TB_ajaxContent').css({
@@ -149,6 +147,22 @@
 					clearInterval(this.popup_interval)
 					this.popup_interval = null
 				}
+			}
+		},
+		checkNoticeRemoval () {
+			if ( ! $('#TB_ajaxContent').height() ) {
+				if (this.removal_interval) {
+					clearInterval(this.removal_interval)
+				}
+				return
+			}
+
+			//	if the popup is open, check if any notices have been removed and update the count accordingly
+			const notices_present_count = $('#TB_ajaxContent').children().not(':hidden').length
+			const displayed_count = this.get_current_counter_value()
+			console.log('checkNoticeRemoval', notices_present_count, displayed_count)
+			if (displayed_count !== notices_present_count) {
+				this.updateCounterBubble(notices_present_count)
 			}
 		},
 		init_triggers () {
@@ -171,6 +185,15 @@
 				_this.popup_interval = setInterval(function () {
 					_this.adjust_modal_height.call(_this)
 				}, _this.popup_delay)
+
+				if (_this.removal_interval) {
+					clearInterval(_this.removal_interval)
+				}
+
+				_this.removal_interval = setInterval(function () {
+					_this.checkNoticeRemoval.call(_this)
+				}, _this.popup_delay)
+
 				return false
 			})
 
