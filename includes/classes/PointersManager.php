@@ -8,8 +8,14 @@ use function AdminNoticesManager\Core\script_url;
 
 class PointersManager {
 
+	/**
+	 * @var string Plugin prefix to allow the pointers manager class to be used in different plugins.
+	 */
 	private $plugin_prefix;
 
+	/**
+	 * @var array[] Am array of already added pointer.
+	 */
 	private $pointers;
 
 	public function __construct( $plugin_prefix ) {
@@ -32,7 +38,7 @@ class PointersManager {
 		}
 
 		$dismissed = array_filter( explode( ',', (string) get_option( 'wpws-dismissed-pointers', '' ) ) );
-		if ( in_array( $pointer, $dismissed ) ) {
+		if ( self::is_dismissed( $pointer ) ) {
 			wp_die( 0 );
 		}
 
@@ -40,6 +46,18 @@ class PointersManager {
 
 		update_option( 'wpws-dismissed-pointers', implode( ',', $dismissed ), false );
 		wp_die( 1 );
+	}
+
+	/**
+	 * @param string $pointer_id Pointer identifier.
+	 *
+	 * @return bool True if the pointer is already dismissed. False otherwise.
+	 * @since 1.1.0
+	 */
+	public static function is_dismissed( $pointer_id ) {
+		$dismissed = array_filter( explode( ',', (string) get_option( 'wpws-dismissed-pointers', '' ) ) );
+
+		return in_array( $pointer_id, $dismissed );
 	}
 
 	public function add_pointer( $pointer ) {
@@ -75,13 +93,22 @@ class PointersManager {
 
 		$valid_pointers = array();
 
+		//  check that current user should see the pointers
+		$eligible_user_id = intval( get_option( 'anm-plugin-installed-by-user-id', 1 ) );
+		if ( $eligible_user_id === 0 ) {
+			$eligible_user_id = 1;
+		}
+
+		$current_user_id = get_current_user_id();
+		if ( $current_user_id === 0 || $current_user_id !== $eligible_user_id ) {
+			return;
+		}
+
 		// Check pointers and remove dismissed ones.
 		foreach ( $this->pointers as $pointer_id => $pointer ) {
 
 			// don't display if already dismissed
-			$dismissed_pointer = explode( ',', (string) get_option( 'wpws-dismissed-pointers', '' ) );
-			$already_dismissed = in_array( $pointer_id, $dismissed_pointer );
-			if ( $already_dismissed ) {
+			if ( self::is_dismissed( $pointer_id ) ) {
 				return;
 			}
 

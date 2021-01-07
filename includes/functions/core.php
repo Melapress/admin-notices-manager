@@ -65,6 +65,7 @@ function init() {
 function activate() {
 	// First load the init scripts in case any rewrite functionality is being loaded
 	init();
+	update_option( 'anm-plugin-installed-by-user-id', get_current_user_id(), false );
 	flush_rewrite_rules();
 }
 
