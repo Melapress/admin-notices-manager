@@ -20,10 +20,10 @@
       $('body').append('<div id="anm-container" style="display: none;"></div>');
       this.container = $('#anm-container');
       this.counter_link = $('#wp-admin-bar-anm_notification_count');
-      this.init_triggers();
+      this.initTriggers();
       this.migration_start = new Date().getTime();
       this.migration_interval = setInterval(function () {
-        _this2.transfer_notices();
+        _this2.transferNotices();
       }, this.migration_delay);
       var smCount = anm_i18n.system_messages.length;
 
@@ -32,7 +32,7 @@
         this.system_messages.push(systemMessage.replace(/%[sdf]/g, ''));
       }
     },
-    get_current_counter_value: function get_current_counter_value() {
+    getCurrentCounterValue: function getCurrentCounterValue() {
       var counter_elm = $('.anm-notification-counter span.count');
 
       if (0 == counter_elm.length) {
@@ -41,7 +41,7 @@
 
       return parseInt(counter_elm.html(), 10);
     },
-    get_notice_type: function get_notice_type(noticeElm) {
+    getNoticeType: function getNoticeType(noticeElm) {
       var jqNotice = $(noticeElm);
 
       if (jqNotice.hasClass('notice-system')) {
@@ -66,7 +66,7 @@
 
       return 'no';
     },
-    check_migration_interval: function check_migration_interval() {
+    checkMigrationInterval: function checkMigrationInterval() {
       //	clear the interval after given time or when there are no notices left to move
       var now = new Date().getTime();
       var time_diff = now - this.migration_start;
@@ -75,10 +75,9 @@
         //	stop interval
         clearInterval(this.migration_interval);
         this.migration_interval = null;
-        console.log('migration interval cleared');
       }
     },
-    transfer_notices: function transfer_notices() {
+    transferNotices: function transferNotices() {
       var _this3 = this;
 
       var notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden'); //	filter out the system notices
@@ -97,7 +96,7 @@
       var notifications_count = 0;
       var _container = this.container;
       notices.each(function (index, notice) {
-        var noticeType = _this3.get_notice_type(notice);
+        var noticeType = _this3.getNoticeType(notice);
 
         var actionTypeKey = 'system' === noticeType ? 'wordpress_system_admin_notices' : noticeType + '_level_notices';
         var actionType = anm_i18n.settings[actionTypeKey];
@@ -114,11 +113,11 @@
       var count_to_show = notifications_count; //	increase counter if already exists
 
       if (0 < $('.anm-notification-counter').length) {
-        count_to_show += this.get_current_counter_value();
+        count_to_show += this.getCurrentCounterValue();
       }
 
       this.updateCounterBubble(count_to_show);
-      this.check_migration_interval();
+      this.checkMigrationInterval();
     },
     updateCounterBubble: function updateCounterBubble(count) {
       if (0 < $('.anm-notification-counter').length) {
@@ -133,7 +132,7 @@
         this.counter_link.addClass('has-data');
       }
     },
-    adjust_modal_height: function adjust_modal_height() {
+    adjustModalHeight: function adjustModalHeight() {
       $('#TB_ajaxContent').css({
         width: '100%',
         height: $('#TB_window').height() - $('#TB_title').outerHeight() - 22 + 'px',
@@ -161,14 +160,13 @@
 
 
       var notices_present_count = $('#TB_ajaxContent').children().not(':hidden').length;
-      var displayed_count = this.get_current_counter_value();
-      console.log('checkNoticeRemoval', notices_present_count, displayed_count);
+      var displayed_count = this.getCurrentCounterValue();
 
       if (displayed_count !== notices_present_count) {
         this.updateCounterBubble(notices_present_count);
       }
     },
-    init_triggers: function init_triggers() {
+    initTriggers: function initTriggers() {
       var _this = this;
 
       this.counter_link.click(function () {
@@ -177,7 +175,7 @@
           _this.popup_interval = null;
         }
 
-        if (0 == _this.get_current_counter_value()) {
+        if (0 == _this.getCurrentCounterValue()) {
           return false;
         } //	open the ThickBox popup
 
@@ -186,7 +184,7 @@
 
         _this.popup_start = new Date().getTime();
         _this.popup_interval = setInterval(function () {
-          _this.adjust_modal_height.call(_this);
+          _this.adjustModalHeight.call(_this);
         }, _this.popup_delay);
 
         if (_this.removal_interval) {
@@ -200,7 +198,7 @@
       });
       $(window).resize(function () {
         //	adjust thick box modal height on window resize
-        _this.adjust_modal_height.call(_this);
+        _this.adjustModalHeight.call(_this);
       });
     }
   };

@@ -17,11 +17,11 @@
 			this.container = $('#anm-container')
 			this.counter_link = $('#wp-admin-bar-anm_notification_count')
 
-			this.init_triggers()
+			this.initTriggers()
 
 			this.migration_start = new Date().getTime()
 			this.migration_interval = setInterval(() => {
-				this.transfer_notices()
+				this.transferNotices()
 			}, this.migration_delay)
 
 			const smCount = anm_i18n.system_messages.length
@@ -30,14 +30,14 @@
 				this.system_messages.push(systemMessage.replace(/%[sdf]/g, ''))
 			}
 		},
-		get_current_counter_value () {
+		getCurrentCounterValue () {
 			let counter_elm = $('.anm-notification-counter span.count')
 			if (0 == counter_elm.length) {
 				return 0
 			}
 			return parseInt(counter_elm.html(), 10)
 		},
-		get_notice_type (noticeElm) {
+		getNoticeType (noticeElm) {
 			var jqNotice = $(noticeElm)
 			if (jqNotice.hasClass('notice-system')) {
 				return 'system'
@@ -61,7 +61,7 @@
 
 			return 'no'
 		},
-		check_migration_interval () {
+		checkMigrationInterval () {
 			//	clear the interval after given time or when there are no notices left to move
 			let now = new Date().getTime()
 			let time_diff = now - this.migration_start
@@ -70,10 +70,9 @@
 				//	stop interval
 				clearInterval(this.migration_interval)
 				this.migration_interval = null
-				console.log('migration interval cleared')
 			}
 		},
-		transfer_notices () {
+		transferNotices () {
 			const notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden')
 
 			//	filter out the system notices
@@ -90,7 +89,7 @@
 			let notifications_count = 0
 			const _container = this.container
 			notices.each((index, notice) => {
-				const noticeType = this.get_notice_type(notice)
+				const noticeType = this.getNoticeType(notice)
 				const actionTypeKey = ('system' === noticeType) ? 'wordpress_system_admin_notices' : noticeType + '_level_notices'
 				const actionType = anm_i18n.settings[actionTypeKey]
 				if ('hide' === actionType) {
@@ -107,11 +106,11 @@
 
 			//	increase counter if already exists
 			if (0 < $('.anm-notification-counter').length) {
-				count_to_show += this.get_current_counter_value()
+				count_to_show += this.getCurrentCounterValue()
 			}
 
 			this.updateCounterBubble(count_to_show)
-			this.check_migration_interval()
+			this.checkMigrationInterval()
 		},
 		updateCounterBubble (count) {
 
@@ -132,7 +131,7 @@
 				this.counter_link.addClass('has-data')
 			}
 		},
-		adjust_modal_height () {
+		adjustModalHeight () {
 			$('#TB_ajaxContent').css({
 				width: '100%',
 				height: ($('#TB_window').height() - $('#TB_title').outerHeight() - 22) + 'px',
@@ -150,7 +149,7 @@
 			}
 		},
 		checkNoticeRemoval () {
-			if ( ! $('#TB_ajaxContent').height() ) {
+			if (!$('#TB_ajaxContent').height()) {
 				if (this.removal_interval) {
 					clearInterval(this.removal_interval)
 				}
@@ -159,13 +158,12 @@
 
 			//	if the popup is open, check if any notices have been removed and update the count accordingly
 			const notices_present_count = $('#TB_ajaxContent').children().not(':hidden').length
-			const displayed_count = this.get_current_counter_value()
-			console.log('checkNoticeRemoval', notices_present_count, displayed_count)
+			const displayed_count = this.getCurrentCounterValue()
 			if (displayed_count !== notices_present_count) {
 				this.updateCounterBubble(notices_present_count)
 			}
 		},
-		init_triggers () {
+		initTriggers () {
 			let _this = this
 			this.counter_link.click(function () {
 				if (_this.popup_interval) {
@@ -173,7 +171,7 @@
 					_this.popup_interval = null
 				}
 
-				if (0 == _this.get_current_counter_value()) {
+				if (0 == _this.getCurrentCounterValue()) {
 					return false
 				}
 
@@ -183,7 +181,7 @@
 				//	start height adjustment using interval (there is no callback nor event to hook into)
 				_this.popup_start = new Date().getTime()
 				_this.popup_interval = setInterval(function () {
-					_this.adjust_modal_height.call(_this)
+					_this.adjustModalHeight.call(_this)
 				}, _this.popup_delay)
 
 				if (_this.removal_interval) {
@@ -200,7 +198,7 @@
 			$(window).resize(function () {
 
 				//	adjust thick box modal height on window resize
-				_this.adjust_modal_height.call(_this)
+				_this.adjustModalHeight.call(_this)
 			})
 		}
 	}
