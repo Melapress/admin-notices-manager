@@ -1,4 +1,4 @@
-# Copyright (C) 2020 AdminNoticesManager
+# Copyright (C) 2021 AdminNoticesManager
 # This file is distributed under the same license as the AdminNoticesManager package.
 msgid ""
 msgstr ""
@@ -16,10 +16,10 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/classes/Notices.php:58, includes/functions/core.php:145
+#: includes/classes/Notices.php:58, includes/functions/core.php:264
 msgid "No admin notices"
 msgstr ""
 
-#: includes/functions/core.php:144
+#: includes/functions/core.php:263
 msgid "Admin notices"
 msgstr ""
