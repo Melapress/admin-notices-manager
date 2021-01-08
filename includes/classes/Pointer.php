@@ -38,7 +38,7 @@ class Pointer {
 				'content'  => sprintf(
 					'<h3>%s</h3><p>%s</p>',
 					__( 'Configure the Admin Notices Manager', 'advanced_notices_manager' ),
-					__( 'Configure how the plugin should handle the different types of admin notices.', 'advanced_notices_manager' )
+					__( 'Configure how the plugin handles different types of admin notices from the Settings > Admin Notices menu item.', 'advanced_notices_manager' )
 				),
 				'position' => array(
 					'edge'  => 'left',
