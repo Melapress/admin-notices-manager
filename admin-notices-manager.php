@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Admin Notices Manager
  * Plugin URI: https://www.wpwhitesecurity.com/
- * Description: Tired of ever-present notices in the WordPress administration?
+ * Description: Better manage admin notices & never miss an important WordPress and developer message.
  * Author: WP White Security
  * Author URI: https://www.wpwhitesecurity.com/
  * Version: 1.1.0
