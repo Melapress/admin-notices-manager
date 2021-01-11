@@ -3,19 +3,21 @@ Contributors: WPWhiteSecurity
 Plugin URI: https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager/
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
-Tags: admin notices, hide admin notices, manage admin notices, notices
+Tags: admin notices, hide admin notices, manage admin notices, notices, dashboard notices
 Requires at least: 4.5
 Tested up to: 5.6
 Stable tag: 1.1.0
 Requires PHP: 5.6.20
 
-Better manage admin notices and never miss important developer messages!
+Better manage admin notices & never miss important developer messages!
 
 == Description ==
 
+<strong>Better manage admin notices & never miss an important message!</strong><br />
+
 WordPress core, themes and plugins developers use admin notices to send you important messages about your website and their software that you use. However, more often than not a cry wolf situation is created due to the overwhelming number of notices and the nature of these messages.
 
-Use the Admin Notices Manager plugin to better manage your website’s admin notices. Read them at your own convenience and never miss an important WordPress core and developer message.
+Use the [Admin Notices Manager plugin](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager//?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description) to better manage your WordPress website admin notices - read them at your own convenience and not miss any important WordPress core and developer messages.
 
 ##The problem
 
@@ -23,24 +25,35 @@ Pretty much anyone who uses WordPress knows about admin notices. Unfortunately t
 
 This has resulted in users ignoring the admin notices and not reading important messages and information from WordPress core, plugins and also themes developers.
 
-##The solution
+##The Solution
 
-The [Admin Notices Manager](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager/) plugin solves this problem by moving the admin notices out of the main dashboard view to a central place, so you are not disrupted. 
+The Admin Notices Manager plugin solves this problem by moving the admin notices out of the main dashboard view to a central place, so you are not disrupted. 
 
 This allows you to keep on working and read the notices at your convenience at a later time, without missing any important WordPress core, plugins and themes messages.
 
 ##How it works
 
-The plugin is very easy to use; simply install and activate it on your WordPress website and it will automatically capture all the notifications.
+The Admin Notices Manager plugin is very easy to use; simply install and activate it on your WordPress website and it will automatically capture all the notifications.
+
+The plugin solves this problem by moving the admin notices out of the main dashboard view to a central place, so you are not disrupted. 
 
 The plugin notifies you of new notices by highlighting the number of new notices in the WordPress toolbar next to your username.
+
+##Benefits & features
+
+* Easily customize how & where the admin notices are displayed
+* Customize what action should be taken for every different admin notices type
+* Capture any type of admin notices, including ones with custom types
+* Easily manage admin notices for a clutter-free admin area
+* WordPress system admin notices are shown in the WordPress dashboard
+
 
 ##FREE Plugin Support
 Support for the WP 2FA plugin is available for free via:
 
-* [forums](https://wordpress.org/support/plugins/wp-2fa/)
+* [forums](https://wordpress.org/support/plugin/admin-notices-manager/)
 
-* [email](https://www.wpwhitesecurity.com/support/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=WP2FA&utm_content=plugin+repos+description)
+* [email](https://www.wpwhitesecurity.com/support/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
 
 ##Maintained & Supported by WP White Security
 
@@ -50,8 +63,9 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 
 ##Related Links and Documentation
 
-* [Official plugin page](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notifications-manager/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
-* [All our other plugins](https://www.wpwhitesecurity.com/wordpress-plugins//?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
+* [What are WordPress admin notices & how do they work?](https://www.wpwhitesecurity.com/how-wordpress-admin-notices-work/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
+* [Why WordPress admin notices matter & how to manage them effectively](https://www.wpwhitesecurity.com/manage-wordpress-admin-notices-effectively/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description).
+* [Admin Notices Manager plugin product page](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
 
 == Installation ==
 
@@ -77,7 +91,7 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 
 = 1.1.0 (2021-01-11) =
 
-Release notes: [Admin Notices Manager 1.1: choose which admin notices you want to see & which not](https://www.wpwhitesecurity.com/wp-2fa-1-5-0/)
+Release notes: [Admin Notices Manager 1.1: choose which admin notices you want to see & which not](https://www.wpwhitesecurity.com/anm-1-5-0/)
 
 * **New features**
 	* New settings to configure which types of admin notices should the plugin ignore, capture and display in central list, or hide completely.
@@ -89,4 +103,7 @@ Release notes: [Admin Notices Manager 1.1: choose which admin notices you want t
 	* The tabs in the WooCommerce Membership plugin UI disappear due to a conflict. We have not yet found a solution for this.   
 
 = 1.0 =
+
+Release notes: [Admin Notices Manager: announcing the new plugin](https://www.wpwhitesecurity.com/admin-notices-manager-announcing-the-new-plugin/)
+
 * First release
