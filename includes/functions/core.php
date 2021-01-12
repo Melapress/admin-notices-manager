@@ -263,7 +263,7 @@ function admin_scripts() {
 		'title'           => esc_html__( 'Admin notices', 'admin-notices-manager' ),
 		'title_empty'     => esc_html__( 'No admin notices', 'admin-notices-manager' ),
 		'system_messages' => $system_messages,
-		'settings'        => get_option( Settings::$option_name )
+		'settings'        => Settings::get_settings()
 	] );
 
 }
