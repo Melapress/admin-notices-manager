@@ -15,14 +15,17 @@ namespace AdminNoticesManager;
  */
 class Settings {
 
-	public static $option_name = 'anm_settings';
+	/**
+	 * @var string Name of the option storing the plugin settings.
+	 */
+	private static $option_name = 'anm_settings';
 
 	/**
 	 * Settings constructor.
 	 */
 	public function __construct() {
 
-		$options = get_option( self::$option_name, array() );
+		$options = self::get_settings();
 
 		if ( ! class_exists( 'RationalOptionPages' ) ) {
 			require_once( ADMIN_NOTICES_MANAGER_INC . 'vendor' . DIRECTORY_SEPARATOR . 'jeremyHixon-RationalOptionPages' . DIRECTORY_SEPARATOR . 'RationalOptionPages.php' );
@@ -95,5 +98,16 @@ class Settings {
 		);
 
 		new \RationalOptionPages( $pages );
+	}
+
+	public static function get_settings() {
+		return wp_parse_args( get_option( self::$option_name, array() ), [
+			"success_level_notices"          => "popup-only",
+			"error_level_notices"            => "popup-only",
+			"warning_level_notices"          => "popup-only",
+			"information_level_notices"      => "popup-only",
+			"no_level_notices"               => "popup-only",
+			"wordpress_system_admin_notices" => "leave"
+		] );
 	}
 }
