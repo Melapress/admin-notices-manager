@@ -92,7 +92,7 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 
 = 1.1.0 (2021-01-11) =
 
-Release notes: [Admin Notices Manager 1.1: choose which admin notices you want to see & which not](https://www.wpwhitesecurity.com/anm-1-5-0/)
+Release notes: [Admin Notices Manager 1.1: choose which admin notices you want to see & which not](https://www.wpwhitesecurity.com/anm-1-1-0/)
 
 * **New features**
 	* New settings to configure which types of admin notices should the plugin ignore, capture and display in central list, or hide completely.
