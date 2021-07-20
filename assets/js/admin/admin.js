@@ -73,7 +73,7 @@
 			}
 		},
 		transferNotices () {
-			const notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden')
+			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden')
 
 			//	filter out the system notices
 			notices.each((index, notice) => {

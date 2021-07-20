@@ -80,7 +80,7 @@
     transferNotices: function transferNotices() {
       var _this3 = this;
 
-      var notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden'); //	filter out the system notices
+      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden'); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this3.system_messages.length;
