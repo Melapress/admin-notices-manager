@@ -15,6 +15,9 @@
     removal_interval: null,
     system_messages: [],
     init: function init() {
+
+			console.log( 'hello' );
+     
       var _this2 = this;
 
       var category_wrappers = '<div id="anm-system-notices"></div><div id="anm-error-notices"></div><div id="anm-warning-notices"></div><div id="anm-success-notices"></div><div id="anm-information-notices"></div>'; // Attach correct wrapper type
@@ -33,6 +36,7 @@
       this.migration_interval = setInterval(function () {
         _this2.transferNotices();
       }, this.migration_delay);
+
       var smCount = anm_i18n.system_messages.length;
 
       for (var i = 0; i < smCount; i++) {
@@ -103,6 +107,8 @@
       });
       var notifications_count = 0;
       var _container = this.container;
+
+      this.CheckAndStoreNotices( notices );
       notices.each(function (index, notice) {
         var noticeType = _this3.getNoticeType(notice);
 
@@ -176,6 +182,22 @@
       if (displayed_count !== notices_present_count) {
         this.updateCounterBubble(notices_present_count);
       }
+    },
+    CheckAndStoreNotices: function CheckAndStoreNotices( notices ) {
+      console.log( notices );
+      jQuery.ajax( {
+        type: 'POST',
+        dataType: 'json',
+        url: anm_i18n.ajaxurl,
+        data: {
+          action: 'anm_log_notices',
+          _wpnonce: anm_i18n.nonce,
+          notices: 'ddd'
+        },
+        complete: function( data ) {
+          console.log( 'doneski' );
+        }
+      }, );
     },
     initTriggers: function initTriggers() {
       var _this = this;

@@ -29,6 +29,7 @@ class Notices {
 		add_action( 'all_admin_notices', array( $this, 'finish_output_capturing' ), 999999 );
 
 		add_action( 'admin_bar_menu', [ $this, 'add_item_in_admin_bar' ], 100 );
+		add_action( 'wp_ajax_anm_log_notices', [ $this, 'log_notices' ] );
 	}
 
 	/**
@@ -60,5 +61,14 @@ class Notices {
 				'parent' => 'top-secondary',
 			]
 		);
+	}
+
+	public function log_notices() {
+		error_log(  print_r( $_POST, true ) );
+
+		if ( isset( $_POST[ 'notices' ] ) ) {
+			update_option( 'anm-stuff', $_POST[ 'notices' ] );
+		}
+		
 	}
 }
