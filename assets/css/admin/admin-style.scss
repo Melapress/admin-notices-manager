@@ -40,3 +40,29 @@
 	margin-left: -7px;
   }
 }
+
+
+#anm-container-slide-in {
+  padding-top: 34px;
+  height: 100vh;
+  position: fixed;
+  background: #222;
+  right: -500px;
+  z-index: 1000;
+  top: 0;
+  transition: all 0.3s ease-in-out;
+  width: 500px;
+  overflow-y: scroll;
+
+  &.show {
+    right: 0px;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+@media all and (max-width: 540px) {
+  #anm-container-slide-in {
+    right: -330px;
+    width: 330px;
+  }
+}
