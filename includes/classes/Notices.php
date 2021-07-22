@@ -71,7 +71,6 @@ class Notices {
 			$nonce_check = wp_verify_nonce( sanitize_text_field( $_POST['_nonce'] ), 'anm-ajax-nonce' );
 			if ( ! $nonce_check ) {
 				return false;
-				exit();
 			}
 		}
 
@@ -114,7 +113,6 @@ class Notices {
 			$nonce_check = wp_verify_nonce( sanitize_text_field( $_POST['_nonce'] ), 'anm-ajax-nonce' );
 			if ( ! $nonce_check ) {
 				return false;
-				exit();
 			}
 		}
 
