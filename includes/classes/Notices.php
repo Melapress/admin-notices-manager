@@ -71,36 +71,32 @@ class Notices {
 			$hidden_forever = get_option( 'anm-hidden-notices', [] );
 			$hashed_notices = [];
 			$details = [];
-			$i = 0;
 
+			// error_log(  print_r( $currently_held_options, true ) );
+			// error_log(  print_r( $_POST[ 'notices' ], true ) );
+			
 
 			$format = get_option('date_format') . ' ' . get_option('time_format');
 
 			foreach ( $_POST[ 'notices' ] as $index => $notice ) {
-				$hash        = wp_hash( $notice );
+				$hash = wp_hash( $notice );
 
+				$hashed_notices[ $hash ] = current_time( 'timestamp' );
+				$details[ $index ]       = [ $hash, date_i18n( $format, current_time( 'timestamp' ) ) ];
+
+				// Do we already know about this notice?
 				if ( isset( $currently_held_options[ $hash ] ) ) {
 					$hashed_notices[ $hash ] = $currently_held_options[ $hash ];
-					if ( in_array( $hash, $hidden_forever ) ) {
-						$details[ $index ] = 'do-not-display';
-					} else {
-						$details[ $index ] = [ $hash, date_i18n( $format, $currently_held_options[ $hash ] ) ];
-					}
-					
-				} else {
-					$hashed_notices[ $hash ] = current_time( 'timestamp' );
-					if ( in_array( $hash, $hidden_forever ) ) {
-						$details[ $index ] = 'do-not-display';
-					} else {
-						$details[ $index ] = [ $hash, date_i18n( $format, current_time( 'timestamp' ) ) ];
-					}
-				}		
-				$i++;
+					$details[ $index ]       = [ $hash, date_i18n( $format, $currently_held_options[ $hash ] ) ];
+				}
+
+				if ( in_array( $hash, $hidden_forever ) ) {
+					$details[ $index ] = 'do-not-display';
+				}
 			}
 
-
-			error_log(  print_r( $hashed_notices, true ) );
-			error_log(  print_r( $details, true ) );
+			// error_log(  print_r( $hashed_notices, true ) );
+			// error_log(  print_r( $details, true ) );
 
 			update_option( 'anm-notices', $hashed_notices );
 
@@ -110,7 +106,6 @@ class Notices {
 	}
 
 	public function hide_notice_forever() {
-		error_log(  print_r( $_POST, true ) );
 		if ( isset( $_POST[ 'notice_hash' ] ) ) {
 
 			$currently_held_options = get_option( 'anm-hidden-notices', [] );
