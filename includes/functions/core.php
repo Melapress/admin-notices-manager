@@ -260,12 +260,13 @@ function admin_scripts() {
 	}
 
 	wp_localize_script( 'admin_notices_manager_admin', 'anm_i18n', [
-		'title'           => esc_html__( 'Admin notices', 'admin-notices-manager' ),
-		'title_empty'     => esc_html__( 'No admin notices', 'admin-notices-manager' ),
-		'system_messages' => $system_messages,
-		'settings'        => Settings::get_settings(),
-		'ajaxurl'         => admin_url( 'admin-ajax.php' ),
-		'nonce'           => wp_create_nonce( 'anm-ajax-nonce' )
+		'title'              => esc_html__( 'Admin notices', 'admin-notices-manager' ),
+		'title_empty'        => esc_html__( 'No admin notices', 'admin-notices-manager' ),
+		'date_time_preamble' => esc_html__( 'First logged: ', 'admin-notices-manager' ),
+		'system_messages'    => $system_messages,
+		'settings'           => Settings::get_settings(),
+		'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+		'nonce'              => wp_create_nonce( 'anm-ajax-nonce' )
 	] );
 
 }

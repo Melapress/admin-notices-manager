@@ -66,17 +66,22 @@ class Notices {
 
 	public function log_notices() {
 
+		// If we have a nonce posted, check it.
+		if ( wp_doing_ajax() && isset( $_POST['_nonce'] ) ) {
+			$nonce_check = wp_verify_nonce( sanitize_text_field( $_POST['_nonce'] ), 'anm-ajax-nonce' );
+			if ( ! $nonce_check ) {
+				return false;
+				exit();
+			}
+		}
+
 		if ( isset( $_POST[ 'notices' ] ) ) {
+			$notices_to_process     = $_POST[ 'notices' ];
 			$currently_held_options = get_option( 'anm-notices', [] );
-			$hidden_forever = get_option( 'anm-hidden-notices', [] );
-			$hashed_notices = [];
-			$details = [];
-
-			// error_log(  print_r( $currently_held_options, true ) );
-			// error_log(  print_r( $_POST[ 'notices' ], true ) );
-			
-
-			$format = get_option('date_format') . ' ' . get_option('time_format');
+			$hidden_forever         = get_option( 'anm-hidden-notices', [] );
+			$hashed_notices         = [];
+			$details                = [];	
+			$format                 = get_option('date_format') . ' ' . get_option('time_format');
 
 			foreach ( $_POST[ 'notices' ] as $index => $notice ) {
 				$hash = wp_hash( $notice );
@@ -95,9 +100,6 @@ class Notices {
 				}
 			}
 
-			// error_log(  print_r( $hashed_notices, true ) );
-			// error_log(  print_r( $details, true ) );
-
 			update_option( 'anm-notices', $hashed_notices );
 
 			wp_send_json_success( $details );
@@ -106,8 +108,18 @@ class Notices {
 	}
 
 	public function hide_notice_forever() {
-		if ( isset( $_POST[ 'notice_hash' ] ) ) {
 
+		// If we have a nonce posted, check it.
+		if ( wp_doing_ajax() && isset( $_POST['_nonce'] ) ) {
+			$nonce_check = wp_verify_nonce( sanitize_text_field( $_POST['_nonce'] ), 'anm-ajax-nonce' );
+			if ( ! $nonce_check ) {
+				return false;
+				exit();
+			}
+		}
+
+				
+		if ( isset( $_POST[ 'notice_hash' ] ) ) {
 			$currently_held_options = get_option( 'anm-hidden-notices', [] );
 			array_push( $currently_held_options, $_POST[ 'notice_hash' ] ); 
 			update_option( 'anm-hidden-notices', $currently_held_options );
