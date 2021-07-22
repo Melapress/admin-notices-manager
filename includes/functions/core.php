@@ -264,7 +264,7 @@ function admin_scripts() {
 		'title_empty'     => esc_html__( 'No admin notices', 'admin-notices-manager' ),
 		'system_messages' => $system_messages,
 		'settings'        => Settings::get_settings(),
-		'ajaxurl'             => admin_url( 'admin-ajax.php' ),
+		'ajaxurl'         => admin_url( 'admin-ajax.php' ),
 		'nonce'           => wp_create_nonce( 'anm-ajax-nonce' )
 	] );
 

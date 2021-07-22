@@ -28,9 +28,16 @@
   padding: 4px 7px 4px 6px !important;
   color: #fff;
   margin-left: 7px !important;
+  opacity: 0;
+  transition: all 0.2s ease-in-out !important;
 
   > span {
 	line-height: 100% !important;
+  }
+
+  &.display {
+    opacity: 1;
+    transition: all 0.2s ease-in-out !important;
   }
 }
 
@@ -65,4 +72,18 @@
     right: -330px;
     width: 330px;
   }
+}
+
+.anm-notice-timestap {
+  border-top: 1px solid #eee;
+  padding: 5px 0 10px;
+  font-size: 12px;
+}
+
+.anm-notice-timestap span {
+  font-style: italic;
+}
+
+.anm-notice-timestap a {
+  float: right;
 }

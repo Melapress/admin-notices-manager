@@ -37,6 +37,18 @@
         _this2.transferNotices();
       }, this.migration_delay);
 
+      var timesRun = 0;
+      var interval = setInterval(function(){
+          timesRun += 1;
+          if(timesRun === 3){
+            _this2.CheckAndStoreNotices();
+          }
+          if(timesRun === 4){
+            clearInterval(interval);
+          }
+          //do whatever here..
+      }, 150);
+
       var smCount = anm_i18n.system_messages.length;
 
       for (var i = 0; i < smCount; i++) {
@@ -87,12 +99,13 @@
         //	stop interval
         clearInterval(this.migration_interval);
         this.migration_interval = null;
+        this.CheckAndStoreNotices();
       }
     },
     transferNotices: function transferNotices() {
       var _this3 = this;
 
-      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden'); //	filter out the system notices
+      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .postbox .notice'); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this3.system_messages.length;
@@ -108,7 +121,6 @@
       var notifications_count = 0;
       var _container = this.container;
 
-      this.CheckAndStoreNotices( notices );
       notices.each(function (index, notice) {
         var noticeType = _this3.getNoticeType(notice);
 
@@ -171,20 +183,27 @@
         if (this.removal_interval) {
           clearInterval(this.removal_interval);
         }
-
         return;
       } //	if the popup is open, check if any notices have been removed and update the count accordingly
 
 
       var notices_present_count = $('#TB_ajaxContent').children().not(':hidden').length;
       var displayed_count = this.getCurrentCounterValue();
-
       if (displayed_count !== notices_present_count) {
         this.updateCounterBubble(notices_present_count);
       }
     },
-    CheckAndStoreNotices: function CheckAndStoreNotices( notices ) {
-      console.log( notices );
+    CheckAndStoreNotices: function CheckAndStoreNotices() {
+   
+      // Get the notices we currently hold.
+      var notices = jQuery( this.container ).find( '.notice' );   
+      var noticeArr = [];
+      notices.each(function (index, notice) {
+        noticeArr[ index ] = notice.outerHTML;
+      });
+
+      var _this = this;
+
       jQuery.ajax( {
         type: 'POST',
         dataType: 'json',
@@ -192,12 +211,33 @@
         data: {
           action: 'anm_log_notices',
           _wpnonce: anm_i18n.nonce,
-          notices: 'ddd'
+          notices: noticeArr
         },
         complete: function( data ) {
-          console.log( 'doneski' );
+          _this.appendTimeDate( notices, data.responseJSON.data  );
+           $('.anm-notification-counter').addClass( 'display' );
         }
       }, );
+    },
+    appendTimeDate: function appendTimeDate( notices, data ) {
+      var _this = this;
+      notices.each(function (index, notice) {
+        if ( data[ index ] == 'do-not-display' ) {
+          jQuery( notice ).remove(); 
+          var currentCount = _this.getCurrentCounterValue(); 
+          console.log( currentCount );
+          
+          var newCount = currentCount - 1;
+          console.log( newCount );
+          _this.updateCounterBubble( newCount );
+        } else {
+          var timeAndDate = '<div class="anm-notice-timestap"><span class="anm-time">'+  data[ index ][1] +'</span><a href="#" data-hide-notice-forever="'+  data[ index ][0] +'">Hide notice forever</a></div>';
+          if ( ! jQuery( notice ).find( '.anm-notice-timestap' ).length ) {
+            jQuery( timeAndDate ).appendTo( notice );
+          }
+          
+        }
+      });
     },
     initTriggers: function initTriggers() {
       var _this = this;
@@ -242,11 +282,33 @@
 
       if ('slide-in' == anm_i18n.settings.popup_style) {
         $(document).on('click', 'body *', function (e) {
-          if (!$(e.target).is('#anm-container-slide-in')) {
+          if ( $(e.target).is('#anm-container-slide-in a') ) {
+            return;
+          } else if (!$(e.target).is('#anm-container-slide-in') ) {
             $('#anm-container-slide-in').removeClass('show');
           }
         });
       }
+
+      jQuery(document).on( 'click', '[data-hide-notice-forever]', function (e) {
+        e.preventDefault()
+        var itemHash = jQuery( this ).attr( 'data-hide-notice-forever' );
+        var itemToHide = jQuery( this ).closest( '.notice' );
+        jQuery.ajax( {
+          type: 'POST',
+          dataType: 'json',
+          url: anm_i18n.ajaxurl,
+          data: {
+            action: 'anm_hide_notice_forever',
+            _wpnonce: anm_i18n.nonce,
+            notice_hash: itemHash
+          },
+          complete: function( data ) {
+            console.log( 'doneski' );
+            itemToHide.slideUp();
+          }
+        }, );
+      });
     }
   };
   AdminNoticesManager.init();
