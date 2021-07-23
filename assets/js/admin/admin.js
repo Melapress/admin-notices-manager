@@ -13,8 +13,17 @@
 		removal_interval: null,
 		system_messages: [],
 		init () {
-			$('body').append('<div id="anm-container" style="display: none;"></div>')
-			this.container = $('#anm-container')
+			let category_wrappers = '<div id="anm-system-notices"></div><div id="anm-error-notices"></div><div id="anm-warning-notices"></div><div id="anm-success-notices"></div><div id="anm-information-notices"></div>';
+			
+			// Attach correct wrapper type
+			if ( 'popup' == anm_i18n.settings.popup_style ) {
+				$('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>')
+				this.container = $('#anm-container')
+			} else {
+				$('body').append('<div id="anm-container-slide-in" style="background-color: '+ anm_i18n.settings.slide_in_background_colour +';">' + category_wrappers + '</div>')
+				this.container = $('#anm-container-slide-in')
+			}
+
 			this.counter_link = $('#wp-admin-bar-anm_notification_count')
 
 			this.initTriggers()
@@ -73,7 +82,7 @@
 			}
 		},
 		transferNotices () {
-			const notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden')
+			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden')
 
 			//	filter out the system notices
 			notices.each((index, notice) => {
@@ -96,7 +105,8 @@
 					$(notice).remove()
 				} else if ('popup-only' === actionType) {
 					//	detach notices from the original place and increase the counter
-					$(notice).detach().appendTo(_container)
+					let typeWrapper = $( _container ).find( '#anm-' + noticeType + '-notices' );
+					$(notice).detach().appendTo( typeWrapper )
 					notifications_count++
 				}
 			})
@@ -114,21 +124,23 @@
 		},
 		updateCounterBubble (count) {
 
-			if (0 < $('.anm-notification-counter').length) {
-				let counter_elm = $('.anm-notification-counter span.count')
-				counter_elm.html(count)
-			} else {
-				let title = anm_i18n.title
-				this.counter_link.find('a').html(title)
-				const bubble_html = '<div class="anm-notification-counter' +
-					' wp-core-ui wp-ui-notification">' +
-					'<span aria-hidden="true" class="count">' + count + '</span>' +
-					'<span class="screen-reader-text">' + count + ' ' + title + '</span>' +
-					'</div>'
+			if ( 0 !== count ) {
+				if (0 < $('.anm-notification-counter').length) {
+					let counter_elm = $('.anm-notification-counter span.count')
+					counter_elm.html(count)
+				} else {
+					let title = anm_i18n.title
+					this.counter_link.find('a').html(title)
+					const bubble_html = '<div class="anm-notification-counter' +
+						' wp-core-ui wp-ui-notification">' +
+						'<span aria-hidden="true" class="count">' + count + '</span>' +
+						'<span class="screen-reader-text">' + count + ' ' + title + '</span>' +
+						'</div>'
 
-				this.counter_link.attr('data-popup-title', title)
-				this.counter_link.find('a').append(bubble_html)
-				this.counter_link.addClass('has-data')
+					this.counter_link.attr('data-popup-title', title)
+					this.counter_link.find('a').append(bubble_html)
+					this.counter_link.addClass('has-data')
+				}
 			}
 		},
 		adjustModalHeight () {
@@ -175,8 +187,11 @@
 					return false
 				}
 
-				//	open the ThickBox popup
-				tb_show(_this.counter_link.attr('data-popup-title'), '#TB_inline?inlineId=anm-container')
+				if ( 'popup' == anm_i18n.settings.popup_style ) {
+					tb_show(_this.counter_link.attr('data-popup-title'), '#TB_inline?inlineId=anm-container')
+				} else {
+					$( '#anm-container-slide-in' ).addClass( 'show' );
+				}
 
 				//	start height adjustment using interval (there is no callback nor event to hook into)
 				_this.popup_start = new Date().getTime()
@@ -197,9 +212,18 @@
 
 			$(window).resize(function () {
 
-				//	adjust thick box modal height on window resize
-				_this.adjustModalHeight.call(_this)
+				if ( 'popup' == anm_i18n.settings.popup_style ) {
+					//	adjust thick box modal height on window resize
+					_this.adjustModalHeight.call(_this)
+				}
 			})
+			if ( 'slide-in' == anm_i18n.settings.popup_style ) {
+				$(document).on('click','body *',function( e ){
+					if( ! $(e.target).is( '#anm-container-slide-in' ) ) {
+						$( '#anm-container-slide-in' ).removeClass( 'show' );
+					}
+				});
+			}
 		}
 	}
 
