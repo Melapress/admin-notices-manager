@@ -74,8 +74,7 @@ class Notices {
 			}
 		}
 
-		if ( isset( $_POST[ 'notices' ] ) ) {
-			$notices_to_process     = $_POST[ 'notices' ];
+		if ( isset( $_POST[ 'notices' ] ) && ( ! empty( $_POST[ 'notices' ] && is_array( $_POST[ 'notices' ] ) ) ) ) {
 			$currently_held_options = get_option( 'anm-notices', [] );
 			$hidden_forever         = get_option( 'anm-hidden-notices', [] );
 			$hashed_notices         = [];
