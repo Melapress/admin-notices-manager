@@ -5,7 +5,7 @@ License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: admin notices, hide admin notices, manage admin notices, notices, dashboard notices
 Requires at least: 4.5
-Tested up to: 5.7
+Tested up to: 5.8
 Stable tag: 1.1.0
 Requires PHP: 5.6.20
 
