@@ -186,7 +186,7 @@
       } //	if the popup is open, check if any notices have been removed and update the count accordingly
 
 
-      var notices_present_count = $('#TB_ajaxContent').children().not(':hidden').length;
+      var notices_present_count = $('#TB_ajaxContent').find('.notice').not(':hidden').length;
       var displayed_count = this.getCurrentCounterValue();
 
       if (displayed_count !== notices_present_count) {
