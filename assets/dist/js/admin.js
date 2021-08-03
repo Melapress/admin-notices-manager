@@ -25,8 +25,8 @@
         $('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>');
         this.container = $('#anm-container');
       } else {
-        $('body').append('<div id="anm-container-slide-in" style="background-color: ' + anm_i18n.settings.slide_in_background_colour + ';">' + category_wrappers + '</div>');
-        this.container = $('#anm-container-slide-in');
+        $('body').append('<div id="anm-container-slide-in" style="background-color: ' + anm_i18n.settings.slide_in_background_colour + ';"><div id="anm-slide-in-content">' + category_wrappers + '</div></div>');
+        this.container = $('#anm-slide-in-content');
       }
 
       this.counter_link = $('#wp-admin-bar-anm_notification_count');
@@ -104,7 +104,7 @@
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .hide-if-js, .update-message'); //	filter out the system notices
+      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .hide-if-js, .update-message, [aria-hidden="true"]'); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this4.system_messages.length;
