@@ -71,7 +71,7 @@
 				return 'error'
 			}
 
-			if (jqNotice.hasClass('notice-info')) {
+			if (jqNotice.hasClass('notice-info') || jqNotice.hasClass('notice-information')) {
 				return 'information'
 			}
 
