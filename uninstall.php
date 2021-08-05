@@ -6,18 +6,15 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-    $network_id = get_current_network_id();
     global $wpdb;
     $wpdb->query(
         $wpdb->prepare(
             "
             DELETE FROM $wpdb->sitemeta
             WHERE meta_key LIKE %s
-            AND site_id = %d
             ",
             [
                 'anm%',
-                $network_id
             ]
         )
     );
