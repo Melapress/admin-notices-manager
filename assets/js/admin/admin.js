@@ -23,8 +23,8 @@
 				$('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>')
 				this.container = $('#anm-container')
 			} else {
-				$('body').append('<div id="anm-container-slide-in" style="background-color: '+ anm_i18n.settings.slide_in_background_colour +';">' + category_wrappers + '</div>')
-				this.container = $('#anm-container-slide-in')
+				$('body').append('<div id="anm-container-slide-in" style="background-color: '+ anm_i18n.settings.slide_in_background_colour +';"><div id="anm-slide-in-content">' + category_wrappers + '</div></div>')
+				this.container = $('#anm-slide-in-content')
 			}
 
 			this.counter_link = $('#wp-admin-bar-anm_notification_count')
@@ -71,7 +71,7 @@
 				return 'error'
 			}
 
-			if (jqNotice.hasClass('notice-info')) {
+			if (jqNotice.hasClass('notice-info') || jqNotice.hasClass('notice-information')) {
 				return 'information'
 			}
 
@@ -98,7 +98,7 @@
 			}
 		},
 		transferNotices () {
-			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden')
+			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .hide-if-js, .update-message, [aria-hidden="true"]')
 
 			//	filter out the system notices
 			notices.each((index, notice) => {
@@ -185,13 +185,13 @@
 			}
 
 			//	if the popup is open, check if any notices have been removed and update the count accordingly
-			const notices_present_count = $('#TB_ajaxContent').children().not(':hidden').length
+			const notices_present_count = $('#TB_ajaxContent').find( '.notice' ).not(':hidden').length
 			const displayed_count = this.getCurrentCounterValue()
 			if (displayed_count !== notices_present_count) {
 				this.updateCounterBubble(notices_present_count)
 			}
 		},
-		CheckAndStoreNotices: function CheckAndStoreNotices() {
+		CheckAndStoreNotices () {
    
 			// Get the notices we currently hold.
 			var notices = jQuery( this.container ).find( '.notice' );   
@@ -220,7 +220,7 @@
 				}
 			});
 		},
-		appendTimeDate: function appendTimeDate( notices, data ) {
+		appendTimeDate ( notices, data ) {
 			let _this = this;
 			notices.each(function (index, notice) {
 				if ( data[ index ] == 'do-not-display' ) {
