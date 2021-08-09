@@ -58,6 +58,11 @@ class Settings {
 			];
 		}
 
+		$popup_style_options = array(
+			'slide-in' => __( 'Slide in from the right', 'sample-domain' ),
+			'popup'    => __( 'Popup', 'sample-domain' ),
+		);
+
 		$pages = array(
 			self::$option_name => array(
 				'menu_title'  => __( 'Admin Notices', 'sample-domain' ),
@@ -93,6 +98,23 @@ class Settings {
 							]
 						]
 					),
+					'styling' => [
+						'title'  => __( 'Admin notices popup styling', 'sample-domain' ),
+						'text'   => __( 'How do you want ANM to look?', 'sample-domain' ),
+						'fields' => [
+							'popup-style' => [
+								'title'   => __( 'Popup style', 'sample-domain' ),
+								'type'    => 'radio',
+								'value'   => array_key_exists( 'popup-style', $options ) ? $options['popup-style'] : 'slide-in',
+								'choices' => $popup_style_options
+							],
+							'slide_in_background' => [
+								'title'   => __( 'Slide in background colour', 'sample-domain' ),
+								'type'    => 'color',
+								'value'   => array_key_exists( 'popup-style', $options ) ? $options['popup-style'] : '#1d2327',
+							],
+						]
+					],
 				),
 			)
 		);
@@ -107,7 +129,9 @@ class Settings {
 			"warning_level_notices"          => "popup-only",
 			"information_level_notices"      => "popup-only",
 			"no_level_notices"               => "popup-only",
-			"wordpress_system_admin_notices" => "leave"
+			"wordpress_system_admin_notices" => "leave",
+			"popup_style"                    => "slide-in",
+			"slide_in_background"            => "#1d2327"
 		] );
 	}
 }

@@ -15,16 +15,39 @@
     removal_interval: null,
     system_messages: [],
     init: function init() {
-      var _this2 = this;
+      var _this3 = this;
 
-      $('body').append('<div id="anm-container" style="display: none;"></div>');
-      this.container = $('#anm-container');
+      var _this = this;
+
+      var category_wrappers = '<div id="anm-system-notices"></div><div id="anm-error-notices"></div><div id="anm-warning-notices"></div><div id="anm-success-notices"></div><div id="anm-information-notices"></div>'; // Attach correct wrapper type
+
+      if ('popup' == anm_i18n.settings.popup_style) {
+        $('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>');
+        this.container = $('#anm-container');
+      } else {
+        $('body').append('<div id="anm-container-slide-in" style="background-color: ' + anm_i18n.settings.slide_in_background_colour + ';"><div id="anm-slide-in-content">' + category_wrappers + '</div></div>');
+        this.container = $('#anm-slide-in-content');
+      }
+
       this.counter_link = $('#wp-admin-bar-anm_notification_count');
       this.initTriggers();
       this.migration_start = new Date().getTime();
       this.migration_interval = setInterval(function () {
-        _this2.transferNotices();
+        _this3.transferNotices();
       }, this.migration_delay);
+      var timesRun = 0;
+      var interval = setInterval(function () {
+        timesRun += 1;
+
+        if (timesRun === 3) {
+          _this.CheckAndStoreNotices();
+        }
+
+        if (timesRun === 4) {
+          clearInterval(interval);
+        } //do whatever here..
+
+      }, 150);
       var smCount = anm_i18n.system_messages.length;
 
       for (var i = 0; i < smCount; i++) {
@@ -52,7 +75,7 @@
         return 'error';
       }
 
-      if (jqNotice.hasClass('notice-info')) {
+      if (jqNotice.hasClass('notice-info') || jqNotice.hasClass('notice-information')) {
         return 'information';
       }
 
@@ -75,18 +98,19 @@
         //	stop interval
         clearInterval(this.migration_interval);
         this.migration_interval = null;
+        this.CheckAndStoreNotices();
       }
     },
     transferNotices: function transferNotices() {
-      var _this3 = this;
+      var _this4 = this;
 
-      var notices = $('#wpbody-content .wrap').children('div.updated, div.error, div.notice, #message').not('.hidden'); //	filter out the system notices
+      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .hide-if-js, .update-message, [aria-hidden="true"]'); //	filter out the system notices
 
       notices.each(function (index, notice) {
-        var smCount = _this3.system_messages.length;
+        var smCount = _this4.system_messages.length;
 
         for (var i = 0; i < smCount; i++) {
-          var systemMessage = _this3.system_messages[i];
+          var systemMessage = _this4.system_messages[i];
 
           if (notice.innerHTML.indexOf(systemMessage) > 0) {
             $(notice).addClass('notice-system');
@@ -96,7 +120,7 @@
       var notifications_count = 0;
       var _container = this.container;
       notices.each(function (index, notice) {
-        var noticeType = _this3.getNoticeType(notice);
+        var noticeType = _this4.getNoticeType(notice);
 
         var actionTypeKey = 'system' === noticeType ? 'wordpress_system_admin_notices' : noticeType + '_level_notices';
         var actionType = anm_i18n.settings[actionTypeKey];
@@ -105,7 +129,8 @@
           $(notice).remove();
         } else if ('popup-only' === actionType) {
           //	detach notices from the original place and increase the counter
-          $(notice).detach().appendTo(_container);
+          var typeWrapper = $(_container).find('#anm-' + noticeType + '-notices');
+          $(notice).detach().appendTo(typeWrapper);
           notifications_count++;
         }
       }); //	number of notifications
@@ -120,16 +145,18 @@
       this.checkMigrationInterval();
     },
     updateCounterBubble: function updateCounterBubble(count) {
-      if (0 < $('.anm-notification-counter').length) {
-        var counter_elm = $('.anm-notification-counter span.count');
-        counter_elm.html(count);
-      } else {
-        var title = anm_i18n.title;
-        this.counter_link.find('a').html(title);
-        var bubble_html = '<div class="anm-notification-counter' + ' wp-core-ui wp-ui-notification">' + '<span aria-hidden="true" class="count">' + count + '</span>' + '<span class="screen-reader-text">' + count + ' ' + title + '</span>' + '</div>';
-        this.counter_link.attr('data-popup-title', title);
-        this.counter_link.find('a').append(bubble_html);
-        this.counter_link.addClass('has-data');
+      if (0 !== count) {
+        if (0 < $('.anm-notification-counter').length) {
+          var counter_elm = $('.anm-notification-counter span.count');
+          counter_elm.html(count);
+        } else {
+          var title = anm_i18n.title;
+          this.counter_link.find('a').html(title);
+          var bubble_html = '<div class="anm-notification-counter' + ' wp-core-ui wp-ui-notification">' + '<span aria-hidden="true" class="count">' + count + '</span>' + '<span class="screen-reader-text">' + count + ' ' + title + '</span>' + '</div>';
+          this.counter_link.attr('data-popup-title', title);
+          this.counter_link.find('a').append(bubble_html);
+          this.counter_link.addClass('has-data');
+        }
       }
     },
     adjustModalHeight: function adjustModalHeight() {
@@ -159,12 +186,61 @@
       } //	if the popup is open, check if any notices have been removed and update the count accordingly
 
 
-      var notices_present_count = $('#TB_ajaxContent').children().not(':hidden').length;
+      var notices_present_count = $('#TB_ajaxContent').find('.notice').not(':hidden').length;
       var displayed_count = this.getCurrentCounterValue();
 
       if (displayed_count !== notices_present_count) {
         this.updateCounterBubble(notices_present_count);
       }
+    },
+    CheckAndStoreNotices: function CheckAndStoreNotices() {
+      // Get the notices we currently hold.
+      var notices = jQuery(this.container).find('.notice');
+      var noticeArr = [];
+
+      var _this = this;
+
+      notices.each(function (index, notice) {
+        jQuery(notice).find('.anm-notice-timestap').remove();
+        var noticeHTML = notice.outerHTML;
+        noticeArr[index] = noticeHTML;
+      });
+      jQuery.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: anm_i18n.ajaxurl,
+        data: {
+          action: 'anm_log_notices',
+          _wpnonce: anm_i18n.nonce,
+          notices: noticeArr
+        },
+        complete: function complete(data) {
+          _this.appendTimeDate(notices, data.responseJSON.data);
+
+          $('.anm-notification-counter').addClass('display');
+        }
+      });
+    },
+    appendTimeDate: function appendTimeDate(notices, data) {
+      var _this = this;
+
+      notices.each(function (index, notice) {
+        if (data[index] == 'do-not-display') {
+          jQuery(notice).remove();
+
+          var currentCount = _this.getCurrentCounterValue();
+
+          var newCount = currentCount - 1;
+
+          _this.updateCounterBubble(newCount);
+        } else {
+          var timeAndDate = '<div class="anm-notice-timestap"><span class="anm-time">' + anm_i18n.date_time_preamble + data[index][1] + '</span><a href="#" data-hide-notice-forever="' + data[index][0] + '">Hide notice forever</a></div>';
+
+          if (!jQuery(notice).find('.anm-notice-timestap').length) {
+            jQuery(timeAndDate).appendTo(notice);
+          }
+        }
+      });
     },
     initTriggers: function initTriggers() {
       var _this = this;
@@ -177,10 +253,14 @@
 
         if (0 == _this.getCurrentCounterValue()) {
           return false;
-        } //	open the ThickBox popup
+        }
 
+        if ('popup' == anm_i18n.settings.popup_style) {
+          tb_show(_this.counter_link.attr('data-popup-title'), '#TB_inline?inlineId=anm-container');
+        } else {
+          $('#anm-container-slide-in').addClass('show');
+        } //	start height adjustment using interval (there is no callback nor event to hook into)
 
-        tb_show(_this.counter_link.attr('data-popup-title'), '#TB_inline?inlineId=anm-container'); //	start height adjustment using interval (there is no callback nor event to hook into)
 
         _this.popup_start = new Date().getTime();
         _this.popup_interval = setInterval(function () {
@@ -197,8 +277,44 @@
         return false;
       });
       $(window).resize(function () {
-        //	adjust thick box modal height on window resize
-        _this.adjustModalHeight.call(_this);
+        if ('popup' == anm_i18n.settings.popup_style) {
+          //	adjust thick box modal height on window resize
+          _this.adjustModalHeight.call(_this);
+        }
+      });
+
+      if ('slide-in' == anm_i18n.settings.popup_style) {
+        $(document).on('click', 'body *', function (e) {
+          if ($(e.target).is('#anm-container-slide-in a')) {
+            return;
+          } else if (!$(e.target).is('#anm-container-slide-in')) {
+            $('#anm-container-slide-in').removeClass('show');
+          }
+        });
+      }
+
+      jQuery(document).on('click', '[data-hide-notice-forever]', function (e) {
+        e.preventDefault();
+        var itemHash = jQuery(this).attr('data-hide-notice-forever');
+        var itemToHide = jQuery(this).closest('.notice');
+        var counter = $('.anm-notification-counter span.count').text();
+        var _this2 = _this;
+        jQuery.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: anm_i18n.ajaxurl,
+          data: {
+            action: 'anm_hide_notice_forever',
+            _wpnonce: anm_i18n.nonce,
+            notice_hash: itemHash
+          },
+          complete: function complete(data) {
+            itemToHide.slideUp();
+            var newCount = counter - 1;
+
+            _this2.updateCounterBubble(newCount);
+          }
+        });
       });
     }
   };
