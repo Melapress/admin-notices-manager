@@ -85,8 +85,9 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 
 1. The plugin is very easy to use. Once installed it will automatically capture all notifications.
 2. When there are new admin notices, the plugin will highlight it by showing the number of notifications in the WordPress toolbar.
-3. Admin notices are shown in a pop-up window, where you can mark them as read.
+3. Admin notices are shown in a retractable sidebar, from where you can mark them as read or permanently hide them.
 4. Fully configurable plugin: configure how the plugin should handle the different types of admin notices.
+5. Optionally, admin notices can also be shown in a pop-up window, from where you can mark them as read or permanently hide them.
 
 == Changelog ==
 
