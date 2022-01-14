@@ -4,8 +4,8 @@ Plugin URI: https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-mana
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: admin notices, hide admin notices, manage admin notices, notices, dashboard notices
-Requires at least: 4.5
-Tested up to: 5.8
+Requires at least: 5.0
+Tested up to: 5.8.3
 Stable tag: 1.2.0
 Requires PHP: 7.0
 
