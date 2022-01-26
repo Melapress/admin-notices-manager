@@ -46,6 +46,9 @@ Thumbs.db
 ##########
 !assets/js/vendor/
 wpcs/
+vendor
+!vendor/composer
+!vendor/*.php
 
 # Bower #
 ##########
