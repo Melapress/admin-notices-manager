@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:ignoreFile
+
 /**
  * RationalOptionPages class
  *
@@ -15,94 +17,94 @@ class RationalOptionPages {
 	   Vars
 	   ========================================================================== */
 	protected $attributes = array(
-		'input'		=> array(
-			'autocomplete'	=> false,
-			'autofocus'		=> false,
-			'disabled'		=> false,
-			'list'			=> false,
-			'max'			=> false,
-			'maxlength'		=> false,
-			'min'			=> false,
-			'pattern'		=> false,
-			'readonly'		=> false,
-			'required'		=> false,
-			'size'			=> false,
-			'step'			=> false,
-		),
-		'select'	=> array(
-			'multiple'	=> false,
-			'size'		=> 4,
-		),
-		'textarea'	=> array(
-			'cols'		=> 20,
-			'rows'		=> 2,
-			'wrap'		=> 'soft',
-		),
+			'input'		=> array(
+					'autocomplete'	=> false,
+					'autofocus'		=> false,
+					'disabled'		=> false,
+					'list'			=> false,
+					'max'			=> false,
+					'maxlength'		=> false,
+					'min'			=> false,
+					'pattern'		=> false,
+					'readonly'		=> false,
+					'required'		=> false,
+					'size'			=> false,
+					'step'			=> false,
+			),
+			'select'	=> array(
+					'multiple'	=> false,
+					'size'		=> 4,
+			),
+			'textarea'	=> array(
+					'cols'		=> 20,
+					'rows'		=> 2,
+					'wrap'		=> 'soft',
+			),
 	);
 	protected $defaults = array(
-		'add_menu_page'			=> array(
-			'page_title'			=> 'Option Page',
-			'menu_title'			=> 'Option Page',
-			'capability'			=> 'manage_options',
-			'menu_slug'				=> 'option_page',
-			'callback'				=> false,
-			'icon_url'				=> false,
-			'position'				=> null,
-		),
-		'add_settings_field'	=> array(
-			'id'					=> 'settings_field',
-			'title'					=> 'Settings Field',
-			'callback'				=> false,
-			'page'					=> 'option_page',
-			'section'				=> 'settings_section',
-			'args'					=> false,
-		),
-		'add_settings_section'	=> array(
-			'id'					=> 'settings_section',
-			'title'					=> 'Settings Section',
-			'callback'				=> false,
-			'page'					=> 'option_page',
-		),
-		'add_submenu_page'		=> array(
-			'parent_slug'			=> 'option_page',
-			'page_title'			=> 'Sub Option Page',
-			'menu_title'			=> 'Sub Option Page',
-			'capability'			=> 'manage_options',
-			'menu_slug'				=> 'sub_option_page',
-			'callback'				=> false,
-		),
+			'add_menu_page'			=> array(
+					'page_title'			=> 'Option Page',
+					'menu_title'			=> 'Option Page',
+					'capability'			=> 'manage_options',
+					'menu_slug'				=> 'option_page',
+					'callback'				=> false,
+					'icon_url'				=> false,
+					'position'				=> null,
+			),
+			'add_settings_field'	=> array(
+					'id'					=> 'settings_field',
+					'title'					=> 'Settings Field',
+					'callback'				=> false,
+					'page'					=> 'option_page',
+					'section'				=> 'settings_section',
+					'args'					=> false,
+			),
+			'add_settings_section'	=> array(
+					'id'					=> 'settings_section',
+					'title'					=> 'Settings Section',
+					'callback'				=> false,
+					'page'					=> 'option_page',
+			),
+			'add_submenu_page'		=> array(
+					'parent_slug'			=> 'option_page',
+					'page_title'			=> 'Sub Option Page',
+					'menu_title'			=> 'Sub Option Page',
+					'capability'			=> 'manage_options',
+					'menu_slug'				=> 'sub_option_page',
+					'callback'				=> false,
+			),
 	);
 	protected $errors;
 	protected $fields = array(
-		'checkbox'		=> array(
-			'checked'		=> false,
-			'value'			=> 'on',
-		),
-		'text'			=> array(
-			'class'			=> 'regular-text',
-			'placeholder'	=> '',
-			'value'			=> false,
-		),
-		'textarea'		=> array(
-			'class'			=> 'large-text',
-			'placeholder'	=> '',
-			'rows'			=> 10,
-			'value'			=> false,
-		),
-		'wp_editor'		=> array(
-			'wpautop'			=> true,
-			'media_buttons'		=> true,
-			'textarea_rows'		=> 'default',
-			'tabindex'			=> false,
-			'editor_css'		=> false,
-			'editor_class'		=> '',
-			'editor_height'		=> false,
-			'teeny'				=> false,
-			'dfw'				=> false,
-			'tinymce'			=> true,
-			'quicktags'			=> true,
-			'drag_drop_upload'	=> false,
-		),
+			'checkbox'		=> array(
+					'checked'		=> false,
+					'value'			=> 'on',
+			),
+			'text'			=> array(
+					'class'			=> 'regular-text',
+					'placeholder'	=> '',
+					'value'			=> false,
+			),
+			'textarea'		=> array(
+					'class'			=> 'large-text',
+					'placeholder'	=> '',
+					'rows'			=> 10,
+					'value'			=> false,
+			),
+			'wp_editor'		=> array(
+					'wpautop'			=> true,
+					'media_buttons'		=> true,
+					'textarea_rows'		=> 'default',
+					'tabindex'			=> false,
+					'editor_css'		=> false,
+					'editor_class'		=> '',
+					'editor_height'		=> false,
+					'teeny'				=> false,
+					'dfw'				=> false,
+					'tinymce'			=> true,
+					'quicktags'			=> true,
+					'drag_drop_upload'	=> false,
+			),
 	);
 	protected $media_script = false;
 	protected $notices;
@@ -139,9 +141,7 @@ class RationalOptionPages {
 				$this->build_settings_field( $page_key, $section_key, $field_key );
 				break;
 			case 'register_setting':
-				$input = $this->sanitize_setting( $page_key, $arguments[0] );
-				return $input;
-				break;
+				return $this->sanitize_setting( $page_key, $arguments[0] );
 			default:
 				$this->submit_notice( $method );
 		}
@@ -185,7 +185,7 @@ class RationalOptionPages {
 	 */
 	public function admin_head() {
 		if ( $this->media_script ) {
-?>			<script>
+			?>			<script>
 				jQuery.noConflict();
 				(function($) {
 					$(function() {
@@ -220,7 +220,7 @@ class RationalOptionPages {
 					});
 				})(jQuery);
 			</script>
-<?php	}
+		<?php	}
 	}
 
 	/**
@@ -235,9 +235,9 @@ class RationalOptionPages {
 			}
 
 			register_setting(
-				$page_key,
-				$page_key,
-				$page_params['sanitize']
+					$page_key,
+					$page_key,
+					$page_params['sanitize']
 			);
 
 			if ( !empty( $page_params['sections'] ) ) {
@@ -252,7 +252,7 @@ class RationalOptionPages {
 						$params['callback'] = array( $this, $params['callback'] );
 					}
 
-					call_user_func_array( 'add_settings_section', $params );
+					call_user_func_array( 'add_settings_section', array_values( $params ) );
 
 					if ( !empty( $section_params['fields'] ) ) {
 						foreach ( $section_params['fields'] as $field_key => $field_params ) {
@@ -268,10 +268,10 @@ class RationalOptionPages {
 
 							// Add label wrapper on title
 							if (
-								!in_array( $field_params['type'], array( 'radio' ) ) &&
-								( empty( $field_params['no_label'] ) || $field_params['no_label'] === false )
+									!in_array( $field_params['type'], array( 'radio' ) ) &&
+									( empty( $field_params['no_label'] ) || $field_params['no_label'] === false )
 							) {
-								$params['title'] = "<label for='{$params['id']}'>{$params['title']}</label>";
+								$params['title'] = "<label for='{$params["id"]}'>".__($params['title'],'text-domain')."</label>";
 							}
 
 							// Finalize callback
@@ -279,7 +279,7 @@ class RationalOptionPages {
 								$params['callback'] = array( $this, $params['callback'] );
 							}
 
-							call_user_func_array( 'add_settings_field', $params );
+							call_user_func_array( 'add_settings_field', array_values( $params ) );
 						}
 					}
 				}
@@ -302,7 +302,8 @@ class RationalOptionPages {
 			// Finalize callback
 			$params['callback'] = array( $this, $params['callback'] );
 
-			call_user_func_array( $page['function'], $params );
+
+			call_user_func_array( $page['function'], array_values( $params ) );
 		}
 	}
 
@@ -341,21 +342,20 @@ class RationalOptionPages {
 	protected function build_menu_page( $page_key ) {
 		$page = $this->pages[ $page_key ];
 		$this->options = get_option( $page_key, array() );
+		settings_errors();
 		?><div class="wrap">
-			<h1><?php echo $GLOBALS['title']; ?></h1><?php
-			if ( !empty( $page['text'] ) ) {
-				echo $page['text'];
+		<h1><?php _e($GLOBALS['title'],'text-domain'); ?></h1><?php
+
+		if ( !empty( $page['sections'] ) ) {
+			?><form action="options.php" method="post"><?php
+			settings_errors( $page_key );
+			settings_fields( $page_key );
+			do_settings_sections( $page['menu_slug'] );
+			if ( $this->has_fields( $page ) ) {
+				submit_button();
 			}
-			if ( !empty( $page['sections'] ) ) {
-				?><form action="options.php" method="post"><?php
-					settings_errors( $page_key );
-					settings_fields( $page_key );
-					do_settings_sections( $page['menu_slug'] );
-					if ( $this->has_fields( $page ) ) {
-						submit_button();
-					}
-				?></form><?php
-			}
+			?></form><?php
+		}
 		?></div><?php
 	}
 
@@ -371,7 +371,7 @@ class RationalOptionPages {
 		$section = $page['sections'][ $section_key ];
 		$field = $section['fields'][ $field_key ];
 
-		if ( $field['type'] !== 'checkbox' ) {
+		if ( isset( $field['value'] ) && $field['type'] !== 'checkbox' ) {
 			$field['value'] = !empty( $this->options[ $field['id'] ] ) ? $this->options[ $field['id'] ] : $field['value'];
 		}
 
@@ -387,8 +387,15 @@ class RationalOptionPages {
 
 		// Sanitize field values, unless 'sanitize' was set to false for this field.
 		if ( ( !isset( $field['sanitize'] ) || $field['sanitize'] ) && $field['type'] !== 'wp_editor' ) {
-			$field['value'] = strip_tags($field['value']);		// Removes HTML tags
-			$field['value'] = esc_attr($field['value']);		// Escapes field for HTML attributes
+			if (!empty($field['attributes']) && isset($field['attributes']['multiple']) && $field['attributes']['multiple']) {
+				for ( $i = 0; $i < count( $field['value'] ); $i++ ) {
+					$field['value'][ $i ] = strip_tags($field['value'][ $i ]);		// Removes HTML tags
+					$field['value'][ $i ] = esc_attr($field['value'][ $i ]);		// Escapes field for HTML attributes
+				}
+			} else {
+				$field['value'] = strip_tags($field['value']);		// Removes HTML tags
+				$field['value'] = esc_attr($field['value']);		// Escapes field for HTML attributes
+			}
 		}
 
 		switch ( $field['type'] ) {
@@ -398,35 +405,35 @@ class RationalOptionPages {
 					$checked = checked( $field['value'], $this->options[ $field['id'] ], false );
 				}
 				printf(
-					'<label><input %s %s id="%s" name="%s" title="%s" type="checkbox" value="%s">&nbsp; %s</label>',
-					$checked,																			// checked
-					!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
-					$field['id'],																		// id
-					"{$page_key}[{$field['id']}]",														// name
-					$field['title_attr'],																// title
-					$field['value'],																	// value
-					!empty( $field['text'] ) ? $field['text'] : ''										// text
+						'<label><input %s %s id="%s" name="%s" title="%s" type="checkbox" value="%s">&nbsp; %s</label>',
+						$checked,																			// checked
+						!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
+						$field['id'],																		// id
+						"{$page_key}[{$field['id']}]",														// name
+						$field['title_attr'],																// title
+						$field['value'],																	// value
+						!empty( $field['text'] ) ? __($field['text'],'text-domain') : ''										// text
 				);
 				break;
 			case 'media':
 				$upload_button = sprintf(
-					'<input class="button rational-media-upload" type="button" value="Upload">'
+						'<input class="button rational-media-upload" type="button" value="Upload">'
 				);
 				printf(
-					'<input %s id="%s" name="%s" %s title="%s" type="text" value="%s" %s>%s%s',
-					!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
-					$field['id'],																		// id
-					"{$page_key}[{$field['id']}]",														// name
-					!empty( $field['placeholder'] ) ? "placeholder='{$field['placeholder']}'" : '',		// placeholder
-					$field['title_attr'],																// title
-					$field['value'],																	// value
-					!empty( $attributes ) ? implode( ' ', $attributes ) : '',							// additional attributes
-					$upload_button,																		// upload button
-					!empty( $field['text'] ) ? "<p class='help'>{$field['text']}</p>" : ''				// text
+						'<input %s id="%s" name="%s" %s title="%s" type="text" value="%s" %s>%s%s',
+						!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
+						$field['id'],																		// id
+						"{$page_key}[{$field['id']}]",														// name
+						!empty( $field['placeholder'] ) ? 'placeholder="'.__($field['placeholder'],'text-domain').'"' : '',		// placeholder
+						$field['title_attr'],																// title
+						$field['value'],																	// value
+						!empty( $attributes ) ? implode( ' ', $attributes ) : '',							// additional attributes
+						$upload_button,																		// upload button
+						!empty( $field['text'] ) ? '<p class="help">'.__($field['text'],'text-domain').'</p>' : ''				// text
 				);
 				break;
 			case 'radio':
-				echo '<fieldset><legend class="screen-reader-text">' . $field['title'] . '</legend>';
+				echo '<fieldset><legend class="screen-reader-text">' . __($field['title'],'text-domain') . '</legend>';
 				$c = 0;
 				foreach ( $field['choices'] as $value => $label ) {
 					$checked = $value === $field['value'] ? 'checked' : '';
@@ -434,94 +441,90 @@ class RationalOptionPages {
 						$checked = $value === $this->options[ $field['id'] ] ? 'checked' : '';
 					}
 					printf(
-						'<label><input %s %s id="%s" name="%s" type="radio" title="%s" value="%s">&nbsp; %s</label>%s',
-						$checked,																			// checked
-						!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
-						$field['id'],																		// id
-						"{$page_key}[{$field['id']}]",														// name
-						$label,																				// title
-						$value,																				// value
-						$label,																				// label
-						$c < count( $field['choices'] ) - 1 ? '<br>' : ''									// line-break
+							'<label><input %s %s id="%s" name="%s" type="radio" title="%s" value="%s">&nbsp; %s</label>%s',
+							$checked,																			// checked
+							!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
+							$field['id'],																		// id
+							"{$page_key}[{$field['id']}]",														// name
+							__($label,'text-domain'),																				// title
+							$value,																				// value
+							__($label,'text-domain'),																				// label
+							$c < count( $field['choices'] ) - 1 ? '<br>' : ''									// line-break
 					);
 					$c++;
 				}
 				echo '</fieldset>';
 				break;
 			case 'select':
-                                if (!empty($field['attributes']) && isset($field['attributes']['multiple']) && $field['attributes']['multiple']) {
-                                  $field_tag_name = "{$page_key}[{$field['id']}][]";
-                                  $field_name = "{$field['id']}[]";
-                                }
-                                else {
-                                  $field_tag_name = "{$page_key}[{$field['id']}]";
-                                  $field_name = "{$field['id']}";
-                                }
+				if (!empty($field['attributes']) && isset($field['attributes']['multiple']) && $field['attributes']['multiple']) {
+					$field_tag_name = "{$page_key}[{$field['id']}][]";
+					$field_name = "{$field['id']}[]";
+				}
+				else {
+					$field_tag_name = "{$page_key}[{$field['id']}]";
+					$field_name = "{$field['id']}";
+				}
 				printf(
-					'<select %s %s id="%s" name="%s" title="%s">',
-					!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
-                                        !empty( $attributes ) ? implode(' ', $attributes) : '',
-					$field['id'],																		// id
-					$field_tag_name,														// name
-					$field['title_attr']																// title
+						'<select %s %s id="%s" name="%s" title="%s">',
+						!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
+						!empty( $attributes ) ? implode(' ', $attributes) : '',
+						$field['id'],																		// id
+						$field_tag_name,														// name
+						__($field['title_attr'],'text-domain')																// title
 				);
 				foreach ( $field['choices'] as $value => $text ) {
 					$selected = $value === $field['value'] ? 'selected' : '';
 					if ( isset( $this->options[ $field['id'] ] ) ) {
-                                                if (!is_array($this->options[ $field['id'] ] ) ) {
-						  $selected = $value === $this->options[ $field['id'] ] ? 'selected="selected"' : '';
-                                                }
-                                                else {
-                                                  $selected = '';
-                                                  foreach ($this->options[ $field['id'] ] as $option) {
-                                                    if ($value === $option) {
-                                                      $selected = 'selected="selected"';
-                                                      continue;
-                                                    }
-                                                  }
-                                                }
+						if (!is_array($this->options[ $field['id'] ] ) ) {
+							$selected = $value === $this->options[ $field['id'] ] ? 'selected="selected"' : '';
+						}
+						else {
+							$selected = in_array( $value, $this->options[ $field['id'] ] ) ? 'selected="selected"' : '';
+						}
 					}
 					printf(
-						'<option %s value="%s">%s</option>',
-						$selected,																			// selected
-						$value,																				// value
-						$text																				// text
+							'<option %s value="%s">%s</option>',
+							$selected,																			// selected
+							$value,																				// value
+							__($text,'text-domain')																				// text
 					);
 				}
 				echo '</select>';
 				break;
 			case 'textarea':
 				printf(
-					'<textarea %s id="%s" name="%s" %s %s title="%s">%s</textarea>%s',
-					!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
-					$field['id'],																		// id
-					"{$page_key}[{$field['id']}]",														// name
-					!empty( $field['placeholder'] ) ? "placeholder='{$field['placeholder']}'" : '',		// placeholder
-					!empty( $field['rows'] ) ? "rows='{$field['rows']}'" : '',							// rows
-					$field['title_attr'],																// title
-					$field['value'],																	// value
-					!empty( $field['text'] ) ? "<p class='help'>{$field['text']}</p>" : ''				// text
+						'<textarea %s id="%s" name="%s" %s %s %s %s title="%s">%s</textarea>%s',
+						!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
+						$field['id'],																		// id
+						"{$page_key}[{$field['id']}]",														// name
+						!empty( $field['placeholder'] ) ? 'placeholder="'.__($field['placeholder'],'text-domain').'"' : '',		// placeholder
+						!empty( $field['rows'] ) ? "rows='{$field['rows']}'" : '',							// rows
+						!empty( $field['cols'] ) ? "cols='{$field['cols']}'" : '', // cols
+						!empty( $field['wrap'] ) ? "wrap='{$field['wrap']}'" : '', // wrap
+						$field['title_attr'],																// title
+						$field['value'],																	// value
+						!empty( $field['text'] ) ? '<p class="help">'.__($field['text'],'text-domain').'</p>' : ''				// text
 				);
 				break;
 			case 'wp_editor':
 				$field['textarea_name'] = "{$page_key}[{$field['id']}]";
-				wp_editor( $field['value'], $field['id'], array(
-					'textarea_name'		=> $field['textarea_name'],
+				wp_editor( isset( $field['value'] ) ? $field['value'] : '', $field['id'], array(
+						'textarea_name'		=> $field['textarea_name'],
 				) );
-				echo !empty( $field['text'] ) ? "<p class='help'>{$field['text']}</p>" : '';
+				echo !empty( $field['text'] ) ? '<p class="help">'.__($field['text'],'text-domain').'</p>' : '';
 				break;
 			default:
 				printf(
-					'<input %s id="%s" name="%s" %s title="%s" type="%s" value="%s" %s>%s',
-					!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
-					$field['id'],																		// id
-					"{$page_key}[{$field['id']}]",														// name
-					!empty( $field['placeholder'] ) ? "placeholder='{$field['placeholder']}'" : '',		// placeholder
-					$field['title_attr'],																// title
-					$field['type'],																		// type
-					$field['value'],																	// value
-					!empty( $attributes ) ? implode( ' ', $attributes ) : '',							// additional attributes
-					!empty( $field['text'] ) ? "<p class='help'>{$field['text']}</p>" : ''				// text
+						'<input %s id="%s" name="%s" %s title="%s" type="%s" value="%s" %s>%s',
+						!empty( $field['class'] ) ? "class='{$field['class']}'" : '',						// class
+						$field['id'],																		// id
+						"{$page_key}[{$field['id']}]",														// name
+						!empty( $field['placeholder'] ) ? 'placeholder="'.__($field['placeholder'],'text-domain').'"' : '',		// placeholder
+						$field['title_attr'],																// title
+						$field['type'],																		// type
+						$field['value'],																	// value
+						!empty( $attributes ) ? implode( ' ', $attributes ) : '',							// additional attributes
+						!empty( $field['text'] ) ? '<p class="help">'.__($field['text'],'text-domain').'</p>' : ''				// text
 				);
 		}
 	}
@@ -579,6 +582,11 @@ class RationalOptionPages {
 							continue;
 						}
 						switch ( $field['type'] ) {
+							case 'select':
+								if ( !empty($input[$field['id']]) && !empty($input['attributes']['multiple']) ) {
+									$input[ $field['id'] ] = $input[ $field['id'] ];
+								}
+								break;
 							case 'checkbox':
 								if ( empty( $input[ $field['id'] ] ) ) {
 									$input[ $field['id'] ] = false;
@@ -610,7 +618,7 @@ class RationalOptionPages {
 	protected function slugify( $text, $separator = '_' ) {
 		$text = preg_replace( '~[^\\pL\d]+~u', $separator, $text );
 		$text = trim( $text, $separator );
-		$text = iconv( 'utf-8', 'us-ascii//TRANSLIT', $text );
+		$text = iconv( 'utf-8', 'windows-1251//TRANSLIT', $text );
 		$text = strtolower( $text );
 		$text = preg_replace( '~[^-\w]+~', '', $text );
 		if ( empty( $text ) ) {
@@ -645,8 +653,8 @@ class RationalOptionPages {
 	 */
 	public function submit_error( $error ) {
 		$error = sprintf(
-			'<div class="notice notice-error"><p>%s</p></div>',
-			is_array( $error ) || is_object( $error ) ? '<pre>' . htmlspecialchars( print_r( $error, true ) ) . '</pre>' : $error
+				'<div class="notice notice-error"><p>%s</p></div>',
+				is_array( $error ) || is_object( $error ) ? '<pre>' . htmlspecialchars( print_r( $error, true ) ) . '</pre>' : $error
 		);
 		if ( empty( $this->points['admin_notices'] ) ) {
 			$this->errors[] = $error;
@@ -662,8 +670,8 @@ class RationalOptionPages {
 	 */
 	public function submit_notice( $notice ) {
 		$notice = sprintf(
-			'<div class="notice notice-info"><p>%s</p></div>',
-			is_array( $notice ) || is_object( $notice ) ? '<pre>' . htmlspecialchars( print_r( $notice, true ) ) . '</pre>' : $notice
+				'<div class="notice notice-info"><p>%s</p></div>',
+				is_array( $notice ) || is_object( $notice ) ? '<pre>' . htmlspecialchars( print_r( $notice, true ) ) . '</pre>' : $notice
 		);
 		if ( empty( $this->points['admin_notices'] ) ) {
 			$this->notices[] = $notice;
@@ -687,7 +695,7 @@ class RationalOptionPages {
 	protected function validate_field( $field, $page_key, $section_key, $field_key, $page, $section ) {
 		// Label
 		if ( empty( $field['title'] ) ) {
-			$this->submit_error( 'Field parameter "title" is required' );
+			$this->submit_error( __('Field parameter "title" is required','text-domain') );
 		}
 
 		// ID
@@ -708,7 +716,7 @@ class RationalOptionPages {
 		$field['type'] = empty( $field['type'] ) ? 'text' : $field['type'];
 
 		// Title attribute
-		$field['title_attr'] = empty( $field['title_attr'] ) ? $field['title'] : $field['title_attr'];
+		$field['title_attr'] = empty( $field['title_attr'] ) ? __($field['title'],'text-domain') : $field['title_attr'];
 
 		// Choices
 		if ( empty( $field['choices'] ) && in_array( $field['type'], array( 'radio', 'select' ) ) ) {
@@ -782,12 +790,12 @@ class RationalOptionPages {
 	protected function validate_page( $page_key, $page_params, $parent_slug = false ) {
 		// Page title
 		if ( empty( $page_params['page_title'] ) ) {
-			$this->submit_error( 'Page parameter "page_title" is required' );
+			$this->submit_error( __('Page parameter "page_title" is required','text-domain') );
 		}
 
 		// Menu title
 		if ( empty( $page_params['menu_title'] ) ) {
-			$page_params['menu_title'] = $page_params['page_title'];
+			$page_params['menu_title'] = __($page_params['page_title'],'text-domain');
 		}
 
 		// Menu slug
@@ -844,7 +852,7 @@ class RationalOptionPages {
 	protected function validate_section( $section, $page_key, $section_key, $page ) {
 		// Title
 		if ( empty( $section['title'] ) ) {
-			$this->submit_error( 'Section parameter "title" is required' );
+			$this->submit_error( __('Section parameter "title" is required','text-domain') );
 		}
 
 		// ID
