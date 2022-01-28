@@ -11,7 +11,6 @@
  * License: GPL2
  *
  * @package AdminNoticesManager
- *
  */
 
 /*
