@@ -344,7 +344,7 @@ class RationalOptionPages {
 		?><div class="wrap">
 			<h1><?php echo $GLOBALS['title']; ?></h1><?php
 			if ( !empty( $page['text'] ) ) {
-				echo $page['text'];
+				echo '<p>' . $page['text'] . '</p>';
 			}
 			if ( !empty( $page['sections'] ) ) {
 				?><form action="options.php" method="post"><?php

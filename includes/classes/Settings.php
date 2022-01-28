@@ -83,7 +83,13 @@ class Settings {
 								'type'    => 'radio',
 								'value'   => array_key_exists( 'no-level-notices', $options ) ? $options['no-level-notices'] : 'popup-only',
 								'choices' => $notice_handling_options
-							]
+							],
+							'exceptions' => array(
+								'title' => __( 'CSS selector', 'admin-notices-manager' ),
+								'type'  => 'text',
+								'value' => array_key_exists( 'exceptions-css-selector', $options ) ? $options['exceptions-css-selector'] : '',
+								'text'  => __( 'Plugin will ignore all notices matching this CSS selector. Use jQuery compatible CSS selector.', 'admin-notices-manager' ),
+							),
 						]
 					),
 					'system-notices'       => array(
@@ -131,7 +137,8 @@ class Settings {
 			"no_level_notices"               => "popup-only",
 			"wordpress_system_admin_notices" => "leave",
 			"popup_style"                    => "slide-in",
-			"slide_in_background"            => "#1d2327"
+			"slide_in_background"            => "#1d2327",
+			"exceptions_css_selector"        => "",
 		] );
 	}
 }
