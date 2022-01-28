@@ -344,15 +344,19 @@ class RationalOptionPages {
 		$this->options = get_option( $page_key, array() );
 		settings_errors();
 		?><div class="wrap">
-		<h1><?php _e($GLOBALS['title'],'text-domain'); ?></h1><?php
-
-		if ( !empty( $page['sections'] ) ) {
-			?><form action="options.php" method="post"><?php
-			settings_errors( $page_key );
-			settings_fields( $page_key );
-			do_settings_sections( $page['menu_slug'] );
-			if ( $this->has_fields( $page ) ) {
-				submit_button();
+			<h1><?php echo $GLOBALS['title']; ?></h1><?php
+			if ( !empty( $page['text'] ) ) {
+				echo '<p>' . $page['text'] . '</p>';
+			}
+			if ( !empty( $page['sections'] ) ) {
+				?><form action="options.php" method="post"><?php
+					settings_errors( $page_key );
+					settings_fields( $page_key );
+					do_settings_sections( $page['menu_slug'] );
+					if ( $this->has_fields( $page ) ) {
+						submit_button();
+					}
+				?></form><?php
 			}
 			?></form><?php
 		}

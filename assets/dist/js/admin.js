@@ -98,13 +98,29 @@
         //	stop interval
         clearInterval(this.migration_interval);
         this.migration_interval = null;
-        this.CheckAndStoreNotices();
+        this.CheckAndStoreNotices(); // Some notices might be left if they are exempted.
+
+        var wrapper = $('.anm-notices-wrapper');
+
+        if (wrapper.children(this.getIgnoreSelector()).length > 0) {
+          wrapper.children().not(this.getIgnoreSelector()).remove();
+          wrapper.show();
+        }
       }
+    },
+    getIgnoreSelector: function getIgnoreSelector() {
+      var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+
+      if (anm_i18n.settings['css_selector'].length > 0) {
+        ignore_selector += ', ' + anm_i18n.settings['css_selector'];
+      }
+
+      return ignore_selector;
     },
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .hide-if-js, .update-message, [aria-hidden="true"]'); //	filter out the system notices
+      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this4.system_messages.length;

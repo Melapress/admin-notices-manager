@@ -15,9 +15,8 @@
 		init () {
 
 			let _this = this
-
 			let category_wrappers = '<div id="anm-system-notices"></div><div id="anm-error-notices"></div><div id="anm-warning-notices"></div><div id="anm-success-notices"></div><div id="anm-information-notices"></div>';
-			
+
 			// Attach correct wrapper type
 			if ( 'popup' == anm_i18n.settings.popup_style ) {
 				$('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>')
@@ -92,13 +91,27 @@
 			if (time_diff > this.migration_limit) {
 
 				//	stop interval
-				clearInterval(this.migration_interval)
+				clearInterval( this.migration_interval )
 				this.migration_interval = null
 				this.CheckAndStoreNotices();
+
+				// Some notices might be left if they are exempted.
+				const wrapper = $( '.anm-notices-wrapper' );
+				if ( wrapper.children( this.getIgnoreSelector() ).length > 0 ) {
+					wrapper.children().not( this.getIgnoreSelector() ).remove();
+					wrapper.show();
+				}
 			}
 		},
+		getIgnoreSelector() {
+			let ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+			if ( anm_i18n.settings['css_selector'].length > 0 ) {
+				ignore_selector += ', ' + anm_i18n.settings['css_selector']
+			}
+			return ignore_selector
+		},
 		transferNotices () {
-			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .hide-if-js, .update-message, [aria-hidden="true"]')
+			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
 
 			//	filter out the system notices
 			notices.each((index, notice) => {
@@ -192,19 +205,19 @@
 			}
 		},
 		CheckAndStoreNotices () {
-   
+
 			// Get the notices we currently hold.
-			var notices = jQuery( this.container ).find( '.notice' );   
+			var notices = jQuery( this.container ).find( '.notice' );
 			var noticeArr = [];
 			let _this = this;
 
 			notices.each(function (index, notice) {
 				jQuery( notice ).find( '.anm-notice-timestap' ).remove();
-		
+
 				var noticeHTML = notice.outerHTML;
 				noticeArr[ index ] = noticeHTML;
 			});
-		
+
 			jQuery.ajax({
 					type: 'POST',
 					dataType: 'json',
@@ -224,16 +237,15 @@
 			let _this = this;
 			notices.each(function (index, notice) {
 				if ( data[ index ] == 'do-not-display' ) {
-				jQuery( notice ).remove(); 
-				var currentCount = _this.getCurrentCounterValue(); 
-				var newCount = currentCount - 1;
-				_this.updateCounterBubble( newCount );
+					jQuery( notice ).remove();
+					var currentCount = _this.getCurrentCounterValue();
+					var newCount = currentCount - 1;
+					_this.updateCounterBubble( newCount );
 				} else {
-				var timeAndDate = '<div class="anm-notice-timestap"><span class="anm-time">'+ anm_i18n.date_time_preamble + data[ index ][1] +'</span><a href="#" data-hide-notice-forever="'+  data[ index ][0] +'">Hide notice forever</a></div>';
-				if ( ! jQuery( notice ).find( '.anm-notice-timestap' ).length ) {
-					jQuery( timeAndDate ).appendTo( notice );
-				}
-				
+					var timeAndDate = '<div class="anm-notice-timestap"><span class="anm-time">'+ anm_i18n.date_time_preamble + data[ index ][1] +'</span><a href="#" data-hide-notice-forever="'+  data[ index ][0] +'">Hide notice forever</a></div>';
+					if ( ! jQuery( notice ).find( '.anm-notice-timestap' ).length ) {
+						jQuery( timeAndDate ).appendTo( notice );
+					}
 				}
 			});
 		},
