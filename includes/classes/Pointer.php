@@ -20,8 +20,8 @@ class Pointer {
 			'options' => array(
 				'content'      => sprintf(
 					'<h3>%s</h3><p>%s</p>',
-					__( 'Admin Notices Manager', 'advanced_notices_manager' ),
-					__( 'From now onward, all the admin notices will be displayed here.', 'advanced_notices_manager' )
+					esc_html__( 'Admin Notices Manager', 'advanced_notices_manager' ),
+					esc_html__( 'From now onward, all the admin notices will be displayed here.', 'advanced_notices_manager' )
 				),
 				'position'     => array(
 					'edge'  => 'top',
@@ -37,8 +37,8 @@ class Pointer {
 			'options' => array(
 				'content'  => sprintf(
 					'<h3>%s</h3><p>%s</p>',
-					__( 'Configure the Admin Notices Manager', 'advanced_notices_manager' ),
-					__( 'Configure how the plugin handles different types of admin notices from the Settings > Admin Notices menu item.', 'advanced_notices_manager' )
+					esc_html__( 'Configure the Admin Notices Manager', 'advanced_notices_manager' ),
+					esc_html__( 'Configure how the plugin handles different types of admin notices from the Settings > Admin Notices menu item.', 'advanced_notices_manager' )
 				),
 				'position' => array(
 					'edge'  => 'left',

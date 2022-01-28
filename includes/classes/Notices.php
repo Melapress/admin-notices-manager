@@ -57,7 +57,7 @@ class Notices {
 		$admin_bar->add_menu(
 			[
 				'id'     => 'anm_notification_count',
-				'title'  => __('No admin notices', 'admin-notices-manager'),
+				'title'  => esc_html__('No admin notices', 'admin-notices-manager'),
 				'href'   => '#',
 				'parent' => 'top-secondary',
 			]
@@ -78,7 +78,7 @@ class Notices {
 			$currently_held_options = get_option( 'anm-notices', [] );
 			$hidden_forever         = get_option( 'anm-hidden-notices', [] );
 			$hashed_notices         = [];
-			$details                = [];	
+			$details                = [];
 			$format                 = get_option('date_format') . ' ' . get_option('time_format');
 
 			foreach ( $_POST[ 'notices' ] as $index => $notice ) {
@@ -102,7 +102,7 @@ class Notices {
 
 			wp_send_json_success( $details );
 		}
-		
+
 	}
 
 	public function hide_notice_forever() {
@@ -115,10 +115,10 @@ class Notices {
 			}
 		}
 
-				
+
 		if ( isset( $_POST[ 'notice_hash' ] ) ) {
 			$currently_held_options = get_option( 'anm-hidden-notices', [] );
-			array_push( $currently_held_options, $_POST[ 'notice_hash' ] ); 
+			array_push( $currently_held_options, $_POST[ 'notice_hash' ] );
 			update_option( 'anm-hidden-notices', $currently_held_options );
 			wp_send_json_success();
 		}
