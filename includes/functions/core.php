@@ -4,6 +4,8 @@
  *
  * @package AdminNoticesManager
  * @since 1.0.0
+ *
+ *        phpcs:ignore
  */
 
 namespace AdminNoticesManager\Core;
@@ -63,7 +65,7 @@ function init() {
  * @return void
  */
 function activate() {
-	// First load the init scripts in case any rewrite functionality is being loaded
+	// First load the init scripts in case any rewrite functionality is being loaded.
 	init();
 	update_option( 'anm-plugin-installed-by-user-id', get_current_user_id(), false );
 	flush_rewrite_rules();
@@ -87,14 +89,14 @@ function deactivate() {
  * @return array
  */
 function get_enqueue_contexts() {
-	return [ 'admin' ];
+	return array( 'admin' );
 }
 
 /**
  * Generate an URL to a script, taking into account whether SCRIPT_DEBUG is enabled.
  *
- * @param string $script Script file name (no .js extension)
- * @param string $context Context for the script ('admin', 'frontend', or 'shared')
+ * @param string $script Script file name (no .js extension).
+ * @param string $context Context for the script ('admin', 'frontend', or 'shared').
  *
  * @return string|WP_Error URL
  */
@@ -111,8 +113,8 @@ function script_url( $script, $context ) {
 /**
  * Generate an URL to a stylesheet, taking into account whether SCRIPT_DEBUG is enabled.
  *
- * @param string $stylesheet Stylesheet file name (no .css extension)
- * @param string $context Context for the script ('admin', 'frontend', or 'shared')
+ * @param string $stylesheet Stylesheet file name (no .css extension).
+ * @param string $context    Context for the script ('admin', 'frontend', or 'shared').
  *
  * @return string URL
  */
@@ -138,136 +140,140 @@ function admin_scripts() {
 	wp_enqueue_script(
 		'admin_notices_manager_admin',
 		script_url( 'admin', 'admin' ),
-		[ 'thickbox' ],
+		array( 'thickbox' ),
 		ADMIN_NOTICES_MANAGER_VERSION,
 		true
 	);
 
-	$system_messages = [
-		//  pages and posts
-		__( 'Post draft updated.' ),
-		__( 'Post updated.' ),
-		__( 'Page draft updated.' ),
-		__( 'Page updated.' ),
-		__( '1 post not updated, somebody is editing it.' ),
-		__( '1 page not updated, somebody is editing it.' ),
+	$system_messages = array(
+		// Pages and posts.
+		esc_html__( 'Post draft updated.' ),
+		esc_html__( 'Post updated.' ),
+		esc_html__( 'Page draft updated.' ),
+		esc_html__( 'Page updated.' ),
+		esc_html__( '1 post not updated, somebody is editing it.' ),
+		esc_html__( '1 page not updated, somebody is editing it.' ),
 
-		//  comments
-		__( 'Invalid comment ID.' ),
-		__( 'Sorry, you are not allowed to edit comments on this post.' ),
-		__( 'This comment is already approved.' ),
-		__( 'This comment is already in the Trash.' ),
-		__( 'This comment is already marked as spam.' ),
+		// Comments.
+		esc_html__( 'Invalid comment ID.' ),
+		esc_html__( 'Sorry, you are not allowed to edit comments on this post.' ),
+		esc_html__( 'This comment is already approved.' ),
+		esc_html__( 'This comment is already in the Trash.' ),
+		esc_html__( 'This comment is already marked as spam.' ),
 
-		//  users
-		__( 'New user created.' ),
-		__( 'User updated.' ),
-		__( 'User deleted.' ),
-		__( 'Changed roles.' ),
-		__( 'The current user&#8217;s role must have user editing capabilities.' ),
-		__( 'Other user roles have been changed.' ),
-		__( 'You can&#8217;t delete the current user.' ),
-		__( 'Other users have been deleted.' ),
-		__( 'User removed from this site.' ),
-		__( "You can't remove the current user." ),
-		__( 'Other users have been removed.' ),
+		// Users.
+		esc_html__( 'New user created.' ),
+		esc_html__( 'User updated.' ),
+		esc_html__( 'User deleted.' ),
+		esc_html__( 'Changed roles.' ),
+		esc_html__( 'The current user&#8217;s role must have user editing capabilities.' ),
+		esc_html__( 'Other user roles have been changed.' ),
+		esc_html__( 'You can&#8217;t delete the current user.' ),
+		esc_html__( 'Other users have been deleted.' ),
+		esc_html__( 'User removed from this site.' ),
+		esc_html__( "You can't remove the current user." ),
+		esc_html__( 'Other users have been removed.' ),
 
-		//  themes
-		__( 'The active theme is broken. Reverting to the default theme.' ),
-		__( 'Settings saved and theme activated.' ),
-		__( 'New theme activated.' ),
-		__( 'Theme deleted.' ),
-		__( 'You cannot delete a theme while it has an active child theme.' ),
-		__( 'Theme resumed.' ),
-		__( 'Theme could not be resumed because it triggered a <strong>fatal error</strong>.' ),
-		__( 'Theme will be auto-updated.' ),
-		__( 'Theme will no longer be auto-updated.' ),
+		// Themes.
+		esc_html__( 'The active theme is broken. Reverting to the default theme.' ),
+		esc_html__( 'Settings saved and theme activated.' ),
+		esc_html__( 'New theme activated.' ),
+		esc_html__( 'Theme deleted.' ),
+		esc_html__( 'You cannot delete a theme while it has an active child theme.' ),
+		esc_html__( 'Theme resumed.' ),
+		esc_html__( 'Theme could not be resumed because it triggered a <strong>fatal error</strong>.' ),
+		esc_html__( 'Theme will be auto-updated.' ),
+		esc_html__( 'Theme will no longer be auto-updated.' ),
 
-		//  plugins
-		__( 'Plugin activated.' ),
-		__( 'Plugin deactivated.' ),
-		__( 'Plugin downgraded successfully.' ),
-		__( 'Plugin updated successfully.' ),
+		// Plugins.
+		esc_html__( 'Plugin activated.' ),
+		esc_html__( 'Plugin deactivated.' ),
+		esc_html__( 'Plugin downgraded successfully.' ),
+		esc_html__( 'Plugin updated successfully.' ),
 
-		//  settings
-		__( 'Settings saved.' ),
-		__( 'Permalink structure updated.' ),
-		__( 'You should update your %s file now.' ),
-		__( 'Permalink structure updated. Remove write access on %s file now!' ),
-		__( 'Privacy Policy page updated successfully.' ),
-		__( 'The currently selected Privacy Policy page does not exist. Please create or select a new page.' ),
-		__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ),
+		// Settings.
+		esc_html__( 'Settings saved.' ),
+		esc_html__( 'Permalink structure updated.' ),
+		esc_html__( 'You should update your %s file now.' ), // phpcs:ignore
+		esc_html__( 'Permalink structure updated. Remove write access on %s file now!' ), // phpcs:ignore
+		esc_html__( 'Privacy Policy page updated successfully.' ),
+		esc_html__( 'The currently selected Privacy Policy page does not exist. Please create or select a new page.' ),
+		esc_html__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ), // phpcs:ignore
 
-		//  multisite
-		__( 'Sites removed from spam.' ),
-		__( 'Sites marked as spam.' ),
-		__( 'Sites deleted.' ),
-		__( 'Site deleted.' ),
-		__( 'Sorry, you are not allowed to delete that site.' ),
-		__( 'Site archived.' ),
-		__( 'Site unarchived.' ),
-		__( 'Site activated.' ),
-		__( 'Site deactivated.' ),
-		__( 'Site removed from spam.' ),
-		__( 'Site marked as spam.' ),
+		// Multisite.
+		esc_html__( 'Sites removed from spam.' ),
+		esc_html__( 'Sites marked as spam.' ),
+		esc_html__( 'Sites deleted.' ),
+		esc_html__( 'Site deleted.' ),
+		esc_html__( 'Sorry, you are not allowed to delete that site.' ),
+		esc_html__( 'Site archived.' ),
+		esc_html__( 'Site unarchived.' ),
+		esc_html__( 'Site activated.' ),
+		esc_html__( 'Site deactivated.' ),
+		esc_html__( 'Site removed from spam.' ),
+		esc_html__( 'Site marked as spam.' ),
 
-		//  personal data export
-		__( 'Unable to initiate confirmation request.' ),
-		__( 'Unable to initiate user privacy confirmation request.' ),
-		__( 'Unable to add this request. A valid email address or username must be supplied.' ),
-		__( 'Invalid user privacy action.' ),
-		__( 'Confirmation request sent again successfully.' ),
-		__( 'Confirmation request initiated successfully.' )
-	];
+		// Personal data export.
+		esc_html__( 'Unable to initiate confirmation request.' ),
+		esc_html__( 'Unable to initiate user privacy confirmation request.' ),
+		esc_html__( 'Unable to add this request. A valid email address or username must be supplied.' ),
+		esc_html__( 'Invalid user privacy action.' ),
+		esc_html__( 'Confirmation request sent again successfully.' ),
+		esc_html__( 'Confirmation request initiated successfully.' ),
+	);
 
-	$plural_system_messages = [
-		//  posts and pages
-		[ '%s post permanently deleted.', '%s posts permanently deleted.' ],
-		[ '%s post moved to the Trash.', '%s posts moved to the Trash.' ],
-		[ '%s post restored from the Trash.', '%s posts restored from the Trash.' ],
-		[ '%s page permanently deleted.', '%s pages permanently deleted.' ],
-		[ '%s page moved to the Trash.', '%s pages moved to the Trash.' ],
-		[ '%s page restored from the Trash.', '%s pages restored from the Trash.' ],
-		[ '%s post updated.', '%s posts updated.' ],
-		[ '%s post not updated, somebody is editing it.', '%s posts not updated, somebody is editing them.' ],
-		[ '%s page updated.', '%s pages updated.' ],
-		[ '%s page not updated, somebody is editing it.', '%s pages not updated, somebody is editing them.' ],
+	$plural_system_messages = array(
+		// Posts and pages.
+		array( '%s post permanently deleted.', '%s posts permanently deleted.' ),
+		array( '%s post moved to the Trash.', '%s posts moved to the Trash.' ),
+		array( '%s post restored from the Trash.', '%s posts restored from the Trash.' ),
+		array( '%s page permanently deleted.', '%s pages permanently deleted.' ),
+		array( '%s page moved to the Trash.', '%s pages moved to the Trash.' ),
+		array( '%s page restored from the Trash.', '%s pages restored from the Trash.' ),
+		array( '%s post updated.', '%s posts updated.' ),
+		array( '%s post not updated, somebody is editing it.', '%s posts not updated, somebody is editing them.' ),
+		array( '%s page updated.', '%s pages updated.' ),
+		array( '%s page not updated, somebody is editing it.', '%s pages not updated, somebody is editing them.' ),
 
-		//  comments
-		[ '%s comment approved.', '%s comments approved.' ],
-		[ '%s comment marked as spam.', '%s comments marked as spam.' ],
-		[ '%s comment restored from the spam.', '%s comments restored from the spam.' ],
-		[ '%s comment moved to the Trash.', '%s comments moved to the Trash.' ],
-		[ '%s comment restored from the Trash.', '%s comments restored from the Trash.' ],
-		[ '%s comment permanently deleted.', '%s comments permanently deleted.' ],
+		// Comments.
+		array( '%s comment approved.', '%s comments approved.' ),
+		array( '%s comment marked as spam.', '%s comments marked as spam.' ),
+		array( '%s comment restored from the spam.', '%s comments restored from the spam.' ),
+		array( '%s comment moved to the Trash.', '%s comments moved to the Trash.' ),
+		array( '%s comment restored from the Trash.', '%s comments restored from the Trash.' ),
+		array( '%s comment permanently deleted.', '%s comments permanently deleted.' ),
 
-		//  users
-		[ '%s user deleted.', '%s users deleted.' ],
+		// Users.
+		array( '%s user deleted.', '%s users deleted.' ),
 
-		//  personal data export
-		[ '%d confirmation request failed to resend.', '%d confirmation requests failed to resend.' ],
-		[ '%d confirmation request re-sent successfully.', '%d confirmation requests re-sent successfully.' ],
-		[ '%d request marked as complete.', '%d requests marked as complete.' ],
-		[ '%d request failed to delete.', '%d requests failed to delete.' ],
-		[ '%d request deleted successfully.', '%d requests deleted successfully.' ]
-	];
+		// Personal data export.
+		array( '%d confirmation request failed to resend.', '%d confirmation requests failed to resend.' ),
+		array( '%d confirmation request re-sent successfully.', '%d confirmation requests re-sent successfully.' ),
+		array( '%d request marked as complete.', '%d requests marked as complete.' ),
+		array( '%d request failed to delete.', '%d requests failed to delete.' ),
+		array( '%d request deleted successfully.', '%d requests deleted successfully.' ),
+	);
 
 	foreach ( $plural_system_messages as $message ) {
-		array_push( $system_messages, _n( $message[0], $message[1], 0 ) );
-		array_push( $system_messages, _n( $message[0], $message[1], 1 ) );
-		array_push( $system_messages, _n( $message[0], $message[1], 2 ) );
-		array_push( $system_messages, _n( $message[0], $message[1], 5 ) );
+		array_push( $system_messages, _n( $message[0], $message[1], 0 ) ); // phpcs:ignore
+		array_push( $system_messages, _n( $message[0], $message[1], 1 ) ); // phpcs:ignore
+		array_push( $system_messages, _n( $message[0], $message[1], 2 ) ); // phpcs:ignore
+		array_push( $system_messages, _n( $message[0], $message[1], 5 ) ); // phpcs:ignore
 	}
 
-	wp_localize_script( 'admin_notices_manager_admin', 'anm_i18n', [
-		'title'              => esc_html__( 'Admin notices', 'admin-notices-manager' ),
-		'title_empty'        => esc_html__( 'No admin notices', 'admin-notices-manager' ),
-		'date_time_preamble' => esc_html__( 'First logged: ', 'admin-notices-manager' ),
-		'system_messages'    => $system_messages,
-		'settings'           => Settings::get_settings(),
-		'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-		'nonce'              => wp_create_nonce( 'anm-ajax-nonce' )
-	] );
+	wp_localize_script(
+		'admin_notices_manager_admin',
+		'anm_i18n',
+		array(
+			'title'              => esc_html__( 'Admin notices', 'admin-notices-manager' ),
+			'title_empty'        => esc_html__( 'No admin notices', 'admin-notices-manager' ),
+			'date_time_preamble' => esc_html__( 'First logged: ', 'admin-notices-manager' ),
+			'system_messages'    => $system_messages,
+			'settings'           => Settings::get_settings(),
+			'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+			'nonce'              => wp_create_nonce( 'anm-ajax-nonce' ),
+		)
+	);
 
 }
 
@@ -281,7 +287,7 @@ function admin_styles() {
 	wp_enqueue_style(
 		'admin_notices_manager_admin',
 		style_url( 'admin-style', 'admin' ),
-		[],
+		array(),
 		ADMIN_NOTICES_MANAGER_VERSION
 	);
 
