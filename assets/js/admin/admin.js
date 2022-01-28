@@ -104,7 +104,7 @@
 			}
 		},
 		getIgnoreSelector() {
-			let ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+			let ignore_selector = '.inline, .hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
 			if ( anm_i18n.settings['css_selector'].length > 0 ) {
 				ignore_selector += ', ' + anm_i18n.settings['css_selector']
 			}
