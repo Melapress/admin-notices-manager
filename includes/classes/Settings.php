@@ -88,7 +88,7 @@ class Settings {
 								'title' => __( 'CSS selector', 'admin-notices-manager' ),
 								'type'  => 'text',
 								'value' => array_key_exists( 'exceptions-css-selector', $options ) ? $options['exceptions-css-selector'] : '',
-								'text'  => __( 'Plugin will ignore all notices matching this CSS selector. Use jQuery compatible CSS selector.', 'admin-notices-manager' ),
+								'text'  => __( 'Plugin will ignore all notices matching this CSS selector. Use jQuery compatible CSS selector. You can specify multiple selectors and comma separate them.', 'admin-notices-manager' ),
 							),
 						]
 					),
