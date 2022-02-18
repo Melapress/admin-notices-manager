@@ -65,7 +65,10 @@ assets/bower_components/*
 /README.html
 
 # PhpStrom Project Files #
+##########
 .idea/
-library/vendors/composer
+
+# Other Files #
+##########
 assets/img/.DS_Store
 .vscode/

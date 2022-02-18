@@ -3,7 +3,7 @@
  * Core plugin functionality.
  *
  * @package AdminNoticesManager
- * @since 1.0.0
+ * @since   1.0.0
  *
  *        phpcs:ignore
  */
@@ -26,6 +26,13 @@ function setup() {
 	};
 
 	if ( is_admin() ) {
+
+		$s24wp_relative_path = 'vendor/wpwhitesecurity/select2-wpwhitesecurity';
+		require_once ADMIN_NOTICES_MANAGER_PATH . $s24wp_relative_path . DIRECTORY_SEPARATOR . '/load.php';
+		if ( class_exists( '\S24WP' ) ) {
+			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . $s24wp_relative_path );
+		}
+
 		new Notices();
 		new Pointer();
 		new Settings();
@@ -95,7 +102,7 @@ function get_enqueue_contexts() {
 /**
  * Generate an URL to a script, taking into account whether SCRIPT_DEBUG is enabled.
  *
- * @param string $script Script file name (no .js extension).
+ * @param string $script  Script file name (no .js extension).
  * @param string $context Context for the script ('admin', 'frontend', or 'shared').
  *
  * @return string|WP_Error URL
@@ -194,11 +201,14 @@ function admin_scripts() {
 		// Settings.
 		esc_html__( 'Settings saved.' ),
 		esc_html__( 'Permalink structure updated.' ),
-		esc_html__( 'You should update your %s file now.' ), // phpcs:ignore
-		esc_html__( 'Permalink structure updated. Remove write access on %s file now!' ), // phpcs:ignore
+		esc_html__( 'You should update your %s file now.' ),
+		// phpcs:ignore
+		esc_html__( 'Permalink structure updated. Remove write access on %s file now!' ),
+		// phpcs:ignore
 		esc_html__( 'Privacy Policy page updated successfully.' ),
 		esc_html__( 'The currently selected Privacy Policy page does not exist. Please create or select a new page.' ),
-		esc_html__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ), // phpcs:ignore
+		esc_html__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ),
+		// phpcs:ignore
 
 		// Multisite.
 		esc_html__( 'Sites removed from spam.' ),

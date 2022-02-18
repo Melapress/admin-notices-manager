@@ -7,8 +7,15 @@
 	  "email": "info@wpwhitesecurity.com"
 	}
   ],
+  "repositories": [
+	{
+	  "type": "vcs",
+	  "url": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity"
+	}
+  ],
   "require": {
-	"php": ">=7.0"
+	"php": ">=7.0",
+	"wpwhitesecurity/select2-wpwhitesecurity": "dev-develop"
   },
   "autoload": {
 	"psr-4": {

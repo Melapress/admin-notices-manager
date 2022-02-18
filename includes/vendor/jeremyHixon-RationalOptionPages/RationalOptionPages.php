@@ -400,6 +400,11 @@ class RationalOptionPages {
 			}
 		}
 
+		if ( array_key_exists( '_callback', $field ) ) {
+			call_user_func( $field['_callback'], $field, $page_key, $section_key, $field_key, $this );
+			return;
+		}
+
 		switch ( $field['type'] ) {
 			case 'checkbox':
 				$checked = $field['checked'] ? 'checked' : '';
@@ -706,7 +711,11 @@ class RationalOptionPages {
 		}
 
 		// Callback
-		$field['callback'] = empty( $field['callback'] ) ? "add_settings_field|{$page_key}|{$section_key}|{$field_key}" : $field['callback'];
+		if ( ! empty( $field['callback'] ) ) {
+			$field['_callback'] = $field['callback'];
+		}
+
+		$field['callback'] = "add_settings_field|{$page_key}|{$section_key}|{$field_key}";
 
 		// Page
 		$field['page'] = $page;
@@ -876,5 +885,14 @@ class RationalOptionPages {
 		}
 
 		return $section;
+	}
+
+	/**
+	 * Getter for the option values.
+	 *
+	 * @return mixed
+	 */
+	public function get_options() {
+		return $this->options;
 	}
 }

@@ -11,7 +11,7 @@ namespace AdminNoticesManager;
  * Takes care of the admin notices content capture.
  *
  * @package AdminNoticesManager
- * @since 1.0.0
+ * @since   1.0.0
  */
 class Settings {
 
@@ -106,6 +106,24 @@ class Settings {
 							),
 						),
 					),
+					'user-visibility'      => array(
+						'title'  => esc_html__( 'Hiding notifications', 'admin-notices-manager' ),
+						'text'   => esc_html__( 'Plugin can hide the notifications from specific users or display them only to certain selected users. Use the below settings to configure this behaviour.', 'admin-notices-manager' ),
+						'fields' => array(
+							'user-visibility' => array(
+								'title'    => esc_html__( 'Visibility', 'admin-notices-manager' ),
+								'type'     => 'radio',
+								'custom'   => true,
+								'callback' => array( $this, 'render_user_visibility_field' ),
+								'value'    => array_key_exists( 'user-visibility', $options ) ? $options['user-visibility'] : 'all',
+								'choices'  => array(
+									'all'               => esc_html__( 'Hide notifications from all users', 'admin-notices-manager' ),
+									'hide-for-selected' => esc_html__( 'Hide notifications only from these users', 'admin-notices-manager' ),
+									'show-for-selected' => esc_html__( 'Hide notifications to all users but not these', 'admin-notices-manager' ),
+								),
+							),
+						),
+					),
 					'styling'              => array(
 						'title'  => esc_html__( 'Admin notices popup styling', 'admin-notices-manager' ),
 						'text'   => esc_html__( 'How do you want ANM to look?', 'admin-notices-manager' ),
@@ -150,5 +168,81 @@ class Settings {
 				'exceptions_css_selector'        => '',
 			)
 		);
+	}
+
+	/**
+	 * Renders custom user visibility field(s).
+	 *
+	 * @param array               $field        Field data.
+	 * @param string              $page_key     Settings page key.
+	 * @param string              $section_key  Settings section key.
+	 * @param string              $field_key    Field key.
+	 * @param RationalOptionPages $option_pages Rational option pages object.
+	 *
+	 * @since latest
+	 */
+	public function render_user_autocomplete_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
+		if ( ! class_exists( '\S24WP' ) ) {
+			return;
+		}
+
+		echo '<fieldset><legend class="screen-reader-text">' . $field['title'] . '</legend>';
+
+		$options        = $option_pages->get_options();
+		$field['value'] = $options[ $field['id'] ]['choice'];
+
+		$counter = 0;
+		foreach ( $field['choices'] as $value => $label ) {
+			$checked = 0 === strlen( $value ) || $value === $field['value'] ? 'checked' : '';
+			if ( isset( $this->options[ $field['id'] ] ) ) {
+				$checked = $value === $this->options[ $field['id'] ] ? 'checked' : '';
+			}
+
+			$field_name = "{$page_key}[{$field['id']}]";
+			printf(
+				'<label><input %s %s id="%s" name="%s" type="radio" title="%s" value="%s">&nbsp; %s</label>',
+				$checked,
+				! empty( $field['class'] ) ? "class='{$field['class']}'" : '',
+				$field['id'] . '-' . $value,
+				$field_name . '[choice]',
+				$label,
+				$value,
+				$label
+			);
+
+			echo '<br />';
+
+			if ( 'all' === $value ) {
+				continue;
+			}
+			
+			if ( 'hide-for-selected' === $value ) {
+				\S24WP::insert(
+					array(
+						'placeholder' => 'hide these',
+						'name'        => $field_name . '[hide-users][]',
+						'width'       => 500,
+						'data-type'   => 'user',
+						'multiple'    => true,
+						'selected'    => $options[ $field['id'] ]['hide-users'],
+					)
+				);
+			} elseif ( 'show-for-selected' === $value ) {
+				\S24WP::insert(
+					array(
+						'placeholder' => 'show these',
+						'name'        => $field_name . '[show-users][]',
+						'width'       => 500,
+						'data-type'   => 'user',
+						'multiple'    => true,
+						'selected'    => $options[ $field['id'] ]['show-users'],
+					)
+				);
+			}
+
+			echo $counter < count( $field['choices'] ) - 1 ? '<br>' : '';
+			$counter ++;
+		}
+		echo '</fieldset>';
 	}
 }
