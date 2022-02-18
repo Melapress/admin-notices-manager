@@ -181,7 +181,7 @@ class Settings {
 	 *
 	 * @since latest
 	 */
-	public function render_user_autocomplete_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
+	public function render_user_visibility_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
 		if ( ! class_exists( '\S24WP' ) ) {
 			return;
 		}
@@ -215,7 +215,7 @@ class Settings {
 			if ( 'all' === $value ) {
 				continue;
 			}
-			
+
 			if ( 'hide-for-selected' === $value ) {
 				\S24WP::insert(
 					array(

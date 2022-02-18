@@ -27,10 +27,8 @@ function setup() {
 
 	if ( is_admin() ) {
 
-		$s24wp_relative_path = 'vendor/wpwhitesecurity/select2-wpwhitesecurity';
-		require_once ADMIN_NOTICES_MANAGER_PATH . $s24wp_relative_path . DIRECTORY_SEPARATOR . '/load.php';
 		if ( class_exists( '\S24WP' ) ) {
-			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . $s24wp_relative_path );
+			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . 'vendor/wpwhitesecurity/select2-wpwhitesecurity' );
 		}
 
 		new Notices();
