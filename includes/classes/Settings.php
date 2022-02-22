@@ -121,6 +121,7 @@ class Settings {
 									'hide-for-selected' => esc_html__( 'Hide notifications only from these users', 'admin-notices-manager' ),
 									'show-for-selected' => esc_html__( 'Hide notifications to all users but not these', 'admin-notices-manager' ),
 								),
+								'sanitize' => false, // Stops default sanitization. It would break the data.
 							),
 						),
 					),
@@ -219,23 +220,29 @@ class Settings {
 			if ( 'hide-for-selected' === $value ) {
 				\S24WP::insert(
 					array(
-						'placeholder' => 'hide these',
-						'name'        => $field_name . '[hide-users][]',
-						'width'       => 500,
-						'data-type'   => 'user',
-						'multiple'    => true,
-						'selected'    => $options[ $field['id'] ]['hide-users'],
+						'placeholder'       => 'hide these',
+						'name'              => $field_name . '[hide-users][]',
+						'width'             => 500,
+						'data-type'         => 'user',
+						'multiple'          => true,
+						'selected'          => $options[ $field['id'] ]['hide-users'],
+						'extra_js_callback' => function ( $element_id ) {
+							echo 'window.anm_settings.append_select2_events( s2 );';
+						},
 					)
 				);
 			} elseif ( 'show-for-selected' === $value ) {
 				\S24WP::insert(
 					array(
-						'placeholder' => 'show these',
-						'name'        => $field_name . '[show-users][]',
-						'width'       => 500,
-						'data-type'   => 'user',
-						'multiple'    => true,
-						'selected'    => $options[ $field['id'] ]['show-users'],
+						'placeholder'       => 'show these',
+						'name'              => $field_name . '[show-users][]',
+						'width'             => 500,
+						'data-type'         => 'user',
+						'multiple'          => true,
+						'selected'          => $options[ $field['id'] ]['show-users'],
+						'extra_js_callback' => function ( $element_id ) {
+							echo 'window.anm_settings.append_select2_events( s2 );';
+						},
 					)
 				);
 			}

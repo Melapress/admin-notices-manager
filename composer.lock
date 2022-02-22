@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity.git",
-                "reference": "55c367e3aa9aa856e5c6b55d862001b55bf69fce"
+                "reference": "4909f1e6b3df6c70324fbe5a6b8c41751b52cd78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpwhitesecurity/select2-wpwhitesecurity/zipball/55c367e3aa9aa856e5c6b55d862001b55bf69fce",
-                "reference": "55c367e3aa9aa856e5c6b55d862001b55bf69fce",
+                "url": "https://api.github.com/repos/wpwhitesecurity/select2-wpwhitesecurity/zipball/4909f1e6b3df6c70324fbe5a6b8c41751b52cd78",
+                "reference": "4909f1e6b3df6c70324fbe5a6b8c41751b52cd78",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
                 "source": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity/tree/develop",
                 "issues": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity/issues"
             },
-            "time": "2022-02-18T09:24:00+00:00"
+            "time": "2022-02-22T08:33:41+00:00"
         }
     ],
     "packages-dev": [
@@ -561,16 +561,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.1.1",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a"
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/15a90844ad40f127afd244c0cad228de2a80052a",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
                 "shasum": ""
             },
             "require": {
@@ -606,9 +606,9 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.1.1"
+                "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
-            "time": "2022-02-07T21:56:48+00:00"
+            "time": "2022-02-21T01:04:05+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",

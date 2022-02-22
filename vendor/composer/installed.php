@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c2e15f153022e5047171814d99fc1f84c73683d7',
+        'reference' => '6683209aff7e8c3881ed35852e2e339740ee52f3',
         'name' => 'wpwhitesecurity/admin-notices-manager',
         'dev' => true,
     ),
@@ -114,12 +114,12 @@
             'dev_requirement' => true,
         ),
         'phar-io/version' => array(
-            'pretty_version' => '3.1.1',
-            'version' => '3.1.1.0',
+            'pretty_version' => '3.2.1',
+            'version' => '3.2.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phar-io/version',
             'aliases' => array(),
-            'reference' => '15a90844ad40f127afd244c0cad228de2a80052a',
+            'reference' => '4f7fd7836c6f332bb2933569e566a0d6c4cbed74',
             'dev_requirement' => true,
         ),
         'phpcompatibility/php-compatibility' => array(
@@ -398,7 +398,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c2e15f153022e5047171814d99fc1f84c73683d7',
+            'reference' => '6683209aff7e8c3881ed35852e2e339740ee52f3',
             'dev_requirement' => false,
         ),
         'wpwhitesecurity/select2-wpwhitesecurity' => array(
@@ -409,7 +409,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => '55c367e3aa9aa856e5c6b55d862001b55bf69fce',
+            'reference' => '4909f1e6b3df6c70324fbe5a6b8c41751b52cd78',
             'dev_requirement' => false,
         ),
     ),
