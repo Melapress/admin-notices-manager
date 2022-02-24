@@ -182,6 +182,8 @@ class Settings {
 	 * @param RationalOptionPages $option_pages Rational option pages object.
 	 *
 	 * @since latest
+	 *
+	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	 */
 	public function render_user_visibility_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
 		if ( ! class_exists( '\S24WP' ) ) {
@@ -200,7 +202,7 @@ class Settings {
 				$checked = $value === $this->options[ $field['id'] ];
 			}
 
-			if ( is_null( $field['value'] ) && 'all' == $value ) {
+			if ( is_null( $field['value'] ) && 'all' === $value ) {
 				$checked = true;
 			}
 
@@ -250,6 +252,19 @@ class Settings {
 		echo '</fieldset>';
 	}
 
+	/**
+	 * Builds an array of parameters for the user selection form control.
+	 *
+	 * @param array  $options      Fields options.
+	 * @param string $field_name   Field name.
+	 * @param array  $field        Field data.
+	 * @param bool   $checked      True if the field is checked.
+	 * @param mixes  $option_value Option value.
+	 *
+	 * @return array
+	 *
+	 * @since latest.
+	 */
 	private function build_user_select_params( $options, $field_name, $field, $checked, $option_value ) {
 		$result = array(
 			'placeholder'       => esc_html__( 'select user(s)', 'admin-notices-manager' ),
