@@ -22,7 +22,11 @@
 				$('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>')
 				this.container = $('#anm-container')
 			} else {
-				$('body').append('<div id="anm-container-slide-in" style="background-color: '+ anm_i18n.settings.slide_in_background_colour +';"><div id="anm-slide-in-content">' + category_wrappers + '</div></div>')
+				let top_padding = 34; // WP admin bar
+				if ( $( '.woocommerce-layout__header' ).length > 0 ) { // WooCommerce header
+					top_padding += $( '.woocommerce-layout__header' ).height();
+				}
+				$('body').append('<div id="anm-container-slide-in" style="background-color: '+ anm_i18n.settings.slide_in_background_colour +'; padding-top: ' + top_padding + 'px;"><div id="anm-slide-in-content">' + category_wrappers + '</div></div>')
 				this.container = $('#anm-slide-in-content')
 			}
 
