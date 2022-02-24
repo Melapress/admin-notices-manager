@@ -4,26 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17c32ae3e8f9eddb08a5bcb0e0475b9c",
+    "content-hash": "eb68aaf29ae3f797c320784efaceb058",
     "packages": [
         {
             "name": "wpwhitesecurity/select2-wpwhitesecurity",
-            "version": "dev-develop",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity.git",
-                "reference": "4909f1e6b3df6c70324fbe5a6b8c41751b52cd78"
+                "reference": "514af981e0f3af5d7ebd9f683c5c779c47183ee8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpwhitesecurity/select2-wpwhitesecurity/zipball/4909f1e6b3df6c70324fbe5a6b8c41751b52cd78",
-                "reference": "4909f1e6b3df6c70324fbe5a6b8c41751b52cd78",
+                "url": "https://api.github.com/repos/wpwhitesecurity/select2-wpwhitesecurity/zipball/514af981e0f3af5d7ebd9f683c5c779c47183ee8",
+                "reference": "514af981e0f3af5d7ebd9f683c5c779c47183ee8",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -38,10 +37,10 @@
             ],
             "description": "Select2 integration library for WordPress",
             "support": {
-                "source": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity/tree/develop",
+                "source": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity/tree/v1.0.1",
                 "issues": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity/issues"
             },
-            "time": "2022-02-22T08:33:41+00:00"
+            "time": "2022-02-23T07:43:19+00:00"
         }
     ],
     "packages-dev": [
@@ -2433,7 +2432,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "wpwhitesecurity/select2-wpwhitesecurity": 20,
         "10up/wp_mock": 20,
         "10up/phpcs-composer": 20
     },

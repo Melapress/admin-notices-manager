@@ -4,8 +4,6 @@
  *
  * @package AdminNoticesManager
  * @since   1.0.0
- *
- *        phpcs:ignore
  */
 
 namespace AdminNoticesManager\Core;
@@ -24,17 +22,6 @@ function setup() {
 	$n = function ( $function ) {
 		return __NAMESPACE__ . "\\$function";
 	};
-
-	if ( is_admin() ) {
-
-		if ( class_exists( '\S24WP' ) ) {
-			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . 'vendor/wpwhitesecurity/select2-wpwhitesecurity' );
-		}
-
-		new Notices();
-		new Pointer();
-		new Settings();
-	}
 
 	add_action( 'init', $n( 'i18n' ) );
 	add_action( 'init', $n( 'init' ) );
@@ -61,6 +48,20 @@ function i18n() {
  * @return void
  */
 function init() {
+
+	if ( is_admin() ) {
+
+		$is_ajax = function_exists( 'wp_doing_ajax' ) && wp_doing_ajax();
+		if ( class_exists( '\S24WP' && ! $is_ajax ) ) {
+			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . 'vendor/wpwhitesecurity/select2-wpwhitesecurity' );
+		}
+
+		$notice_hiding_allowed = Settings::notice_hiding_allowed_for_current_user();
+		new Notices( $notice_hiding_allowed );
+		new Pointer();
+		new Settings();
+	}
+
 	do_action( 'admin_notices_manager_init' );
 }
 
@@ -140,11 +141,23 @@ function style_url( $stylesheet, $context ) {
  */
 function admin_scripts() {
 
+	wp_enqueue_script(
+		'admin_notices_manager_settings',
+		script_url( 'settings', 'admin' ),
+		array(),
+		ADMIN_NOTICES_MANAGER_VERSION,
+		true
+	);
+
+	if ( ! Settings::notice_hiding_allowed_for_current_user() ) {
+		return;
+	}
+
 	add_thickbox();
 
 	wp_enqueue_script(
-		'admin_notices_manager_admin',
-		script_url( 'admin', 'admin' ),
+		'admin_notices_manager_notices',
+		script_url( 'notices', 'admin' ),
 		array( 'thickbox' ),
 		ADMIN_NOTICES_MANAGER_VERSION,
 		true
@@ -199,14 +212,11 @@ function admin_scripts() {
 		// Settings.
 		esc_html__( 'Settings saved.' ),
 		esc_html__( 'Permalink structure updated.' ),
-		esc_html__( 'You should update your %s file now.' ),
-		// phpcs:ignore
-		esc_html__( 'Permalink structure updated. Remove write access on %s file now!' ),
-		// phpcs:ignore
+		esc_html__( 'You should update your %s file now.' ), // phpcs:ignore
+		esc_html__( 'Permalink structure updated. Remove write access on %s file now!' ), // phpcs:ignore
 		esc_html__( 'Privacy Policy page updated successfully.' ),
 		esc_html__( 'The currently selected Privacy Policy page does not exist. Please create or select a new page.' ),
-		esc_html__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ),
-		// phpcs:ignore
+		esc_html__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ), // phpcs:ignore
 
 		// Multisite.
 		esc_html__( 'Sites removed from spam.' ),
@@ -270,7 +280,7 @@ function admin_scripts() {
 	}
 
 	wp_localize_script(
-		'admin_notices_manager_admin',
+		'admin_notices_manager_notices',
 		'anm_i18n',
 		array(
 			'title'              => esc_html__( 'Admin notices', 'admin-notices-manager' ),

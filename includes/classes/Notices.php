@@ -17,18 +17,24 @@ class Notices {
 
 	/**
 	 * Notices constructor.
+	 *
+	 * @param boolean $notice_hiding_allowed True if notice hiding is allowed for the current user.
 	 */
-	public function __construct() {
+	public function __construct( $notice_hiding_allowed ) {
 
-		// Priority of 0 to render before any notices.
-		add_action( 'network_admin_notices', array( $this, 'start_output_capturing' ), 0 );
-		add_action( 'user_admin_notices', array( $this, 'start_output_capturing' ), 0 );
-		add_action( 'admin_notices', array( $this, 'start_output_capturing' ), 0 );
+		if ( $notice_hiding_allowed ) {
 
-		// Priority of 999999 to render after all notices.
-		add_action( 'all_admin_notices', array( $this, 'finish_output_capturing' ), 999999 );
+			// Priority of 0 to render before any notices.
+			add_action( 'network_admin_notices', array( $this, 'start_output_capturing' ), 0 );
+			add_action( 'user_admin_notices', array( $this, 'start_output_capturing' ), 0 );
+			add_action( 'admin_notices', array( $this, 'start_output_capturing' ), 0 );
 
-		add_action( 'admin_bar_menu', array( $this, 'add_item_in_admin_bar' ), 100 );
+			// Priority of 999999 to render after all notices.
+			add_action( 'all_admin_notices', array( $this, 'finish_output_capturing' ), 999999 );
+
+			add_action( 'admin_bar_menu', array( $this, 'add_item_in_admin_bar' ), 100 );
+		}
+
 		add_action( 'wp_ajax_anm_log_notices', array( $this, 'log_notices' ) );
 		add_action( 'wp_ajax_anm_hide_notice_forever', array( $this, 'hide_notice_forever' ) );
 	}

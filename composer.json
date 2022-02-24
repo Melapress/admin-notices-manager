@@ -15,7 +15,7 @@
   ],
   "require": {
 	"php": ">=7.0",
-	"wpwhitesecurity/select2-wpwhitesecurity": "dev-develop"
+	"wpwhitesecurity/select2-wpwhitesecurity": "v1.0.1"
   },
   "autoload": {
 	"psr-4": {

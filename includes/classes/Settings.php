@@ -167,6 +167,7 @@ class Settings {
 				'popup_style'                    => 'slide-in',
 				'slide_in_background'            => '#1d2327',
 				'exceptions_css_selector'        => '',
+				'visibility'                     => array( 'choice' => 'all' ),
 			)
 		);
 	}
@@ -194,15 +195,19 @@ class Settings {
 
 		$counter = 0;
 		foreach ( $field['choices'] as $value => $label ) {
-			$checked = 0 === strlen( $value ) || $value === $field['value'] ? 'checked' : '';
+			$checked = 0 === strlen( $value ) || $value === $field['value'];
 			if ( isset( $this->options[ $field['id'] ] ) ) {
-				$checked = $value === $this->options[ $field['id'] ] ? 'checked' : '';
+				$checked = $value === $this->options[ $field['id'] ];
+			}
+
+			if ( is_null( $field['value'] ) && 'all' == $value ) {
+				$checked = true;
 			}
 
 			$field_name = "{$page_key}[{$field['id']}]";
 			printf(
 				'<label><input %s %s id="%s" name="%s" type="radio" title="%s" value="%s">&nbsp; %s</label>',
-				$checked,
+				checked( $checked, true, false ),
 				! empty( $field['class'] ) ? "class='{$field['class']}'" : '',
 				$field['id'] . '-' . $value,
 				$field_name . '[choice]',
@@ -219,30 +224,22 @@ class Settings {
 
 			if ( 'hide-for-selected' === $value ) {
 				\S24WP::insert(
-					array(
-						'placeholder'       => 'hide these',
-						'name'              => $field_name . '[hide-users][]',
-						'width'             => 500,
-						'data-type'         => 'user',
-						'multiple'          => true,
-						'selected'          => $options[ $field['id'] ]['hide-users'],
-						'extra_js_callback' => function ( $element_id ) {
-							echo 'window.anm_settings.append_select2_events( s2 );';
-						},
+					$this->build_user_select_params(
+						$options,
+						$field_name,
+						$field,
+						$checked,
+						'hide-users'
 					)
 				);
 			} elseif ( 'show-for-selected' === $value ) {
 				\S24WP::insert(
-					array(
-						'placeholder'       => 'show these',
-						'name'              => $field_name . '[show-users][]',
-						'width'             => 500,
-						'data-type'         => 'user',
-						'multiple'          => true,
-						'selected'          => $options[ $field['id'] ]['show-users'],
-						'extra_js_callback' => function ( $element_id ) {
-							echo 'window.anm_settings.append_select2_events( s2 );';
-						},
+					$this->build_user_select_params(
+						$options,
+						$field_name,
+						$field,
+						$checked,
+						'show-users'
 					)
 				);
 			}
@@ -251,5 +248,51 @@ class Settings {
 			$counter ++;
 		}
 		echo '</fieldset>';
+	}
+
+	private function build_user_select_params( $options, $field_name, $field, $checked, $option_value ) {
+		$result = array(
+			'placeholder'       => esc_html__( 'select user(s)', 'admin-notices-manager' ),
+			'name'              => $field_name . '[' . $option_value . '][]',
+			'width'             => 500,
+			'data-type'         => 'user',
+			'multiple'          => true,
+			'extra_js_callback' => function ( $element_id ) {
+				echo 'window.anm_settings.append_select2_events( s2 );';
+			},
+		);
+
+		if ( $checked ) {
+			$result['selected'] = $options[ $field['id'] ][ $option_value ];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Checks if hiding of notices is allowed according to the plugin settings.
+	 *
+	 * @return bool True if notices' hiding is allowed for current user.
+	 *
+	 * @since latest
+	 */
+	public static function notice_hiding_allowed_for_current_user() {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		// phpcs:disable WordPress.PHP.StrictInArray
+		$settings = self::get_settings();
+		if ( 'hide-for-selected' === $settings['visibility']['choice']
+			&& ! in_array( get_current_user_id(), $settings['visibility']['hide-users'] ) ) {
+			return false;
+		}
+
+		if ( 'show-for-selected' === $settings['visibility']['choice']
+			&& in_array( get_current_user_id(), $settings['visibility']['show-users'] ) ) {
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -792,11 +792,11 @@ class RationalOptionPages {
 	/**
 	 * Validates the information submitted to the class
 	 *
-	 * @param	string	$page_key		Array key of the page
-	 * @param	array	$page			Array of page parameters
-	 * @param	string	$parent_slug	Menu slug of the parent page if there is one
+	 * @param string $page_key    Array key of the page.
+	 * @param array  $page_params Array of page parameters.
+	 * @param string $parent_slug Menu slug of the parent page if there is one.
 	 *
-	 * @return	array					Validated array of page parameters
+	 * @return array Validated array of page parameters.
 	 */
 	protected function validate_page( $page_key, $page_params, $parent_slug = false ) {
 		// Page title
@@ -811,7 +811,7 @@ class RationalOptionPages {
 
 		// Menu slug
 		if ( empty( $page_params['menu_slug'] ) ) {
-			// Basing it off the page title cause it's likely to be more unique than the menu title
+			// Basing it off the page title because it's likely to be more unique than the menu title
 			$page_params['menu_slug'] = $this->slugify( $page_params['page_title'] );
 		}
 
