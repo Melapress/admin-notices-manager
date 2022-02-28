@@ -127,6 +127,10 @@ class PointersManager {
 		}
 
 		// Check pointers and remove dismissed ones.
+		if ( empty( $this->pointers ) ) {
+			return;
+		}
+
 		foreach ( $this->pointers as $pointer_id => $pointer ) {
 
 			// Don't display if already dismissed.

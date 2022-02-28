@@ -51,8 +51,7 @@ function init() {
 
 	if ( is_admin() ) {
 
-		$is_ajax = function_exists( 'wp_doing_ajax' ) && wp_doing_ajax();
-		if ( class_exists( '\S24WP' && ! $is_ajax ) ) {
+		if ( class_exists( '\S24WP' ) ) {
 			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . 'vendor/wpwhitesecurity/select2-wpwhitesecurity' );
 		}
 
