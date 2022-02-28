@@ -173,6 +173,41 @@ class Settings {
 	}
 
 	/**
+	 * Checks if hiding of notices is allowed according to the plugin settings.
+	 *
+	 * @return bool True if notices' hiding is allowed for current user.
+	 *
+	 * @since latest
+	 */
+	public static function notice_hiding_allowed_for_current_user() {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		// phpcs:disable WordPress.PHP.StrictInArray
+		$settings = self::get_settings();
+		if ( ! array_key_exists( 'visibility', $settings ) || ! array_key_exists( 'choice', $settings['visibility'] ) ) {
+			return true;
+		}
+
+		if ( 'hide-for-selected' === $settings['visibility']['choice']
+			&& array_key_exists( 'hide-users', $settings['visibility'] )
+			&& is_array( $settings['visibility']['hide-users'] )
+			&& ! in_array( get_current_user_id(), $settings['visibility']['hide-users'] ) ) {
+			return false;
+		}
+
+		if ( 'show-for-selected' === $settings['visibility']['choice']
+			&& array_key_exists( 'show-users', $settings['visibility'] )
+			&& is_array( $settings['visibility']['show-users'] )
+			&& in_array( get_current_user_id(), $settings['visibility']['show-users'] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Renders custom user visibility field(s).
 	 *
 	 * @param array               $field        Field data.
@@ -193,7 +228,7 @@ class Settings {
 		echo '<fieldset><legend class="screen-reader-text">' . $field['title'] . '</legend>';
 
 		$options        = $option_pages->get_options();
-		$field['value'] = $options[ $field['id'] ]['choice'];
+		$field['value'] = isset( $options[ $field['id'] ]['choice'] ) ? $options[ $field['id'] ]['choice'] : 'all';
 
 		$counter = 0;
 		foreach ( $field['choices'] as $value => $label ) {
@@ -282,32 +317,5 @@ class Settings {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Checks if hiding of notices is allowed according to the plugin settings.
-	 *
-	 * @return bool True if notices' hiding is allowed for current user.
-	 *
-	 * @since latest
-	 */
-	public static function notice_hiding_allowed_for_current_user() {
-		if ( ! is_user_logged_in() ) {
-			return false;
-		}
-
-		// phpcs:disable WordPress.PHP.StrictInArray
-		$settings = self::get_settings();
-		if ( 'hide-for-selected' === $settings['visibility']['choice']
-			&& ! in_array( get_current_user_id(), $settings['visibility']['hide-users'] ) ) {
-			return false;
-		}
-
-		if ( 'show-for-selected' === $settings['visibility']['choice']
-			&& in_array( get_current_user_id(), $settings['visibility']['show-users'] ) ) {
-			return false;
-		}
-
-		return true;
 	}
 }
