@@ -190,6 +190,10 @@ class Settings {
 			return true;
 		}
 
+		if ( 'all' === $settings['visibility']['choice'] ) {
+			return true;
+		}
+
 		if ( 'hide-for-selected' === $settings['visibility']['choice']
 			&& array_key_exists( 'hide-users', $settings['visibility'] )
 			&& is_array( $settings['visibility']['hide-users'] )
