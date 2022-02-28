@@ -11,7 +11,7 @@ namespace AdminNoticesManager;
  * Takes care of the admin notices content capture.
  *
  * @package AdminNoticesManager
- * @since 1.0.0
+ * @since   1.0.0
  */
 class Settings {
 
@@ -106,6 +106,25 @@ class Settings {
 							),
 						),
 					),
+					'user-visibility'      => array(
+						'title'  => esc_html__( 'Hiding notifications', 'admin-notices-manager' ),
+						'text'   => esc_html__( 'Plugin can hide the notifications from specific users or display them only to certain selected users. Use the below settings to configure this behaviour.', 'admin-notices-manager' ),
+						'fields' => array(
+							'user-visibility' => array(
+								'title'    => esc_html__( 'Visibility', 'admin-notices-manager' ),
+								'type'     => 'radio',
+								'custom'   => true,
+								'callback' => array( $this, 'render_user_visibility_field' ),
+								'value'    => array_key_exists( 'user-visibility', $options ) ? $options['user-visibility'] : 'all',
+								'choices'  => array(
+									'all'               => esc_html__( 'Hide notifications from all users', 'admin-notices-manager' ),
+									'hide-for-selected' => esc_html__( 'Hide notifications only from these users', 'admin-notices-manager' ),
+									'show-for-selected' => esc_html__( 'Hide notifications to all users but not these', 'admin-notices-manager' ),
+								),
+								'sanitize' => false, // Stops default sanitization. It would break the data.
+							),
+						),
+					),
 					'styling'              => array(
 						'title'  => esc_html__( 'Admin notices popup styling', 'admin-notices-manager' ),
 						'text'   => esc_html__( 'How do you want ANM to look?', 'admin-notices-manager' ),
@@ -148,7 +167,159 @@ class Settings {
 				'popup_style'                    => 'slide-in',
 				'slide_in_background'            => '#1d2327',
 				'exceptions_css_selector'        => '',
+				'visibility'                     => array( 'choice' => 'all' ),
 			)
 		);
+	}
+
+	/**
+	 * Checks if hiding of notices is allowed according to the plugin settings.
+	 *
+	 * @return bool True if notices' hiding is allowed for current user.
+	 *
+	 * @since latest
+	 */
+	public static function notice_hiding_allowed_for_current_user() {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		// phpcs:disable WordPress.PHP.StrictInArray
+		$settings = self::get_settings();
+		if ( ! array_key_exists( 'visibility', $settings ) || ! array_key_exists( 'choice', $settings['visibility'] ) ) {
+			return true;
+		}
+
+		if ( 'all' === $settings['visibility']['choice'] ) {
+			return true;
+		}
+
+		if ( 'hide-for-selected' === $settings['visibility']['choice']
+			&& array_key_exists( 'hide-users', $settings['visibility'] )
+			&& is_array( $settings['visibility']['hide-users'] )
+			&& ! in_array( get_current_user_id(), $settings['visibility']['hide-users'] ) ) {
+			return false;
+		}
+
+		if ( 'show-for-selected' === $settings['visibility']['choice']
+			&& array_key_exists( 'show-users', $settings['visibility'] )
+			&& is_array( $settings['visibility']['show-users'] )
+			&& in_array( get_current_user_id(), $settings['visibility']['show-users'] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Renders custom user visibility field(s).
+	 *
+	 * @param array               $field        Field data.
+	 * @param string              $page_key     Settings page key.
+	 * @param string              $section_key  Settings section key.
+	 * @param string              $field_key    Field key.
+	 * @param RationalOptionPages $option_pages Rational option pages object.
+	 *
+	 * @since latest
+	 *
+	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+	 */
+	public function render_user_visibility_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
+		if ( ! class_exists( '\S24WP' ) ) {
+			return;
+		}
+
+		echo '<fieldset><legend class="screen-reader-text">' . $field['title'] . '</legend>';
+
+		$options        = $option_pages->get_options();
+		$field['value'] = isset( $options[ $field['id'] ]['choice'] ) ? $options[ $field['id'] ]['choice'] : 'all';
+
+		$counter = 0;
+		foreach ( $field['choices'] as $value => $label ) {
+			$checked = 0 === strlen( $value ) || $value === $field['value'];
+			if ( isset( $this->options[ $field['id'] ] ) ) {
+				$checked = $value === $this->options[ $field['id'] ];
+			}
+
+			if ( is_null( $field['value'] ) && 'all' === $value ) {
+				$checked = true;
+			}
+
+			$field_name = "{$page_key}[{$field['id']}]";
+			printf(
+				'<label><input %s %s id="%s" name="%s" type="radio" title="%s" value="%s">&nbsp; %s</label>',
+				checked( $checked, true, false ),
+				! empty( $field['class'] ) ? "class='{$field['class']}'" : '',
+				$field['id'] . '-' . $value,
+				$field_name . '[choice]',
+				$label,
+				$value,
+				$label
+			);
+
+			echo '<br />';
+
+			if ( 'all' === $value ) {
+				continue;
+			}
+
+			if ( 'hide-for-selected' === $value ) {
+				\S24WP::insert(
+					$this->build_user_select_params(
+						$options,
+						$field_name,
+						$field,
+						$checked,
+						'hide-users'
+					)
+				);
+			} elseif ( 'show-for-selected' === $value ) {
+				\S24WP::insert(
+					$this->build_user_select_params(
+						$options,
+						$field_name,
+						$field,
+						$checked,
+						'show-users'
+					)
+				);
+			}
+
+			echo $counter < count( $field['choices'] ) - 1 ? '<br>' : '';
+			$counter ++;
+		}
+		echo '</fieldset>';
+	}
+
+	/**
+	 * Builds an array of parameters for the user selection form control.
+	 *
+	 * @param array  $options      Fields options.
+	 * @param string $field_name   Field name.
+	 * @param array  $field        Field data.
+	 * @param bool   $checked      True if the field is checked.
+	 * @param mixes  $option_value Option value.
+	 *
+	 * @return array
+	 *
+	 * @since latest.
+	 */
+	private function build_user_select_params( $options, $field_name, $field, $checked, $option_value ) {
+		$result = array(
+			'placeholder'       => esc_html__( 'select user(s)', 'admin-notices-manager' ),
+			'name'              => $field_name . '[' . $option_value . '][]',
+			'width'             => 500,
+			'data-type'         => 'user',
+			'multiple'          => true,
+			'extra_js_callback' => function ( $element_id ) {
+				echo 'window.anm_settings.append_select2_events( s2 );';
+			},
+		);
+
+		if ( $checked ) {
+			$result['selected'] = $options[ $field['id'] ][ $option_value ];
+		}
+
+		return $result;
 	}
 }

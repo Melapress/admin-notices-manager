@@ -25,6 +25,10 @@ class Pointer {
 	public function register_pointers() {
 		$manager = new PointersManager( 'advanced_notices_manager_' );
 
+		if ( ! Settings::notice_hiding_allowed_for_current_user() ) {
+			return;
+		}
+
 		$initial_prompt_pointer_id = 'anm_initial_prompt';
 		$manager->add_pointer(
 			array(

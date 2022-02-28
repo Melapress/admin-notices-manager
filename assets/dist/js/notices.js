@@ -1,6 +1,6 @@
 "use strict";
 
-(function ($) {
+(function ($, window) {
   var AdminNoticesManager = {
     container: null,
     counter_link: null,
@@ -25,9 +25,10 @@
         $('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>');
         this.container = $('#anm-container');
       } else {
-        var top_padding = 34;
+        var top_padding = 34; // WP admin bar
 
         if ($('.woocommerce-layout__header').length > 0) {
+          // WooCommerce header
           top_padding += $('.woocommerce-layout__header').height();
         }
 
@@ -117,8 +118,8 @@
     getIgnoreSelector: function getIgnoreSelector() {
       var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
 
-      if (anm_i18n.settings['css_selector'].length > 0) {
-        ignore_selector += ', ' + anm_i18n.settings['css_selector'];
+      if (anm_i18n.settings['exceptions_css_selector'].length > 0) {
+        ignore_selector += ', ' + anm_i18n.settings['exceptions_css_selector'];
       }
 
       return ignore_selector;
@@ -341,4 +342,4 @@
     }
   };
   AdminNoticesManager.init();
-})(jQuery);
+})(jQuery, window);

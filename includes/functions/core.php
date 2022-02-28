@@ -3,9 +3,7 @@
  * Core plugin functionality.
  *
  * @package AdminNoticesManager
- * @since 1.0.0
- *
- *        phpcs:ignore
+ * @since   1.0.0
  */
 
 namespace AdminNoticesManager\Core;
@@ -24,12 +22,6 @@ function setup() {
 	$n = function ( $function ) {
 		return __NAMESPACE__ . "\\$function";
 	};
-
-	if ( is_admin() ) {
-		new Notices();
-		new Pointer();
-		new Settings();
-	}
 
 	add_action( 'init', $n( 'i18n' ) );
 	add_action( 'init', $n( 'init' ) );
@@ -56,6 +48,19 @@ function i18n() {
  * @return void
  */
 function init() {
+
+	if ( is_admin() ) {
+
+		if ( class_exists( '\S24WP' ) ) {
+			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . 'vendor/wpwhitesecurity/select2-wpwhitesecurity' );
+		}
+
+		$notice_hiding_allowed = Settings::notice_hiding_allowed_for_current_user();
+		new Notices( $notice_hiding_allowed );
+		new Pointer();
+		new Settings();
+	}
+
 	do_action( 'admin_notices_manager_init' );
 }
 
@@ -95,7 +100,7 @@ function get_enqueue_contexts() {
 /**
  * Generate an URL to a script, taking into account whether SCRIPT_DEBUG is enabled.
  *
- * @param string $script Script file name (no .js extension).
+ * @param string $script  Script file name (no .js extension).
  * @param string $context Context for the script ('admin', 'frontend', or 'shared').
  *
  * @return string|WP_Error URL
@@ -135,11 +140,23 @@ function style_url( $stylesheet, $context ) {
  */
 function admin_scripts() {
 
+	wp_enqueue_script(
+		'admin_notices_manager_settings',
+		script_url( 'settings', 'admin' ),
+		array(),
+		ADMIN_NOTICES_MANAGER_VERSION,
+		true
+	);
+
+	if ( ! Settings::notice_hiding_allowed_for_current_user() ) {
+		return;
+	}
+
 	add_thickbox();
 
 	wp_enqueue_script(
-		'admin_notices_manager_admin',
-		script_url( 'admin', 'admin' ),
+		'admin_notices_manager_notices',
+		script_url( 'notices', 'admin' ),
 		array( 'thickbox' ),
 		ADMIN_NOTICES_MANAGER_VERSION,
 		true
@@ -262,7 +279,7 @@ function admin_scripts() {
 	}
 
 	wp_localize_script(
-		'admin_notices_manager_admin',
+		'admin_notices_manager_notices',
 		'anm_i18n',
 		array(
 			'title'              => esc_html__( 'Admin notices', 'admin-notices-manager' ),
