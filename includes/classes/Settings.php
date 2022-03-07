@@ -166,7 +166,7 @@ class Settings {
 				'wordpress_system_admin_notices' => 'leave',
 				'popup_style'                    => 'slide-in',
 				'slide_in_background'            => '#1d2327',
-				'exceptions_css_selector'        => '',
+				'css_selector'                   => '',
 				'visibility'                     => array( 'choice' => 'all' ),
 			)
 		);
