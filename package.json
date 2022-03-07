@@ -1,11 +1,11 @@
 {
   "name": "wp-admin-notices-manager",
-  "description": "Tired of ever-present notices in the WordPress administration?",
-  "version": "1.0.0",
+  "description": "Better manage admin notices & never miss an important WordPress and developer message.",
+  "version": "1.3.0",
   "author": "WP White Security (https://www.wpwhitesecurity.com/)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/WPWhiteSecurity/wp-admin-notices-manager"
+    "url": "https://github.com/wpwhiteSecurity/wp-admin-notices-manager"
   },
   "license": "MIT",
   "devDependencies": {

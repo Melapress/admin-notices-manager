@@ -1,24 +1,32 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-develop',
-    'version' => 'dev-develop',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '1a06b0953b9551507b6845dbb59d9db6eb55a4f0',
+        'name' => 'wpwhitesecurity/admin-notices-manager',
+        'dev' => false,
     ),
-    'reference' => '13cd818164178e2003ec0be46bf585b48e58c226',
-    'name' => 'wpwhitesecurity/admin-notices-manager',
-  ),
-  'versions' => 
-  array (
-    'wpwhitesecurity/admin-notices-manager' => 
-    array (
-      'pretty_version' => 'dev-develop',
-      'version' => 'dev-develop',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '13cd818164178e2003ec0be46bf585b48e58c226',
+    'versions' => array(
+        'wpwhitesecurity/admin-notices-manager' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '1a06b0953b9551507b6845dbb59d9db6eb55a4f0',
+            'dev_requirement' => false,
+        ),
+        'wpwhitesecurity/select2-wpwhitesecurity' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../wpwhitesecurity/select2-wpwhitesecurity',
+            'aliases' => array(),
+            'reference' => '514af981e0f3af5d7ebd9f683c5c779c47183ee8',
+            'dev_requirement' => false,
+        ),
     ),
-  ),
 );

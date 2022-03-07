@@ -4,8 +4,8 @@ Plugin URI: https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-mana
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: admin notices, hide admin notices, manage admin notices, notices, dashboard notices
-Requires at least: 4.5
-Tested up to: 5.8
+Requires at least: 5.0
+Tested up to: 5.8.3
 Stable tag: 1.2.0
 Requires PHP: 7.0
 
@@ -85,8 +85,9 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 
 1. The plugin is very easy to use. Once installed it will automatically capture all notifications.
 2. When there are new admin notices, the plugin will highlight it by showing the number of notifications in the WordPress toolbar.
-3. Admin notices are shown in a pop-up window, where you can mark them as read.
+3. Admin notices are shown in a retractable sidebar, from where you can mark them as read or permanently hide them.
 4. Fully configurable plugin: configure how the plugin should handle the different types of admin notices.
+5. Optionally, admin notices can also be shown in a pop-up window, from where you can mark them as read or permanently hide them.
 
 == Changelog ==
 

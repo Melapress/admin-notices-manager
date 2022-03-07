@@ -1,34 +1,38 @@
 <?php
+/**
+ * Uninstall script.
+ *
+ * @package admin-notices-manager
+ */
 
-// if uninstall.php is not called by WordPress, die
+// If uninstall.php is not called by WordPress, die.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-    die;
+	die;
 }
 
+global $wpdb;
 if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-    global $wpdb;
-    $wpdb->query(
-        $wpdb->prepare(
-            "
+	$wpdb->query( // @codingStandardsIgnoreLine
+		$wpdb->prepare(
+			"
             DELETE FROM $wpdb->sitemeta
             WHERE meta_key LIKE %s
             ",
-            [
-                'anm%',
-            ]
-        )
-    );
+			array(
+				'anm%',
+			)
+		)
+	);
 } else {
-    global $wpdb;
-    $wpdb->query(
-        $wpdb->prepare(
-            "
+	$wpdb->query( // @codingStandardsIgnoreLine
+		$wpdb->prepare(
+			"
             DELETE FROM $wpdb->options
             WHERE option_name LIKE %s
             ",
-            [
-                'anm%',
-            ]
-        )
-    );
+			array(
+				'anm%',
+			)
+		)
+	);
 }

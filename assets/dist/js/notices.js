@@ -1,6 +1,6 @@
 "use strict";
 
-(function ($) {
+(function ($, window) {
   var AdminNoticesManager = {
     container: null,
     counter_link: null,
@@ -25,7 +25,14 @@
         $('body').append('<div id="anm-container" style="display: none;">' + category_wrappers + '</div>');
         this.container = $('#anm-container');
       } else {
-        $('body').append('<div id="anm-container-slide-in" style="background-color: ' + anm_i18n.settings.slide_in_background_colour + ';"><div id="anm-slide-in-content">' + category_wrappers + '</div></div>');
+        var top_padding = 34; // WP admin bar
+
+        if ($('.woocommerce-layout__header').length > 0) {
+          // WooCommerce header
+          top_padding += $('.woocommerce-layout__header').height();
+        }
+
+        $('body').append('<div id="anm-container-slide-in" style="background-color: ' + anm_i18n.settings.slide_in_background_colour + '; padding-top: ' + top_padding + 'px;"><div id="anm-slide-in-content">' + category_wrappers + '</div></div>');
         this.container = $('#anm-slide-in-content');
       }
 
@@ -98,13 +105,29 @@
         //	stop interval
         clearInterval(this.migration_interval);
         this.migration_interval = null;
-        this.CheckAndStoreNotices();
+        this.CheckAndStoreNotices(); // Some notices might be left if they are exempted.
+
+        var wrapper = $('.anm-notices-wrapper');
+
+        if (wrapper.children(this.getIgnoreSelector()).length > 0) {
+          wrapper.children().not(this.getIgnoreSelector()).remove();
+          wrapper.show();
+        }
       }
+    },
+    getIgnoreSelector: function getIgnoreSelector() {
+      var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+
+      if (anm_i18n.settings['css_selector'].length > 0) {
+        ignore_selector += ', ' + anm_i18n.settings['css_selector'];
+      }
+
+      return ignore_selector;
     },
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not('.hidden, .hide-if-js, .update-message, [aria-hidden="true"]'); //	filter out the system notices
+      var notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this4.system_messages.length;
@@ -319,4 +342,4 @@
     }
   };
   AdminNoticesManager.init();
-})(jQuery);
+})(jQuery, window);

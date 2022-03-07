@@ -1,25 +1,39 @@
 <?php
-
+/**
+ * Manager class for WordPress pointers.
+ *
+ * @package AdminNoticesManager
+ */
 
 namespace AdminNoticesManager;
 
-
 use function AdminNoticesManager\Core\script_url;
 
+/**
+ * Manages WordPress pointers.
+ */
 class PointersManager {
 
 	/**
-	 * @var string Plugin prefix to allow the pointers manager class to be used in different plugins.
+	 * Plugin prefix to allow the pointers manager class to be used in different plugins.
+	 *
+	 * @var string
 	 */
 	private $plugin_prefix;
 
 	/**
-	 * @var array[] Am array of already added pointer.
+	 * An array of already added pointer.
+	 *
+	 * @var array[]
 	 */
 	private $pointers;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param string $plugin_prefix Plugin prefix.
+	 */
 	public function __construct( $plugin_prefix ) {
-
 		$this->plugin_prefix = $plugin_prefix;
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_pointers' ), 1000 );
 		add_action( 'wp_ajax_wpws_dismiss_wp_pointer', array( $this, 'dismiss_wp_pointer' ) );
@@ -31,9 +45,8 @@ class PointersManager {
 	 * @since 3.2.4
 	 */
 	public function dismiss_wp_pointer() {
-
-		$pointer = sanitize_text_field( wp_unslash( $_POST['pointer'] ) );
-		if ( $pointer != sanitize_key( $pointer ) ) {
+		$pointer = sanitize_text_field( wp_unslash( $_POST['pointer'] ) ); // phpcs:ignore
+		if ( sanitize_key( $pointer ) !== $pointer ) {
 			wp_die( 0 );
 		}
 
@@ -49,6 +62,8 @@ class PointersManager {
 	}
 
 	/**
+	 * Checks if a pointer is already dismissed.
+	 *
 	 * @param string $pointer_id Pointer identifier.
 	 *
 	 * @return bool True if the pointer is already dismissed. False otherwise.
@@ -57,9 +72,16 @@ class PointersManager {
 	public static function is_dismissed( $pointer_id ) {
 		$dismissed = array_filter( explode( ',', (string) get_option( 'wpws-dismissed-pointers', '' ) ) );
 
-		return in_array( $pointer_id, $dismissed );
+		return in_array( $pointer_id, $dismissed, true );
 	}
 
+	/**
+	 * Add a pointer to the list.
+	 *
+	 * @param array $pointer Pointer data.
+	 *
+	 * @return false|void
+	 */
 	public function add_pointer( $pointer ) {
 
 		if (
@@ -72,7 +94,7 @@ class PointersManager {
 		}
 
 		if ( ! $this->pointers || ! is_array( $this->pointers ) ) {
-			$this->pointers = [];
+			$this->pointers = array();
 		}
 
 		$this->pointers[ $pointer['id'] ] = $pointer;
@@ -93,21 +115,25 @@ class PointersManager {
 
 		$valid_pointers = array();
 
-		//  check that current user should see the pointers
+		// Check that current user should see the pointers.
 		$eligible_user_id = intval( get_option( 'anm-plugin-installed-by-user-id', 1 ) );
-		if ( $eligible_user_id === 0 ) {
+		if ( 0 === $eligible_user_id ) {
 			$eligible_user_id = 1;
 		}
 
 		$current_user_id = get_current_user_id();
-		if ( $current_user_id === 0 || $current_user_id !== $eligible_user_id ) {
+		if ( 0 === $current_user_id || $current_user_id !== $eligible_user_id ) {
 			return;
 		}
 
 		// Check pointers and remove dismissed ones.
+		if ( empty( $this->pointers ) ) {
+			return;
+		}
+
 		foreach ( $this->pointers as $pointer_id => $pointer ) {
 
-			// don't display if already dismissed
+			// Don't display if already dismissed.
 			if ( self::is_dismissed( $pointer_id ) ) {
 				return;
 			}
@@ -132,7 +158,7 @@ class PointersManager {
 		wp_enqueue_script(
 			$script_handle,
 			script_url( 'pointer', 'admin' ),
-			[ 'wp-pointer' ],
+			array( 'wp-pointer' ),
 			ADMIN_NOTICES_MANAGER_VERSION,
 			true
 		);

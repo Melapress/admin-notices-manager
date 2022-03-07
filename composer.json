@@ -2,26 +2,39 @@
   "name": "wpwhitesecurity/admin-notices-manager",
   "description": "Admin Notices Manager",
   "authors": [
-    {
-      "name": "WP White Security",
-      "email": "info@wpwhitesecurity.com"
-    }
+	{
+	  "name": "WP White Security",
+	  "email": "info@wpwhitesecurity.com"
+	}
+  ],
+  "repositories": [
+	{
+	  "type": "vcs",
+	  "url": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity"
+	}
   ],
   "require": {
-    "php": ">=7.0"
+	"php": ">=7.0",
+	"wpwhitesecurity/select2-wpwhitesecurity": "v1.0.1"
   },
   "autoload": {
-    "psr-4": {
-      "AdminNoticesManager\\": "includes/classes/"
-    }
+	"psr-4": {
+	  "AdminNoticesManager\\": "includes/classes/"
+	}
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.2",
-    "10up/wp_mock": "dev-master",
-    "10up/phpcs-composer": "dev-master"
+	"phpunit/phpunit": "^8.2",
+	"10up/wp_mock": "dev-master",
+	"10up/phpcs-composer": "dev-master"
   },
   "scripts": {
-    "lint": "phpcs .",
-    "lint-fix": "phpcbf ."
+	"lint": "phpcs .",
+	"lint-fix": "phpcbf ."
+  },
+  "config": {
+	"platform-check": false,
+	"allow-plugins": {
+	  "dealerdirect/phpcodesniffer-composer-installer": true
+	}
   }
 }

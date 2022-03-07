@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit304e4e1b4bd9c34ebc34bb32b0515839
 {
+    public static $files = array (
+        'ed8f7d07f343dc9e7c5d31cc6cd4019b' => __DIR__ . '/..' . '/wpwhitesecurity/select2-wpwhitesecurity/load.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'A' => 
         array (
