@@ -5,8 +5,8 @@ License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: admin notices, hide admin notices, manage admin notices, notices, dashboard notices
 Requires at least: 5.0
-Tested up to: 5.8.3
-Stable tag: 1.2.0
+Tested up to: 5.9.1
+Stable tag: 1.3.0
 Requires PHP: 7.0
 
 Better manage admin notices & never miss important developer messages!
@@ -90,6 +90,24 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 5. Optionally, admin notices can also be shown in a pop-up window, from where you can mark them as read or permanently hide them.
 
 == Changelog ==
+
+= 1.3.0 (2022-03-08) =
+
+Release notes: [Admin Notices Manager 1.3: Better support for custom admin notices](https://www.wpwhitesecurity.com/anm-1-3-0/)
+
+* **New features & functionality**
+	* Capture and manage custom admin notices with a specific CSS Selector.
+	* Specify from which users to hide the admin notices.
+	
+* **Improvements**
+	* Improved PHP8 compatibility.
+	* Applied the WordPress Coding Standards to all plugin code.
+	* Tidied up the translation domain in the plugin's code.
+	* Improved the function that deletes the plugin data upon uninstall.
+	
+* **Bug fixes**
+	* Fixed: a conflict with the WP Mail SMTP plugin breaks the plugin's settings pages.
+	* Fixed: fatal error reported in plugin when use on some specific themes.
 
 = 1.2.0 (2021-08-10) =
 
