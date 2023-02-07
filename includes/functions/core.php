@@ -57,10 +57,6 @@ function init() {
 
 		// Check if the notices can be hidden for the currently logged-in user.
 		$notice_hiding_allowed = Settings::notice_hiding_allowed_for_current_user();
-		// Don't allow notice hiding on WP Mail SMTP admin pages.
-		if ( $notice_hiding_allowed && function_exists( 'wp_mail_smtp' ) && wp_mail_smtp()->get_admin()->is_admin_page() ) {
-			$notice_hiding_allowed = false;
-		}
 
 		new Notices( $notice_hiding_allowed );
 		new Pointer();
