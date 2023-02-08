@@ -114,6 +114,10 @@
 			}
 			return ignore_selector
 		},
+		getIgnoreParentSelector() {
+			let ignore_selector = '#loco-content';
+			return ignore_selector
+		},
 		transferNotices () {
 			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
 
@@ -125,6 +129,10 @@
 					if (notice.innerHTML.indexOf(systemMessage) > 0) {
 						$(notice).addClass('notice-system')
 					}
+				}
+				// Check if this notice resides in a known selector we should ignore.
+				if ( $( notice ).parent( this.getIgnoreParentSelector() ).length ) {
+					notices.splice(index,1)
 				}
 			})
 

@@ -124,6 +124,10 @@
 
       return ignore_selector;
     },
+    getIgnoreParentSelector: function getIgnoreParentSelector() {
+      var ignore_selector = '#loco-content';
+      return ignore_selector;
+    },
     transferNotices: function transferNotices() {
       var _this4 = this;
 
@@ -138,6 +142,11 @@
           if (notice.innerHTML.indexOf(systemMessage) > 0) {
             $(notice).addClass('notice-system');
           }
+        } // Check if this notice resides in a known selector we should ignore.
+
+
+        if ($(notice).parent(_this4.getIgnoreParentSelector()).length) {
+          notices.splice(index, 1);
         }
       });
       var notifications_count = 0;
