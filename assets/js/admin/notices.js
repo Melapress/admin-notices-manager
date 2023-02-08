@@ -165,23 +165,21 @@
 		},
 		updateCounterBubble (count) {
 
-			if ( 0 !== count ) {
-				if (0 < $('.anm-notification-counter').length) {
-					let counter_elm = $('.anm-notification-counter span.count')
-					counter_elm.html(count)
-				} else {
-					let title = anm_i18n.title
-					this.counter_link.find('a').html(title)
-					const bubble_html = '<div class="anm-notification-counter' +
-						' wp-core-ui wp-ui-notification">' +
-						'<span aria-hidden="true" class="count">' + count + '</span>' +
-						'<span class="screen-reader-text">' + count + ' ' + title + '</span>' +
-						'</div>'
+			if (0 < $('.anm-notification-counter').length) {
+				let counter_elm = $('.anm-notification-counter span.count')
+				counter_elm.html(count)
+			} else {
+				let title = anm_i18n.title
+				this.counter_link.find('a').html(title)
+				const bubble_html = '<div class="anm-notification-counter' +
+					' wp-core-ui wp-ui-notification">' +
+					'<span aria-hidden="true" class="count">' + count + '</span>' +
+					'<span class="screen-reader-text">' + count + ' ' + title + '</span>' +
+					'</div>'
 
-					this.counter_link.attr('data-popup-title', title)
-					this.counter_link.find('a').append(bubble_html)
-					this.counter_link.addClass('has-data')
-				}
+				this.counter_link.attr('data-popup-title', title)
+				this.counter_link.find('a').append(bubble_html)
+				this.counter_link.addClass('has-data')
 			}
 		},
 		adjustModalHeight () {
@@ -318,6 +316,8 @@
 				var itemHash = jQuery( this ).attr( 'data-hide-notice-forever' );
 				var itemToHide = jQuery( this ).closest( '.notice' );
 				let counter = $('.anm-notification-counter span.count').text();
+				console.log('A');
+				console.log(counter);
 				let _this2 = _this;
 				jQuery.ajax( {
 				  type: 'POST',
@@ -331,6 +331,8 @@
 				  complete: function( data ) {
 					itemToHide.slideUp();
 					var newCount = counter - 1;
+					console.log('B');
+					console.log(newCount);
 					_this2.updateCounterBubble( newCount );
 				  }
 				}, );

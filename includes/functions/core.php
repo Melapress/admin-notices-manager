@@ -28,6 +28,8 @@ function setup() {
 	add_action( 'admin_enqueue_scripts', $n( 'admin_scripts' ) );
 	add_action( 'admin_enqueue_scripts', $n( 'admin_styles' ) );
 
+	add_action( 'wp_ajax_anm_purge_notices', $n( 'purge_notices' ) );
+
 	do_action( 'admin_notices_manager_loaded' );
 }
 
@@ -294,6 +296,14 @@ function admin_scripts() {
 		)
 	);
 
+	wp_localize_script(
+		'admin_notices_manager_settings',
+		'anm_settings',
+		array(
+			'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+		)
+	);
+
 }
 
 /**
@@ -310,4 +320,17 @@ function admin_styles() {
 		ADMIN_NOTICES_MANAGER_VERSION
 	);
 
+}
+
+/**
+ * Simple functioon to clear hidden notices.
+ *
+ * @return void
+ */
+function purge_notices() {
+	if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'anm_purgce_notices_nonce' ) ) {
+		exit;
+	}   
+	update_option( 'anm-hidden-notices', array() );
+	wp_send_json_success();
 }

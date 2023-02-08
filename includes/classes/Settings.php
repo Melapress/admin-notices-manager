@@ -142,6 +142,20 @@ class Settings {
 							),
 						),
 					),
+					'purge'              => array(
+						'title'  => esc_html__( 'Restore hidden notices', 'admin-notices-manager' ),
+						'text'   => esc_html__( 'Clear currently hidden notices from database?', 'admin-notices-manager' ),
+						'fields' => array(
+							'purge_now'       => array(
+								'title' => esc_html__( 'Purge', 'admin-notices-manager' ),
+								'type'  => 'text',
+								'value' => '',
+								'custom'   => true,
+								'callback' => array( $this, 'render_purge_field' ),
+								'text'  => '',
+							),
+						),
+					),
 				),
 			),
 		);
@@ -289,6 +303,24 @@ class Settings {
 			$counter ++;
 		}
 		echo '</fieldset>';
+	}
+
+	/**
+	 * Renders custom user visibility field(s).
+	 *
+	 * @param array               $field        Field data.
+	 * @param string              $page_key     Settings page key.
+	 * @param string              $section_key  Settings section key.
+	 * @param string              $field_key    Field key.
+	 * @param RationalOptionPages $option_pages Rational option pages object.
+	 *
+	 * @since latest
+	 *
+	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+	 */
+	public function render_purge_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
+		$nonce = wp_create_nonce( 'anm_purgce_notices_nonce' );
+		echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ). '">' . esc_html__( 'Purge now', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
 	}
 
 	/**
