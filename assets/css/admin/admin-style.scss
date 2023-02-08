@@ -135,3 +135,17 @@
     display: block;
   }
 }
+
+#anm-notice-purged-text {
+  opacity: 0;
+  color: green;
+  display: inline-block;
+  font-size: 12px;
+  padding: 7px 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+#anm-notice-purged-text.visible {
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}

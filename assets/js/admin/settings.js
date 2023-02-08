@@ -16,4 +16,25 @@
 			.on( 'change', window.anm_settings.select_appropriate_radio );
 	};
 
+	jQuery( document ).on( 'click', '#anm-purge-btn', function ( e ) {
+		e.preventDefault();
+		var nonce = jQuery(this).attr('data-nonce');
+  
+		jQuery.ajax({
+		   type : "post",
+		   dataType : "json",
+		   url : anm_settings.ajaxurl,
+		   data : {
+			action: 'anm_purge_notices',
+			nonce: nonce
+		},
+		success: function(response) {
+			$( '#anm-notice-purged-text' ).not( '.visible' ).addClass('visible' );
+			setTimeout(function() { 
+				$('#anm-notice-purged-text.visible').removeClass('visible' );
+			}, 2000);
+		   }
+		})   
+	} );
+
 }( jQuery, window ) );
