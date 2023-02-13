@@ -153,6 +153,7 @@ class Settings {
 								'custom'   => true,
 								'callback' => array( $this, 'render_purge_field' ),
 								'text'  => '',
+								'sanitize' => false,
 							),
 						),
 					),
