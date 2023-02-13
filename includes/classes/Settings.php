@@ -34,9 +34,9 @@ class Settings {
 		}
 
 		$notice_handling_options = array(
-			'popup-only' => esc_html__( 'hide from the WordPress dashboard and show them in the plugin\'s popup', 'admin-notices-manager' ),
-			'hide'       => esc_html__( 'hide them completely (do not show in the WordPress dashboard or in the plugin\'s popup)', 'admin-notices-manager' ),
-			'leave'      => esc_html__( 'do not do anything (they will appear on the WordPress dashboard as per usual)', 'admin-notices-manager' ),
+			'popup-only' => esc_html__( 'Hide from the WordPress dashboard and show them in the plugin\'s popup', 'admin-notices-manager' ),
+			'hide'       => esc_html__( 'Hide them completely (do not show in the WordPress dashboard or in the plugin\'s popup)', 'admin-notices-manager' ),
+			'leave'      => esc_html__( 'Do not do anything (they will appear on the WordPress dashboard as per usual)', 'admin-notices-manager' ),
 		);
 
 		$system_notices_options = $notice_handling_options;
