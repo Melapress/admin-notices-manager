@@ -149,3 +149,7 @@
   opacity: 1;
   transition: all 0.2s ease-in-out;
 }
+
+.settings_page_admin_notices_settings #setting-error-settings_updated + #setting-error-settings_updated {
+  display: none;
+}

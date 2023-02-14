@@ -115,7 +115,7 @@
 			return ignore_selector
 		},
 		getIgnoreParentSelector() {
-			let ignore_selector = '#loco-contentm, #loco-main, #loco-del';
+			let ignore_selector = '#loco-content';
 			return ignore_selector
 		},
 		transferNotices () {
@@ -131,7 +131,7 @@
 					}
 				}
 				// Check if this notice resides in a known selector we should ignore.
-				if ( $( notice ).parent( this.getIgnoreParentSelector() ).length ) {
+				if ( $( notice ).parent( this.getIgnoreParentSelector() ).length ||  $( notice ).parent().parent( this.getIgnoreParentSelector() ).length ) {
 					notices.splice(index,1)
 				}
 			})

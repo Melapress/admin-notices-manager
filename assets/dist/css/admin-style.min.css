@@ -20,5 +20,6 @@
 #anm-system-notices .notice-addon-available,#anm-error-notices .notice-addon-available,#anm-warning-notices .notice-addon-available,#anm-success-notices .notice-addon-available,#anm-information-notices .notice-addon-available{display:block}
 #anm-notice-purged-text{opacity:0;color:green;display:inline-block;font-size:12px;padding:7px 12px;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
 #anm-notice-purged-text.visible{opacity:1;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
+.settings_page_admin_notices_settings #setting-error-settings_updated+#setting-error-settings_updated{display:none}
 @media all and (max-width:540px){#anm-container-slide-in{right:-330px;width:330px}
 }
