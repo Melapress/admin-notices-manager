@@ -115,7 +115,7 @@
 			return ignore_selector
 		},
 		getIgnoreParentSelector() {
-			let ignore_selector = '#loco-content';
+			let ignore_selector = '#loco-contentm, #loco-main, #loco-del';
 			return ignore_selector
 		},
 		transferNotices () {
