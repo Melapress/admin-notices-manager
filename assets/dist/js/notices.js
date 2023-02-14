@@ -125,7 +125,7 @@
       return ignore_selector;
     },
     getIgnoreParentSelector: function getIgnoreParentSelector() {
-      var ignore_selector = '#loco-contentm, #loco-main, #loco-del';
+      var ignore_selector = '#loco-content';
       return ignore_selector;
     },
     transferNotices: function transferNotices() {
@@ -145,7 +145,7 @@
         } // Check if this notice resides in a known selector we should ignore.
 
 
-        if ($(notice).parent(_this4.getIgnoreParentSelector()).length) {
+        if ($(notice).parent(_this4.getIgnoreParentSelector()).length || $(notice).parent().parent(_this4.getIgnoreParentSelector()).length) {
           notices.splice(index, 1);
         }
       });
