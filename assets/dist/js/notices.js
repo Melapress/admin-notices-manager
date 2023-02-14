@@ -125,7 +125,7 @@
       return ignore_selector;
     },
     getIgnoreParentSelector: function getIgnoreParentSelector() {
-      var ignore_selector = '#loco-content';
+      var ignore_selector = '#loco-contentm, #loco-main, #loco-del';
       return ignore_selector;
     },
     transferNotices: function transferNotices() {
@@ -328,8 +328,6 @@
         var itemHash = jQuery(this).attr('data-hide-notice-forever');
         var itemToHide = jQuery(this).closest('.notice');
         var counter = $('.anm-notification-counter span.count').text();
-        console.log('A');
-        console.log(counter);
         var _this2 = _this;
         jQuery.ajax({
           type: 'POST',
@@ -343,8 +341,6 @@
           complete: function complete(data) {
             itemToHide.slideUp();
             var newCount = counter - 1;
-            console.log('B');
-            console.log(newCount);
 
             _this2.updateCounterBubble(newCount);
           }

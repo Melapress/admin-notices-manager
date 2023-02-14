@@ -115,7 +115,7 @@
 			return ignore_selector
 		},
 		getIgnoreParentSelector() {
-			let ignore_selector = '#loco-content';
+			let ignore_selector = '#loco-contentm, #loco-main, #loco-del';
 			return ignore_selector
 		},
 		transferNotices () {
@@ -316,8 +316,6 @@
 				var itemHash = jQuery( this ).attr( 'data-hide-notice-forever' );
 				var itemToHide = jQuery( this ).closest( '.notice' );
 				let counter = $('.anm-notification-counter span.count').text();
-				console.log('A');
-				console.log(counter);
 				let _this2 = _this;
 				jQuery.ajax( {
 				  type: 'POST',
@@ -331,8 +329,6 @@
 				  complete: function( data ) {
 					itemToHide.slideUp();
 					var newCount = counter - 1;
-					console.log('B');
-					console.log(newCount);
 					_this2.updateCounterBubble( newCount );
 				  }
 				}, );
