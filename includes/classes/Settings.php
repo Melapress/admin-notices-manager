@@ -34,9 +34,9 @@ class Settings {
 		}
 
 		$notice_handling_options = array(
-			'popup-only' => esc_html__( 'hide from the WordPress dashboard and show them in the plugin\'s popup', 'admin-notices-manager' ),
-			'hide'       => esc_html__( 'hide them completely (do not show in the WordPress dashboard or in the plugin\'s popup)', 'admin-notices-manager' ),
-			'leave'      => esc_html__( 'do not do anything (they will appear on the WordPress dashboard as per usual)', 'admin-notices-manager' ),
+			'popup-only' => esc_html__( 'Hide from the WordPress dashboard and show them in the plugin\'s popup', 'admin-notices-manager' ),
+			'hide'       => esc_html__( 'Hide them completely (do not show in the WordPress dashboard or in the plugin\'s popup)', 'admin-notices-manager' ),
+			'leave'      => esc_html__( 'Do not do anything (they will appear on the WordPress dashboard as per usual)', 'admin-notices-manager' ),
 		);
 
 		$system_notices_options = $notice_handling_options;
@@ -139,6 +139,21 @@ class Settings {
 								'title' => esc_html__( 'Slide in background colour', 'admin-notices-manager' ),
 								'type'  => 'color',
 								'value' => array_key_exists( 'popup-style', $options ) ? $options['popup-style'] : '#1d2327',
+							),
+						),
+					),
+					'purge'              => array(
+						'title'  => esc_html__( 'Restore hidden notices', 'admin-notices-manager' ),
+						'text'   => esc_html__( 'Clear currently hidden notices from database?', 'admin-notices-manager' ),
+						'fields' => array(
+							'purge_now'       => array(
+								'title' => esc_html__( 'Purge', 'admin-notices-manager' ),
+								'type'  => 'text',
+								'value' => '',
+								'custom'   => true,
+								'callback' => array( $this, 'render_purge_field' ),
+								'text'  => '',
+								'sanitize' => false,
 							),
 						),
 					),
@@ -289,6 +304,24 @@ class Settings {
 			$counter ++;
 		}
 		echo '</fieldset>';
+	}
+
+	/**
+	 * Renders custom user visibility field(s).
+	 *
+	 * @param array               $field        Field data.
+	 * @param string              $page_key     Settings page key.
+	 * @param string              $section_key  Settings section key.
+	 * @param string              $field_key    Field key.
+	 * @param RationalOptionPages $option_pages Rational option pages object.
+	 *
+	 * @since latest
+	 *
+	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+	 */
+	public function render_purge_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
+		$nonce = wp_create_nonce( 'anm_purgce_notices_nonce' );
+		echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ). '">' . esc_html__( 'Purge now', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
 	}
 
 	/**

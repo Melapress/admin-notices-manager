@@ -5,7 +5,7 @@
  * Description: Better manage admin notices & never miss an important WordPress and developer message.
  * Author: WP White Security
  * Author URI: https://www.wpwhitesecurity.com/
- * Version: 1.3.0
+ * Version: 1.4.0
  * Text Domain: admin-notices-manager
  * Domain Path: /languages
  * License: GPL2
@@ -15,7 +15,7 @@
 
 /*
 	Admin Notices Manager
-	Copyright(c) 2021  WP White Security  (email : info@wpwhitesecurity.com)
+	Copyright(c) 2022  WP White Security  (email : info@wpwhitesecurity.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -33,7 +33,7 @@
 
 // Useful global constants.
 if ( ! defined( 'ADMIN_NOTICES_MANAGER_VERSION' ) ) {
-	define( 'ADMIN_NOTICES_MANAGER_VERSION', '1.3.0' );
+	define( 'ADMIN_NOTICES_MANAGER_VERSION', '1.4.0' );
 	define( 'ADMIN_NOTICES_MANAGER_URL', plugin_dir_url( __FILE__ ) );
 	define( 'ADMIN_NOTICES_MANAGER_PATH', plugin_dir_path( __FILE__ ) );
 	define( 'ADMIN_NOTICES_MANAGER_INC', ADMIN_NOTICES_MANAGER_PATH . 'includes/' );

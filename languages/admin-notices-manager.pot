@@ -1,4 +1,4 @@
-# Copyright (C) 2022 AdminNoticesManager
+# Copyright (C) 2023 AdminNoticesManager
 # This file is distributed under the same license as the AdminNoticesManager package.
 msgid ""
 msgstr ""
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/classes/Notices.php:66, includes/functions/core.php:292
+#: includes/classes/Notices.php:66, includes/functions/core.php:290
 msgid "No admin notices"
 msgstr ""
 
@@ -37,15 +37,15 @@ msgid "Configure how the plugin handles different types of admin notices from th
 msgstr ""
 
 #: includes/classes/Settings.php:37
-msgid "hide from the WordPress dashboard and show them in the plugin's popup"
+msgid "Hide from the WordPress dashboard and show them in the plugin's popup"
 msgstr ""
 
 #: includes/classes/Settings.php:38
-msgid "hide them completely (do not show in the WordPress dashboard or in the plugin's popup)"
+msgid "Hide them completely (do not show in the WordPress dashboard or in the plugin's popup)"
 msgstr ""
 
 #: includes/classes/Settings.php:39
-msgid "do not do anything (they will appear on the WordPress dashboard as per usual)"
+msgid "Do not do anything (they will appear on the WordPress dashboard as per usual)"
 msgstr ""
 
 #: includes/classes/Settings.php:46
@@ -152,14 +152,34 @@ msgstr ""
 msgid "Slide in background colour"
 msgstr ""
 
-#: includes/classes/Settings.php:309
+#: includes/classes/Settings.php:146
+msgid "Restore hidden notices"
+msgstr ""
+
+#: includes/classes/Settings.php:147
+msgid "Clear currently hidden notices from database?"
+msgstr ""
+
+#: includes/classes/Settings.php:150
+msgid "Purge"
+msgstr ""
+
+#: includes/classes/Settings.php:324
+msgid "Purge now"
+msgstr ""
+
+#: includes/classes/Settings.php:324
+msgid "Notices restored"
+msgstr ""
+
+#: includes/classes/Settings.php:342
 msgid "select user(s)"
 msgstr ""
 
-#: includes/functions/core.php:291
+#: includes/functions/core.php:289
 msgid "Admin notices"
 msgstr ""
 
-#: includes/functions/core.php:293
+#: includes/functions/core.php:291
 msgid "First logged: "
 msgstr ""

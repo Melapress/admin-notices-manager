@@ -124,6 +124,10 @@
 
       return ignore_selector;
     },
+    getIgnoreParentSelector: function getIgnoreParentSelector() {
+      var ignore_selector = '#loco-content';
+      return ignore_selector;
+    },
     transferNotices: function transferNotices() {
       var _this4 = this;
 
@@ -138,6 +142,11 @@
           if (notice.innerHTML.indexOf(systemMessage) > 0) {
             $(notice).addClass('notice-system');
           }
+        } // Check if this notice resides in a known selector we should ignore.
+
+
+        if ($(notice).parent(_this4.getIgnoreParentSelector()).length || $(notice).parent().parent(_this4.getIgnoreParentSelector()).length) {
+          notices.splice(index, 1);
         }
       });
       var notifications_count = 0;
@@ -168,18 +177,16 @@
       this.checkMigrationInterval();
     },
     updateCounterBubble: function updateCounterBubble(count) {
-      if (0 !== count) {
-        if (0 < $('.anm-notification-counter').length) {
-          var counter_elm = $('.anm-notification-counter span.count');
-          counter_elm.html(count);
-        } else {
-          var title = anm_i18n.title;
-          this.counter_link.find('a').html(title);
-          var bubble_html = '<div class="anm-notification-counter' + ' wp-core-ui wp-ui-notification">' + '<span aria-hidden="true" class="count">' + count + '</span>' + '<span class="screen-reader-text">' + count + ' ' + title + '</span>' + '</div>';
-          this.counter_link.attr('data-popup-title', title);
-          this.counter_link.find('a').append(bubble_html);
-          this.counter_link.addClass('has-data');
-        }
+      if (0 < $('.anm-notification-counter').length) {
+        var counter_elm = $('.anm-notification-counter span.count');
+        counter_elm.html(count);
+      } else {
+        var title = anm_i18n.title;
+        this.counter_link.find('a').html(title);
+        var bubble_html = '<div class="anm-notification-counter' + ' wp-core-ui wp-ui-notification">' + '<span aria-hidden="true" class="count">' + count + '</span>' + '<span class="screen-reader-text">' + count + ' ' + title + '</span>' + '</div>';
+        this.counter_link.attr('data-popup-title', title);
+        this.counter_link.find('a').append(bubble_html);
+        this.counter_link.addClass('has-data');
       }
     },
     adjustModalHeight: function adjustModalHeight() {

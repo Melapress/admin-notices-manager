@@ -114,6 +114,10 @@
 			}
 			return ignore_selector
 		},
+		getIgnoreParentSelector() {
+			let ignore_selector = '#loco-content';
+			return ignore_selector
+		},
 		transferNotices () {
 			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
 
@@ -125,6 +129,10 @@
 					if (notice.innerHTML.indexOf(systemMessage) > 0) {
 						$(notice).addClass('notice-system')
 					}
+				}
+				// Check if this notice resides in a known selector we should ignore.
+				if ( $( notice ).parent( this.getIgnoreParentSelector() ).length ||  $( notice ).parent().parent( this.getIgnoreParentSelector() ).length ) {
+					notices.splice(index,1)
 				}
 			})
 
@@ -156,24 +164,21 @@
 			this.checkMigrationInterval()
 		},
 		updateCounterBubble (count) {
+			if (0 < $('.anm-notification-counter').length) {
+				let counter_elm = $('.anm-notification-counter span.count')
+				counter_elm.html(count)
+			} else {
+				let title = anm_i18n.title
+				this.counter_link.find('a').html(title)
+				const bubble_html = '<div class="anm-notification-counter' +
+					' wp-core-ui wp-ui-notification">' +
+					'<span aria-hidden="true" class="count">' + count + '</span>' +
+					'<span class="screen-reader-text">' + count + ' ' + title + '</span>' +
+					'</div>'
 
-			if ( 0 !== count ) {
-				if (0 < $('.anm-notification-counter').length) {
-					let counter_elm = $('.anm-notification-counter span.count')
-					counter_elm.html(count)
-				} else {
-					let title = anm_i18n.title
-					this.counter_link.find('a').html(title)
-					const bubble_html = '<div class="anm-notification-counter' +
-						' wp-core-ui wp-ui-notification">' +
-						'<span aria-hidden="true" class="count">' + count + '</span>' +
-						'<span class="screen-reader-text">' + count + ' ' + title + '</span>' +
-						'</div>'
-
-					this.counter_link.attr('data-popup-title', title)
-					this.counter_link.find('a').append(bubble_html)
-					this.counter_link.addClass('has-data')
-				}
+				this.counter_link.attr('data-popup-title', title)
+				this.counter_link.find('a').append(bubble_html)
+				this.counter_link.addClass('has-data')
 			}
 		},
 		adjustModalHeight () {
