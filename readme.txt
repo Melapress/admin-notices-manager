@@ -94,7 +94,7 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 = 1.4.0 (2023-02-15) =
 
 * **New features & functionality**
-	* Hidden notices can now be purged from within our settings.
+	* Hidden notices can now be purged from within the plugin settings.
 	
 * **Improvements**
 	* Various UI tweaks.
