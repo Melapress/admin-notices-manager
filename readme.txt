@@ -9,7 +9,6 @@ Tested up to: 6.1.1
 Stable tag: 1.4.0
 Requires PHP: 7.2.0
 
-
 Better manage admin notices & never miss important developer messages!
 
 == Description ==
