@@ -92,6 +92,18 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 
 == Changelog ==
 
+= 1.4.0 (2023-02-15) =
+
+* **New features & functionality**
+	* Hidden notices can now be purged from within our settings.
+	
+* **Improvements**
+	* Various UI tweaks.
+	* Improved support for 3rd-party plugins.
+	
+* **Bug fixes**
+	* Fixed: a conflict with the Loco Translate caused by use of 'notice' css classes.
+
 = 1.3.0 (2022-03-08) =
 
 Release notes: [Admin Notices Manager 1.3: Better support for custom admin notices](https://www.wpwhitesecurity.com/anm-1-3-0/)
