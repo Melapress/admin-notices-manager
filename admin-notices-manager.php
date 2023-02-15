@@ -8,6 +8,8 @@
  * Version: 1.4.0
  * Text Domain: admin-notices-manager
  * Domain Path: /languages
+ * Requires at least: 5.0
+ * Requires PHP: 7.2
  * License: GPL2
  *
  * @package AdminNoticesManager
