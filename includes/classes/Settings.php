@@ -143,11 +143,11 @@ class Settings {
 						),
 					),
 					'purge'              => array(
-						'title'  => esc_html__( 'Restore hidden notices', 'admin-notices-manager' ),
-						'text'   => esc_html__( 'Clear currently hidden notices from database?', 'admin-notices-manager' ),
+						'title'  => esc_html__( 'Restore hidden admin notices', 'admin-notices-manager' ),
+						'text'   => esc_html__( 'Reset the current list of hidden admin notices from the database so they are displayed again.', 'admin-notices-manager' ),
 						'fields' => array(
 							'purge_now'       => array(
-								'title' => esc_html__( 'Purge', 'admin-notices-manager' ),
+								'title' => esc_html__( 'Reset list now', 'admin-notices-manager' ),
 								'type'  => 'text',
 								'value' => '',
 								'custom'   => true,
@@ -321,7 +321,7 @@ class Settings {
 	 */
 	public function render_purge_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
 		$nonce = wp_create_nonce( 'anm_purgce_notices_nonce' );
-		echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ). '">' . esc_html__( 'Purge now', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
+		echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ). '">' . esc_html__( 'Reset', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
 	}
 
 	/**
