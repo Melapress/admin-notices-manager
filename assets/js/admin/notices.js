@@ -164,7 +164,6 @@
 			this.checkMigrationInterval()
 		},
 		updateCounterBubble (count) {
-
 			if (0 < $('.anm-notification-counter').length) {
 				let counter_elm = $('.anm-notification-counter span.count')
 				counter_elm.html(count)
