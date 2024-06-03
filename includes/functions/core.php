@@ -11,7 +11,6 @@ namespace AdminNoticesManager\Core;
 use AdminNoticesManager\Notices;
 use AdminNoticesManager\Pointer;
 use AdminNoticesManager\Settings;
-use \WP_Error as WP_Error;
 
 /**
  * Default setup routine
@@ -60,8 +59,9 @@ function init() {
 		// Check if the notices can be hidden for the currently logged-in user.
 		$notice_hiding_allowed = Settings::notice_hiding_allowed_for_current_user();
 
-		new Notices( $notice_hiding_allowed );
-		new Pointer();
+		Notices::init( $notice_hiding_allowed );
+		Pointer::init();
+
 		new Settings();
 	}
 

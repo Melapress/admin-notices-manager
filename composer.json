@@ -20,7 +20,10 @@
   "autoload": {
 	"psr-4": {
 	  "AdminNoticesManager\\": "includes/classes/"
-	}
+	},
+	"classmap": [
+		"includes/classes/"
+	]
   },
   "scripts": {
 	"lint": "phpcs .",

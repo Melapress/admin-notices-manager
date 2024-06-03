@@ -15,6 +15,11 @@
  * @package AdminNoticesManager
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
 /*
 	Admin Notices Manager
 	Copyright(c) 2022  WP White Security  (email : info@wpwhitesecurity.com)
@@ -41,6 +46,11 @@ if ( ! defined( 'ADMIN_NOTICES_MANAGER_VERSION' ) ) {
 	define( 'ADMIN_NOTICES_MANAGER_INC', ADMIN_NOTICES_MANAGER_PATH . 'includes/' );
 }
 
+// Require Composer autoloader if it exists.
+if ( file_exists( ADMIN_NOTICES_MANAGER_PATH . '/vendor/autoload.php' ) ) {
+	require_once ADMIN_NOTICES_MANAGER_PATH . 'vendor/autoload.php';
+}
+
 // Include files.
 require_once ADMIN_NOTICES_MANAGER_INC . 'functions/core.php';
 
@@ -48,10 +58,6 @@ require_once ADMIN_NOTICES_MANAGER_INC . 'functions/core.php';
 \register_activation_hook( __FILE__, '\AdminNoticesManager\Core\activate' );
 \register_deactivation_hook( __FILE__, '\AdminNoticesManager\Core\deactivate' );
 
-// Require Composer autoloader if it exists.
-if ( file_exists( ADMIN_NOTICES_MANAGER_PATH . '/vendor/autoload.php' ) ) {
-	require_once ADMIN_NOTICES_MANAGER_PATH . 'vendor/autoload.php';
-}
 
 // Bootstrap.
 AdminNoticesManager\Core\setup();
