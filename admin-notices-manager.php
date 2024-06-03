@@ -36,8 +36,8 @@
 // Useful global constants.
 if ( ! defined( 'ADMIN_NOTICES_MANAGER_VERSION' ) ) {
 	define( 'ADMIN_NOTICES_MANAGER_VERSION', '1.4.0' );
-	define( 'ADMIN_NOTICES_MANAGER_URL', plugin_dir_url( __FILE__ ) );
-	define( 'ADMIN_NOTICES_MANAGER_PATH', plugin_dir_path( __FILE__ ) );
+	define( 'ADMIN_NOTICES_MANAGER_URL', \plugin_dir_url( __FILE__ ) );
+	define( 'ADMIN_NOTICES_MANAGER_PATH', \plugin_dir_path( __FILE__ ) );
 	define( 'ADMIN_NOTICES_MANAGER_INC', ADMIN_NOTICES_MANAGER_PATH . 'includes/' );
 }
 
@@ -45,8 +45,8 @@ if ( ! defined( 'ADMIN_NOTICES_MANAGER_VERSION' ) ) {
 require_once ADMIN_NOTICES_MANAGER_INC . 'functions/core.php';
 
 // Activation/Deactivation.
-register_activation_hook( __FILE__, '\AdminNoticesManager\Core\activate' );
-register_deactivation_hook( __FILE__, '\AdminNoticesManager\Core\deactivate' );
+\register_activation_hook( __FILE__, '\AdminNoticesManager\Core\activate' );
+\register_deactivation_hook( __FILE__, '\AdminNoticesManager\Core\deactivate' );
 
 // Require Composer autoloader if it exists.
 if ( file_exists( ADMIN_NOTICES_MANAGER_PATH . '/vendor/autoload.php' ) ) {
