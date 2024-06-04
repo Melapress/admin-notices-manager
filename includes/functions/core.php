@@ -9,8 +9,9 @@
 namespace AdminNoticesManager\Core;
 
 use AdminNoticesManager\Notices;
-use AdminNoticesManager\Pointer;
+use AdminNoticesManager\Pointers;
 use AdminNoticesManager\Settings;
+use AdminNoticesManager\Select2_WPWS;
 
 /**
  * Default setup routine
@@ -22,14 +23,14 @@ function setup() {
 		return __NAMESPACE__ . "\\$function";
 	};
 
-	add_action( 'init', $n( 'i18n' ) );
-	add_action( 'init', $n( 'init' ) );
-	add_action( 'admin_enqueue_scripts', $n( 'admin_scripts' ) );
-	add_action( 'admin_enqueue_scripts', $n( 'admin_styles' ) );
+	\add_action( 'init', $n( 'i18n' ) );
+	\add_action( 'init', $n( 'init' ) );
+	\add_action( 'admin_enqueue_scripts', $n( 'admin_scripts' ) );
+	\add_action( 'admin_enqueue_scripts', $n( 'admin_styles' ) );
 
-	add_action( 'wp_ajax_anm_purge_notices', $n( 'purge_notices' ) );
+	\add_action( 'wp_ajax_anm_purge_notices', $n( 'purge_notices' ) );
 
-	do_action( 'admin_notices_manager_loaded' );
+	\do_action( 'admin_notices_manager_loaded' );
 }
 
 /**
@@ -52,17 +53,17 @@ function init() {
 
 	if ( is_admin() ) {
 
-		if ( class_exists( '\S24WP' ) ) {
-			\S24WP::init( ADMIN_NOTICES_MANAGER_URL . 'vendor/wpwhitesecurity/select2-wpwhitesecurity' );
+		if ( class_exists( Select2_WPWS::class ) ) {
+			Select2_WPWS::init( ADMIN_NOTICES_MANAGER_URL . 'includes/classes/vendor/Select2' );
 		}
 
 		// Check if the notices can be hidden for the currently logged-in user.
 		$notice_hiding_allowed = Settings::notice_hiding_allowed_for_current_user();
 
 		Notices::init( $notice_hiding_allowed );
-		Pointer::init();
+		Pointers::init();
 
-		new Settings();
+		Settings::init();
 	}
 
 	do_action( 'admin_notices_manager_init' );

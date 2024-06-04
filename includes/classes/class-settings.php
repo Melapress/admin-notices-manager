@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace AdminNoticesManager;
 
+use AdminNoticesManager\Select2_WPWS;
 use AdminNoticesManager\Rational_Option_Pages;
 
 if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
@@ -28,9 +29,18 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		private static $option_name = 'anm_settings';
 
 		/**
+		 * Holds the array with the plugin options
+		 *
+		 * @var array
+		 *
+		 * @since latest
+		 */
+		private static $options = array();
+
+		/**
 		 * Settings constructor.
 		 */
-		public function __construct() {
+		public static function init() {
 
 			$options = self::get_settings();
 
@@ -115,7 +125,7 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 									'title'    => esc_html__( 'Visibility', 'admin-notices-manager' ),
 									'type'     => 'radio',
 									'custom'   => true,
-									'callback' => array( $this, 'render_user_visibility_field' ),
+									'callback' => array( __CLASS__, 'render_user_visibility_field' ),
 									'value'    => array_key_exists( 'user-visibility', $options ) ? $options['user-visibility'] : 'all',
 									'choices'  => array(
 										'all' => esc_html__( 'Hide notifications from all users', 'admin-notices-manager' ),
@@ -152,7 +162,7 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 									'type'     => 'text',
 									'value'    => '',
 									'custom'   => true,
-									'callback' => array( $this, 'render_purge_field' ),
+									'callback' => array( __CLASS__, 'render_purge_field' ),
 									'text'     => '',
 									'sanitize' => false,
 								),
@@ -240,8 +250,8 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		 *
 		 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		 */
-		public function render_user_visibility_field( $field, $page_key = '', $section_key = '', $field_key = '', $option_pages = '' ) {
-			if ( ! class_exists( '\S24WP' ) ) {
+		public static function render_user_visibility_field( $field, $page_key = '', $section_key = '', $field_key = '', $option_pages = '' ) {
+			if ( ! class_exists( Select2_WPWS::class, false ) ) {
 				return;
 			}
 
@@ -253,8 +263,8 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 			$counter = 0;
 			foreach ( $field['choices'] as $value => $label ) {
 				$checked = 0 === strlen( $value ) || $value === $field['value'];
-				if ( isset( $this->options[ $field['id'] ] ) ) {
-					$checked = $value === $this->options[ $field['id'] ];
+				if ( isset( self::$options[ $field['id'] ] ) ) {
+					$checked = $value === self::$options[ $field['id'] ];
 				}
 
 				if ( is_null( $field['value'] ) && 'all' === $value ) {
@@ -280,8 +290,8 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 				}
 
 				if ( 'hide-for-selected' === $value ) {
-					\S24WP::insert(
-						$this->build_user_select_params(
+					Select2_WPWS::insert(
+						self::build_user_select_params(
 							$options,
 							$field_name,
 							$field,
@@ -290,8 +300,8 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 						)
 					);
 				} elseif ( 'show-for-selected' === $value ) {
-					\S24WP::insert(
-						$this->build_user_select_params(
+					Select2_WPWS::insert(
+						self::build_user_select_params(
 							$options,
 							$field_name,
 							$field,
@@ -320,7 +330,7 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		 *
 		 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		 */
-		public function render_purge_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
+		public static function render_purge_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
 			$nonce = wp_create_nonce( 'anm_purgce_notices_nonce' );
 			echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ) . '">' . esc_html__( 'Reset', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
 		}
@@ -338,7 +348,7 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		 *
 		 * @since latest.
 		 */
-		private function build_user_select_params( $options, $field_name, $field, $checked, $option_value ) {
+		private static function build_user_select_params( $options, $field_name, $field, $checked, $option_value ) {
 			$result = array(
 				'placeholder'       => esc_html__( 'select user(s)', 'admin-notices-manager' ),
 				'name'              => $field_name . '[' . $option_value . '][]',

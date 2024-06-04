@@ -39,6 +39,8 @@ FLAG="$GITPOD_REPO_ROOT/bin/install-dependencies.sh"
 # search the flag file
 if [ -f $FLAG ]; then
  /bin/bash $FLAG
+else
+ composer update --no-dev
 fi
 
 FLAG="$GITPOD_REPO_ROOT/bin/set-assets.sh"
