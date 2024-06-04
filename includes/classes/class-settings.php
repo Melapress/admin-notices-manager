@@ -212,7 +212,6 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 				return false;
 			}
 
-			// phpcs:disable WordPress.PHP.StrictInArray
 			$settings = self::get_settings();
 			if ( ! array_key_exists( 'visibility', $settings ) || ! array_key_exists( 'choice', $settings['visibility'] ) ) {
 				return true;
@@ -225,14 +224,14 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 			if ( 'hide-for-selected' === $settings['visibility']['choice']
 			&& array_key_exists( 'hide-users', $settings['visibility'] )
 			&& is_array( $settings['visibility']['hide-users'] )
-			&& ! in_array( get_current_user_id(), $settings['visibility']['hide-users'] ) ) {
+			&& in_array( get_current_user_id(), $settings['visibility']['hide-users'] ) ) {
 				return false;
 			}
 
 			if ( 'show-for-selected' === $settings['visibility']['choice']
 			&& array_key_exists( 'show-users', $settings['visibility'] )
 			&& is_array( $settings['visibility']['show-users'] )
-			&& in_array( get_current_user_id(), $settings['visibility']['show-users'] ) ) {
+			&& ! in_array( get_current_user_id(), $settings['visibility']['show-users'] ) ) {
 				return false;
 			}
 
