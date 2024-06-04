@@ -42,14 +42,6 @@ Thumbs.db
 **/.sass-cache/*
 **/.map
 
-# Composer #
-##########
-!assets/js/vendor/
-wpcs/
-vendor
-!vendor/composer
-!vendor/*.php
-
 # Bower #
 ##########
 assets/bower_components/*
@@ -72,3 +64,43 @@ assets/bower_components/*
 ##########
 assets/img/.DS_Store
 .vscode/
+
+node_modules
+bower_components
+release
+third-party/*
+vendor/*
+builds/*
+php-scoper/vendor/*
+dist/*
+.idea
+*.log
+
+# Editors
+*.esproj
+*.tmproj
+*.tmproject
+tmtags
+.*.sw[a-z]
+*.un~
+Session.vim
+*.swp
+
+# Mac OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+.vscode/launch.json
+
+/tests/_support/_generated/
+/.wp-install/
+/.env
+
+/testing/
+
+composer\.lock

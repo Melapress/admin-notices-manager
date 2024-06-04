@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Admin Notices Manager
- * Plugin URI: https://www.wpwhitesecurity.com/
+ * Plugin URI: https://melapress.com/
  * Description: Better manage admin notices & never miss an important WordPress and developer message.
- * Author: WP White Security
- * Author URI: https://www.wpwhitesecurity.com/
- * Version: 1.4.0
+ * Author: Melapress
+ * Author URI: https://melapress.com/
+ * Version: 1.5.0
  * Text Domain: admin-notices-manager
  * Domain Path: /languages
  * Requires at least: 5.0
@@ -15,9 +15,13 @@
  * @package AdminNoticesManager
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /*
 	Admin Notices Manager
-	Copyright(c) 2022  WP White Security  (email : info@wpwhitesecurity.com)
+	Copyright(c) 2022  Melapress (email : info@melapress.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -35,23 +39,25 @@
 
 // Useful global constants.
 if ( ! defined( 'ADMIN_NOTICES_MANAGER_VERSION' ) ) {
-	define( 'ADMIN_NOTICES_MANAGER_VERSION', '1.4.0' );
-	define( 'ADMIN_NOTICES_MANAGER_URL', plugin_dir_url( __FILE__ ) );
-	define( 'ADMIN_NOTICES_MANAGER_PATH', plugin_dir_path( __FILE__ ) );
+	define( 'ADMIN_NOTICES_MANAGER_VERSION', '1.5.0' );
+	define( 'ADMIN_NOTICES_MANAGER_URL', \plugin_dir_url( __FILE__ ) );
+	define( 'ADMIN_NOTICES_MANAGER_PATH', \plugin_dir_path( __FILE__ ) );
 	define( 'ADMIN_NOTICES_MANAGER_INC', ADMIN_NOTICES_MANAGER_PATH . 'includes/' );
+	define( 'ADMIN_NOTICES_BASENAME', \plugin_basename( __FILE__ ) );
+}
+
+// Require Composer autoloader if it exists.
+if ( file_exists( ADMIN_NOTICES_MANAGER_PATH . '/vendor/autoload.php' ) ) {
+	require_once ADMIN_NOTICES_MANAGER_PATH . 'vendor/autoload.php';
 }
 
 // Include files.
 require_once ADMIN_NOTICES_MANAGER_INC . 'functions/core.php';
 
 // Activation/Deactivation.
-register_activation_hook( __FILE__, '\AdminNoticesManager\Core\activate' );
-register_deactivation_hook( __FILE__, '\AdminNoticesManager\Core\deactivate' );
+\register_activation_hook( __FILE__, '\AdminNoticesManager\Core\activate' );
+\register_deactivation_hook( __FILE__, '\AdminNoticesManager\Core\deactivate' );
 
-// Require Composer autoloader if it exists.
-if ( file_exists( ADMIN_NOTICES_MANAGER_PATH . '/vendor/autoload.php' ) ) {
-	require_once ADMIN_NOTICES_MANAGER_PATH . 'vendor/autoload.php';
-}
 
 // Bootstrap.
 AdminNoticesManager\Core\setup();

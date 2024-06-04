@@ -1,0 +1,73 @@
+# This is a basic workflow that is manually triggered
+
+name: Free repo sync
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      free_pat:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Personal access token for the free plugin repository'
+        # Default value if no value is explicitly provided
+        default: ''
+        # Input has to be provided for the workflow to run
+        required: true
+      source_branch:
+        description: 'Source branch'
+        default: 'develop'
+        required: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  sync:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Runs a single command using the runners shell
+      - name: Check out the premium plugin repository
+        uses: actions/checkout@v2
+        with:
+          path: premium
+          ref: ${{ github.event.inputs.source_branch }}
+      - name: Check out the free plugin repository
+        uses: actions/checkout@v2
+        with:
+          path: free
+          ref: develop
+          repository: WPWhiteSecurity/wp-2fa
+      - name: Setup node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Install node dependencies
+        run: rm -rf node_modules; rm package-lock.json; rm TESTS.MD; npm cache clear --force; npm install; npm run vendor:install; npm run prod --
+        working-directory: premium
+      - name: Convert premium plugin to free version
+        run: npm run-script convert:free
+        working-directory: premium
+      - name: Remove premium translation files and other premium only files
+        run: rm -Rf extensions freemius languages
+        working-directory: premium
+      - name: Substitute Year in code
+        run: gulp substitute-year
+        working-directory: premium
+      - name: Generate POT file for the free edition
+        run: gulp translate
+        working-directory: premium
+      - name: Sync changes from premium to free plugin in action workspace
+        # third-party is also excluded as it currently does not seem to be working
+        run: rsync -arvz --delete --exclude "/third-party" --exclude "/node_modules" --exclude "/.git" --exclude "/.github" --exclude "/*.json" --exclude "/*.js" --exclude "/*.md" --exclude "/*.sh" --exclude "/readme.txt" --exclude "/docker" --exclude "codeception*.yml" premium/ free
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: 'Automated sync from the premium version of the plugin'
+          commit-message: '[create-pull-request] automated changes sync'
+          path: free
+          token: ${{ github.event.inputs.free_pat }}
+          branch-suffix: random
