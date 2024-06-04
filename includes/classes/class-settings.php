@@ -42,6 +42,8 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		 */
 		public static function init() {
 
+			\add_filter( 'plugin_action_links', array( __CLASS__, 'add_settings_link' ), 10, 2 );
+
 			$options = self::get_settings();
 
 			$notice_handling_options = array(
@@ -335,6 +337,32 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 			echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ) . '">' . esc_html__( 'Reset', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
 		}
 
+		/**
+		 * Add Settings link to plugin list
+		 *
+		 * Add a Settings link to the options listed against this plugin
+		 *
+		 * @param array  $links  Current links.
+		 * @param string $file   File in use.
+		 *
+		 * @return string          Links, now with settings added.
+		 *
+		 * @since 1.5.0
+		 */
+		public static function add_settings_link( $links, $file ) {
+
+			if ( ADMIN_NOTICES_BASENAME === $file ) {
+				$settings_link = '<a href="' . \add_query_arg(
+					array(
+						'page' => 'admin_notices_settings',
+					),
+					\network_admin_url( 'options-general.php' )
+				) . '">' . __( 'Settings', 'admin-notices-manager' ) . '</a>';
+				array_unshift( $links, $settings_link );
+			}
+
+			return $links;
+		}
 		/**
 		 * Builds an array of parameters for the user selection form control.
 		 *
