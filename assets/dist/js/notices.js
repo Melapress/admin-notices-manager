@@ -82,6 +82,10 @@
         return 'error';
       }
 
+      if (jqNotice.hasClass('error')) {
+         return 'error';
+      }
+
       if (jqNotice.hasClass('notice-info') || jqNotice.hasClass('notice-information')) {
         return 'information';
       }

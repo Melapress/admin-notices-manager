@@ -60,6 +60,8 @@ freeVersion() {
     # ./bin/make-pot.sh
     # ./bin/substitute-year.sh
     # ./bin/set-free-version.sh
+
+    composer update --no-dev
  
     rm -rf bin php-scoper scoper.inc.php third-party/woocommerce
     rm -rf assets/css/

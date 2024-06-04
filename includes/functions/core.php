@@ -195,6 +195,8 @@ function admin_scripts() {
 		esc_html__( 'User removed from this site.' ),
 		esc_html__( "You can't remove the current user." ),
 		esc_html__( 'Other users have been removed.' ),
+		esc_html__( 'Please enter a nickname.' ),
+		esc_html__( 'Please enter an email address.' ),
 
 		// Themes.
 		esc_html__( 'The active theme is broken. Reverting to the default theme.' ),
