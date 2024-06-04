@@ -47,8 +47,8 @@ module.exports = {
 	translationDestination: './languages', // Where to save the translation files.
 	packageName: 'AdminNoticesManager', // Package name.
 	bugReport: 'https://wpwhitesecurity.com', // Where can users report bugs.
-	lastTranslator: 'WP White Security <info@wpwhitesecurity.com>', // Last translator Email ID.
-	team: 'WP White Security <info@wpwhitesecurity.com>', // Team's Email ID.
+	lastTranslator: 'Melapress <info@melapress.com>', // Last translator Email ID.
+	team: 'Melapress <info@melapress.com>', // Team's Email ID.
 
 	// Browsers you care about for autoprefixing. Browserlist https://github.com/ai/browserslist
 	// The following list is set as per WordPress requirements. Though, Feel free to change.

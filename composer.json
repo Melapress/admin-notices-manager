@@ -3,14 +3,8 @@
   "description": "Admin Notices Manager",
   "authors": [
 	{
-	  "name": "WP White Security",
-	  "email": "info@wpwhitesecurity.com"
-	}
-  ],
-  "repositories": [
-	{
-	  "type": "vcs",
-	  "url": "https://github.com/wpwhitesecurity/select2-wpwhitesecurity"
+	  "name": "Melapress",
+	  "email": "info@melaprss.com"
 	}
   ],
   "require": {
