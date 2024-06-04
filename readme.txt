@@ -55,9 +55,9 @@ Support for the WP 2FA plugin is available for free via:
 
 * [email](https://www.wpwhitesecurity.com/support/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
 
-##Maintained & Supported by WP White Security
+##Maintained & Supported by Melapress
 
-WP White Security builds high-quality niche WordPress security & management plugins such as [Password Policy Manager](https://www.wpwhitesecurity.com/wordpress-plugins/password-policy-manager-wordpress/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=PPMWP&utm_content=plugin+repos+description) and [WP Activity Log](https://wpactivitylog.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=WSAL&utm_content=plugin+repos+description), the #1 user-rated activity log plugin for WordPress.
+Melapress builds high-quality niche WordPress security & management plugins such as [Password Policy Manager](https://www.wpwhitesecurity.com/wordpress-plugins/password-policy-manager-wordpress/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=PPMWP&utm_content=plugin+repos+description) and [WP Activity Log](https://wpactivitylog.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=WSAL&utm_content=plugin+repos+description), the #1 user-rated activity log plugin for WordPress.
 
 Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress-plugins/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=all+plugins&utm_content=plugin+repos+description) that can help you better manage and improve the security of your WordPress websites and users.
 

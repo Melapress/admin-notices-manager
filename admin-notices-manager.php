@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name: Admin Notices Manager
- * Plugin URI: https://www.wpwhitesecurity.com/
+ * Plugin URI: https://melapress.com/
  * Description: Better manage admin notices & never miss an important WordPress and developer message.
- * Author: WP White Security
- * Author URI: https://www.wpwhitesecurity.com/
+ * Author: Melapress
+ * Author URI: https://melapress.com/
  * Version: 1.5.0
  * Text Domain: admin-notices-manager
  * Domain Path: /languages
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /*
 	Admin Notices Manager
-	Copyright(c) 2022  WP White Security  (email : info@wpwhitesecurity.com)
+	Copyright(c) 2022  Melapress (email : info@melapress.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
