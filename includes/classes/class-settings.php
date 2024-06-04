@@ -183,8 +183,8 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		 * @return array
 		 */
 		public static function get_settings() {
-			return wp_parse_args(
-				get_option( self::$option_name, array() ),
+			return \wp_parse_args(
+				\get_option( self::$option_name, array() ),
 				array(
 					'success_level_notices'          => 'popup-only',
 					'error_level_notices'            => 'popup-only',
