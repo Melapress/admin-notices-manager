@@ -26,7 +26,6 @@ freeVersion() {
         --exclude "third-party/freemius" \
         --exclude=node_modules \
         --exclude=config \
-        --exclude=vendor \
         --exclude=extensions \
         --exclude=builds \
         --exclude=testing \
@@ -46,6 +45,8 @@ freeVersion() {
 	rm -rf classes/Sensors/Request.php
 	rm -rf nofs/lib/class-wsal-freemius.php
 	mv nofs/lib/class-wsal-freemius-free.php nofs/lib/class-wsal-freemius.php
+
+    rm -rf vendor/
 
     # mkdir extensions
 
