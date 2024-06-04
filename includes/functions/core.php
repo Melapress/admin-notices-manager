@@ -89,7 +89,6 @@ function activate() {
  * @return void
  */
 function deactivate() {
-
 }
 
 
@@ -113,11 +112,10 @@ function get_enqueue_contexts() {
 function script_url( $script, $context ) {
 
 	if ( ! in_array( $context, get_enqueue_contexts(), true ) ) {
-		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in AdminNoticesManager script loader.' );
+		return new \WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in AdminNoticesManager script loader.' );
 	}
 
-	return ADMIN_NOTICES_MANAGER_URL . "assets/dist/js/${script}.js";
-
+	return ADMIN_NOTICES_MANAGER_URL . 'assets/dist/js/' . $script . '.js';
 }
 
 /**
@@ -131,11 +129,10 @@ function script_url( $script, $context ) {
 function style_url( $stylesheet, $context ) {
 
 	if ( ! in_array( $context, get_enqueue_contexts(), true ) ) {
-		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in AdminNoticesManager stylesheet loader.' );
+		return new \WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in AdminNoticesManager stylesheet loader.' );
 	}
 
-	return ADMIN_NOTICES_MANAGER_URL . "assets/dist/css/${stylesheet}.css";
-
+	return ADMIN_NOTICES_MANAGER_URL . 'assets/dist/css/' . $stylesheet . '.css';
 }
 
 /**
@@ -218,11 +215,14 @@ function admin_scripts() {
 		// Settings.
 		esc_html__( 'Settings saved.' ),
 		esc_html__( 'Permalink structure updated.' ),
-		esc_html__( 'You should update your %s file now.' ), // phpcs:ignore
-		esc_html__( 'Permalink structure updated. Remove write access on %s file now!' ), // phpcs:ignore
+		// translators: file name.
+		esc_html__( 'You should update your %s file now.' ),
+		// translators: file name.
+		esc_html__( 'Permalink structure updated. Remove write access on %s file now!' ),
 		esc_html__( 'Privacy Policy page updated successfully.' ),
 		esc_html__( 'The currently selected Privacy Policy page does not exist. Please create or select a new page.' ),
-		esc_html__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ), // phpcs:ignore
+		// translators: file name.
+		esc_html__( 'The currently selected Privacy Policy page is in the Trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ),
 
 		// Multisite.
 		esc_html__( 'Sites removed from spam.' ),
@@ -279,13 +279,13 @@ function admin_scripts() {
 	);
 
 	foreach ( $plural_system_messages as $message ) {
-		array_push( $system_messages, _n( $message[0], $message[1], 0 ) ); // phpcs:ignore
-		array_push( $system_messages, _n( $message[0], $message[1], 1 ) ); // phpcs:ignore
-		array_push( $system_messages, _n( $message[0], $message[1], 2 ) ); // phpcs:ignore
-		array_push( $system_messages, _n( $message[0], $message[1], 5 ) ); // phpcs:ignore
+		array_push( $system_messages, _n( $message[0], $message[1], 0 ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
+		array_push( $system_messages, _n( $message[0], $message[1], 1 ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
+		array_push( $system_messages, _n( $message[0], $message[1], 2 ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
+		array_push( $system_messages, _n( $message[0], $message[1], 5 ) ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
 	}
 
-	wp_localize_script(
+	\wp_localize_script(
 		'admin_notices_manager_notices',
 		'anm_i18n',
 		array(
@@ -303,10 +303,9 @@ function admin_scripts() {
 		'admin_notices_manager_settings',
 		'anm_settings',
 		array(
-			'ajaxurl'            => admin_url( 'admin-ajax.php' ),
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		)
 	);
-
 }
 
 /**
@@ -322,7 +321,6 @@ function admin_styles() {
 		array(),
 		ADMIN_NOTICES_MANAGER_VERSION
 	);
-
 }
 
 /**
@@ -331,9 +329,9 @@ function admin_styles() {
  * @return void
  */
 function purge_notices() {
-	if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'anm_purgce_notices_nonce' ) ) {
+	if ( ! isset( $_REQUEST['nonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_REQUEST['nonce'] ), 'anm_purgce_notices_nonce' ) ) ) {
 		exit;
-	}   
-	update_option( 'anm-hidden-notices', array() );
-	wp_send_json_success();
+	}
+	\update_option( 'anm-hidden-notices', array() );
+	\wp_send_json_success();
 }
