@@ -19,7 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 /*
 	Admin Notices Manager
 	Copyright(c) 2022  Melapress (email : info@melapress.com)
@@ -44,6 +43,7 @@ if ( ! defined( 'ADMIN_NOTICES_MANAGER_VERSION' ) ) {
 	define( 'ADMIN_NOTICES_MANAGER_URL', \plugin_dir_url( __FILE__ ) );
 	define( 'ADMIN_NOTICES_MANAGER_PATH', \plugin_dir_path( __FILE__ ) );
 	define( 'ADMIN_NOTICES_MANAGER_INC', ADMIN_NOTICES_MANAGER_PATH . 'includes/' );
+	define( 'ADMIN_NOTICES_BASENAME', \plugin_basename( __FILE__ ) );
 }
 
 // Require Composer autoloader if it exists.
