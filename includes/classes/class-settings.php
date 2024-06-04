@@ -355,13 +355,14 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 					array(
 						'page' => 'admin_notices_settings',
 					),
-					\network_admin_url( 'options-general.php' )
+					\admin_url( 'options-general.php' )
 				) . '">' . __( 'Settings', 'admin-notices-manager' ) . '</a>';
 				array_unshift( $links, $settings_link );
 			}
 
 			return $links;
 		}
+
 		/**
 		 * Builds an array of parameters for the user selection form control.
 		 *
