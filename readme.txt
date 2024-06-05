@@ -1,11 +1,11 @@
 === Admin Notices Manager ===
-Contributors: WPWhiteSecurity
-Plugin URI: https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager/
+Contributors: Melapress
+Plugin URI: https://melapress.com/wordpress-admin-notices/
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: admin notices, hide admin notices, manage admin notices, notices, dashboard notices
 Requires at least: 5.0
-Tested up to: 6.1.1
+Tested up to: 6.5.3
 Stable tag: 1.5.0
 Requires PHP: 7.2.0
 
@@ -17,7 +17,7 @@ Better manage admin notices & never miss important developer messages!
 
 WordPress core, themes and plugins developers use admin notices to send you important messages about your website and their software that you use. However, more often than not a cry wolf situation is created due to the overwhelming number of notices and the nature of these messages.
 
-Use the [Admin Notices Manager plugin](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager//?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description) to better manage your WordPress website admin notices - read them at your own convenience and not miss any important WordPress core and developer messages.
+Use the Admin Notices Manager plugin to better manage your WordPress website admin notices - read them at your own convenience and not miss any important WordPress core and developer messages.
 
 ##The problem
 
@@ -49,23 +49,28 @@ The plugin notifies you of new notices by highlighting the number of new notices
 
 
 ##FREE Plugin Support
-Support for the WP 2FA plugin is available for free via:
+Support for Admin Notices Manager is available for free via:
 
 * [forums](https://wordpress.org/support/plugin/admin-notices-manager/)
 
-* [email](https://www.wpwhitesecurity.com/support/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
+* [email](https://melapress.com/support/)
 
 ##Maintained & Supported by Melapress
 
-Melapress builds high-quality niche WordPress security & management plugins such as [Password Policy Manager](https://www.wpwhitesecurity.com/wordpress-plugins/password-policy-manager-wordpress/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=PPMWP&utm_content=plugin+repos+description) and [WP Activity Log](https://wpactivitylog.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=WSAL&utm_content=plugin+repos+description), the #1 user-rated activity log plugin for WordPress.
+Melapress builds high-quality niche WordPress security & management plugins. It's suite of plugins consists of:
 
-Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress-plugins/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=all+plugins&utm_content=plugin+repos+description) that can help you better manage and improve the security of your WordPress websites and users.
+* [WP 2FA](https://melapress.com/wordpress-2fa/)
+* [CAPTCHA 4WP](https://melapress.com/wordpress-captcha/)
+* [Melapress Login Security](https://melapress.com/wordpress-login-security/)
+* [WP Activity Log](https://melapress.com/wordpress-activity-log/)
+
+Visit the [Melapress website](https://melapress.com/) for more information about the company and the plugins it develops.
 
 ##Related Links and Documentation
 
-* [What are WordPress admin notices & how do they work?](https://www.wpwhitesecurity.com/how-wordpress-admin-notices-work/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
-* [Why WordPress admin notices matter & how to manage them effectively](https://www.wpwhitesecurity.com/manage-wordpress-admin-notices-effectively/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description).
-* [Admin Notices Manager plugin product page](https://www.wpwhitesecurity.com/wordpress-plugins/admin-notices-manager/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=ANM&utm_content=plugin+repos+description)
+* [What are WordPress admin notices & how do they work?](hhttps://melapress.com/how-wordpress-admin-notices-work/)
+* [Why WordPress admin notices matter & how to manage them effectively](https://melapress.com/manage-wordpress-admin-notices-effectively/)
+* [Admin Notices Manager plugin page](https://melapress.com/wordpress-admin-notices/)
 
 == Installation ==
 
@@ -90,6 +95,21 @@ Browse our list of [WordPress plugins](https://www.wpwhitesecurity.com/wordpress
 5. Optionally, admin notices can also be shown in a pop-up window, from where you can mark them as read or permanently hide them.
 
 == Changelog ==
+
+= 1.5.0 (2024-06-05) =
+
+* **Improvements**
+	* Updated some URLs + links to point to the Melapress website.
+	* Updated the license file.
+	* Added more sanitization and improved code structure in general.
+	* Added "Settings" link in the plugin listing on the plugins' page.
+	
+* **Bug fixes**
+	* Fixed: WordPress system notifcations were captured as third party notifications, thus hidden even when they should have not been.
+	* Security fix for missing authorization which would allow authenticated subscribers to retrieve list of user email addresses.
+
+
+
 
 = 1.4.0 (2023-02-15) =
 
