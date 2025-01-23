@@ -145,6 +145,9 @@
 				if ('hide' === actionType) {
 					$(notice).remove()
 				} else if ('popup-only' === actionType) {
+					jQuery( notice ).css({
+						'display' : 'block'
+					});
 					//	detach notices from the original place and increase the counter
 					let typeWrapper = $( _container ).find( '#anm-' + noticeType + '-notices' );
 					$(notice).detach().appendTo( typeWrapper )
@@ -337,4 +340,16 @@
 
 	AdminNoticesManager.init();
 
+	
+
 }( jQuery, window ) );
+
+jQuery(function() {
+	let ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+	if ( anm_i18n.settings['css_selector'].length > 0 ) {
+		ignore_selector += ', ' + anm_i18n.settings['css_selector']
+	}
+	jQuery('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not( ignore_selector ).css({
+		'display' : 'none'
+	});
+});
