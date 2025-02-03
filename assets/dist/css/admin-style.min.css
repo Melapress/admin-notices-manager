@@ -22,5 +22,7 @@
 #anm-notice-purged-text.visible{opacity:1;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
 .settings_page_admin_notices_settings #setting-error-settings_updated+#setting-error-settings_updated{display:none}
 .anm-notices-wrapper{display:none !important;opacity:0 !important;visibility:hidden !important}
+div.updated:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]),div.error:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]),div.notice:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]),#message:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]){display:none !important}
+#anm-container-slide-in div.updated,#anm-container-slide-in div.error,#anm-container-slide-in div.notice,#anm-container-slide-in #message{display:block !important}
 @media all and (max-width:540px){#anm-container-slide-in{right:-330px;width:330px}
 }

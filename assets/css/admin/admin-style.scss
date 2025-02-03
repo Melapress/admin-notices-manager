@@ -159,3 +159,13 @@
   opacity: 0 !important;
   visibility: hidden !important;
 }
+
+div.updated:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ), div.error:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ), div.notice:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ), #message:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ) {
+  display: none !important;
+}
+
+#anm-container-slide-in {
+  div.updated, div.error, div.notice, #message {
+    display: block !important;
+  }  
+}

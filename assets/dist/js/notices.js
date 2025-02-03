@@ -1,5 +1,17 @@
 "use strict";
 
+jQuery(function () {
+  var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+
+  if (anm_i18n.settings['css_selector'].length > 0) {
+    ignore_selector += ', ' + anm_i18n.settings['css_selector'];
+  }
+
+  jQuery('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not(ignore_selector).css({
+    'display': 'none'
+  });
+});
+
 (function ($, window) {
   var AdminNoticesManager = {
     container: null,
@@ -131,8 +143,7 @@
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $('#wpbody-content .wrap, .SimpleHistoryWrap').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); // console.log( notices );
-      //	filter out the system notices
+      var notices = $('#wpbody-content .wrap, .SimpleHistoryWrap').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this4.system_messages.length;
@@ -152,7 +163,6 @@
       });
       var notifications_count = 0;
       var _container = this.container;
-      console.log(notices);
       notices.each(function (index, notice) {
         var noticeType = _this4.getNoticeType(notice);
 
@@ -175,8 +185,7 @@
           $(notice).detach().addClass('notice').appendTo(typeWrapper);
           notifications_count++;
         }
-      });
-      console.log(notices.length); //	number of notifications
+      }); //	number of notifications
 
       var count_to_show = notifications_count; //	increase counter if already exists
 
@@ -248,7 +257,6 @@
         var noticeHTML = notice.outerHTML;
         noticeArr[index] = noticeHTML;
       });
-      console.log(noticeArr);
       jQuery.ajax({
         type: 'POST',
         dataType: 'json',
@@ -269,8 +277,6 @@
       var _this = this;
 
       notices.each(function (index, notice) {
-        console.log(notice);
-
         if (data[index] == 'do-not-display') {
           jQuery(notice).remove();
 
@@ -280,7 +286,7 @@
 
           _this.updateCounterBubble(newCount);
         } else {
-          var timeAndDate = '<div class="anm-notice-timestamp"><span class="anm-time">' + anm_i18n.date_time_preamble + data[index][1] + '</span><a href="#" data-hide-notice-forever="' + data[index][0] + '">Hide notice forever</a></div>';
+          var timeAndDate = '<div class="anm-notice-timestamp"><span class="anm-time">' + anm_i18n.date_time_preamble + data[index][1] + '</span><a href="#" data-hide-notice-forever="' + data[index][0] + '">' + anm_i18n.hide_notice_text + '</a></div>';
 
           if (!jQuery(notice).find('.anm-notice-timestamp').length) {
             jQuery(timeAndDate).appendTo(notice);
@@ -366,15 +372,3 @@
   };
   AdminNoticesManager.init();
 })(jQuery, window);
-
-jQuery(function () {
-  var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
-
-  if (anm_i18n.settings['css_selector'].length > 0) {
-    ignore_selector += ', ' + anm_i18n.settings['css_selector'];
-  }
-
-  jQuery('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not(ignore_selector).css({
-    'display': 'none'
-  });
-});

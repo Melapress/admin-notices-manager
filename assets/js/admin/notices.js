@@ -1,3 +1,14 @@
+jQuery(function() {
+	let ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+	if ( anm_i18n.settings['css_selector'].length > 0 ) {
+		ignore_selector += ', ' + anm_i18n.settings['css_selector']
+	}
+	jQuery('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not( ignore_selector ).css({
+		'display' : 'none',
+	});
+});
+
+
 ( function ( $, window) {
 	const AdminNoticesManager = {
 		container: null,
@@ -121,8 +132,6 @@
 		transferNotices () {
 			const notices = $('#wpbody-content .wrap, .SimpleHistoryWrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
 
-			// console.log( notices );
-
 			//	filter out the system notices
 			notices.each((index, notice) => {
 				const smCount = this.system_messages.length
@@ -140,8 +149,6 @@
 
 			let notifications_count = 0
 			const _container = this.container
-
-			console.log( notices );
 
 			notices.each((index, notice) => {
 				const noticeType = this.getNoticeType(notice)
@@ -165,8 +172,6 @@
 					notifications_count++
 				}
 			})
-
-			console.log( notices.length );
 
 			//	number of notifications
 			let count_to_show = notifications_count;
@@ -244,8 +249,6 @@
 				noticeArr[ index ] = noticeHTML;
 			});
 
-			console.log( noticeArr);
-
 			jQuery.ajax({
 					type: 'POST',
 					dataType: 'json',
@@ -264,14 +267,13 @@
 		appendTimeDate ( notices, data ) {
 			let _this = this;
 			notices.each(function (index, notice) {
-				console.log( notice );
 				if ( data[ index ] == 'do-not-display' ) {
 					jQuery( notice ).remove();
 					var currentCount = _this.getCurrentCounterValue();
 					var newCount = currentCount - 1;
 					_this.updateCounterBubble( newCount );
 				} else {
-					var timeAndDate = '<div class="anm-notice-timestamp"><span class="anm-time">'+ anm_i18n.date_time_preamble + data[ index ][1] +'</span><a href="#" data-hide-notice-forever="'+  data[ index ][0] +'">Hide notice forever</a></div>';
+					var timeAndDate = '<div class="anm-notice-timestamp"><span class="anm-time">'+ anm_i18n.date_time_preamble + data[ index ][1] +'</span><a href="#" data-hide-notice-forever="'+  data[ index ][0] +'">'+ anm_i18n.hide_notice_text +'</a></div>';
 					if ( ! jQuery( notice ).find( '.anm-notice-timestamp' ).length ) {
 						jQuery( timeAndDate ).appendTo( notice );
 					}
@@ -359,12 +361,3 @@
 
 }( jQuery, window ) );
 
-jQuery(function() {
-	let ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
-	if ( anm_i18n.settings['css_selector'].length > 0 ) {
-		ignore_selector += ', ' + anm_i18n.settings['css_selector']
-	}
-	jQuery('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not( ignore_selector ).css({
-		'display' : 'none'
-	});
-});
