@@ -15,7 +15,7 @@
 		init () {
 
 			let _this = this
-			let category_wrappers = '<div id="anm-system-notices"></div><div id="anm-error-notices"></div><div id="anm-warning-notices"></div><div id="anm-success-notices"></div><div id="anm-information-notices"></div>';
+			let category_wrappers = '<div id="anm-system-notices"></div><div id="anm-error-notices"></div><div id="anm-warning-notices"></div><div id="anm-success-notices"></div><div id="anm-information-notices"></div><div id="anm-misc-notices"></div>';
 
 			// Attach correct wrapper type
 			if ( 'popup' == anm_i18n.settings.popup_style ) {
@@ -121,6 +121,8 @@
 		transferNotices () {
 			const notices = $('#wpbody-content .wrap, .SimpleHistoryWrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
 
+			// console.log( notices );
+
 			//	filter out the system notices
 			notices.each((index, notice) => {
 				const smCount = this.system_messages.length
@@ -138,35 +140,47 @@
 
 			let notifications_count = 0
 			const _container = this.container
+
+			console.log( notices );
+
 			notices.each((index, notice) => {
 				const noticeType = this.getNoticeType(notice)
 				const actionTypeKey = ('system' === noticeType) ? 'wordpress_system_admin_notices' : noticeType + '_level_notices'
 				const actionType = anm_i18n.settings[actionTypeKey]
+				
 				if ('hide' === actionType) {
 					$(notice).remove()
-				} else if ('popup-only' === actionType) {
+				} else if ('popup-only' === actionType || noticeType == 'misc') {
 					jQuery( notice ).css({
 						'display' : 'block'
 					});
+
 					//	detach notices from the original place and increase the counter
 					let typeWrapper = $( _container ).find( '#anm-' + noticeType + '-notices' );
-					$(notice).detach().appendTo( typeWrapper )
+
+					if ( ! jQuery( notice ).find( 'p' ).length ) {
+						jQuery( notice ).wrapInner('<p></p>')
+					}
+					$(notice).detach().addClass('notice').appendTo( typeWrapper )
 					notifications_count++
 				}
 			})
 
+			console.log( notices.length );
+
 			//	number of notifications
-			let count_to_show = notifications_count
+			let count_to_show = notifications_count;
 
 			//	increase counter if already exists
 			if (0 < $('.anm-notification-counter').length) {
-				count_to_show += this.getCurrentCounterValue()
+				count_to_show += this.getCurrentCounterValue();
 			}
 
 			this.updateCounterBubble(count_to_show)
 			this.checkMigrationInterval()
 		},
 		updateCounterBubble (count) {
+			count = this.container.find('.notice').length;
 			if (0 < $('.anm-notification-counter').length) {
 				let counter_elm = $('.anm-notification-counter span.count')
 				counter_elm.html(count)
@@ -224,11 +238,13 @@
 			let _this = this;
 			
 			notices.each(function (index, notice) {
-				jQuery( notice ).find( '.anm-notice-timestap' ).remove();
+				jQuery( notice ).find( '.anm-notice-timestamp' ).remove();
 
 				var noticeHTML = notice.outerHTML;
 				noticeArr[ index ] = noticeHTML;
 			});
+
+			console.log( noticeArr);
 
 			jQuery.ajax({
 					type: 'POST',
@@ -248,14 +264,15 @@
 		appendTimeDate ( notices, data ) {
 			let _this = this;
 			notices.each(function (index, notice) {
+				console.log( notice );
 				if ( data[ index ] == 'do-not-display' ) {
 					jQuery( notice ).remove();
 					var currentCount = _this.getCurrentCounterValue();
 					var newCount = currentCount - 1;
 					_this.updateCounterBubble( newCount );
 				} else {
-					var timeAndDate = '<div class="anm-notice-timestap"><span class="anm-time">'+ anm_i18n.date_time_preamble + data[ index ][1] +'</span><a href="#" data-hide-notice-forever="'+  data[ index ][0] +'">Hide notice forever</a></div>';
-					if ( ! jQuery( notice ).find( '.anm-notice-timestap' ).length ) {
+					var timeAndDate = '<div class="anm-notice-timestamp"><span class="anm-time">'+ anm_i18n.date_time_preamble + data[ index ][1] +'</span><a href="#" data-hide-notice-forever="'+  data[ index ][0] +'">Hide notice forever</a></div>';
+					if ( ! jQuery( notice ).find( '.anm-notice-timestamp' ).length ) {
 						jQuery( timeAndDate ).appendTo( notice );
 					}
 				}
