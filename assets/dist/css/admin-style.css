@@ -19,11 +19,11 @@
 
 @media all and (max-width: 540px) { #anm-container-slide-in { right: -330px; width: 330px; } }
 
-.anm-notice-timestap { border-top: 1px solid #eee; padding: 9px 0 10px; font-size: 11px; margin-top: 14px; display: block; }
+.anm-notice-timestamp { border-top: 1px solid #eee; padding: 9px 0 10px; font-size: 11px; margin-top: 14px; display: block; }
 
-.anm-notice-timestap span { font-style: italic; }
+.anm-notice-timestamp span { font-style: italic; }
 
-.anm-notice-timestap a { float: right; }
+.anm-notice-timestamp a { float: right; }
 
 #anm-slide-in-content { max-height: calc( 100vh - 100px); overflow-y: auto; direction: ltr; scrollbar-color: #333; scrollbar-width: thin; }
 
