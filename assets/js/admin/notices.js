@@ -119,7 +119,7 @@
 			return ignore_selector
 		},
 		transferNotices () {
-			const notices = $('#wpbody-content .wrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
+			const notices = $('#wpbody-content .wrap, .SimpleHistoryWrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
 
 			//	filter out the system notices
 			notices.each((index, notice) => {
@@ -222,7 +222,7 @@
 			var notices = jQuery( this.container ).find( '.notice' );
 			var noticeArr = [];
 			let _this = this;
-
+			
 			notices.each(function (index, notice) {
 				jQuery( notice ).find( '.anm-notice-timestap' ).remove();
 
@@ -338,9 +338,7 @@
 		}
 	}
 
-	AdminNoticesManager.init();
-
-	
+	AdminNoticesManager.init();	
 
 }( jQuery, window ) );
 
