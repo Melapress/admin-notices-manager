@@ -1,37 +1,45 @@
 "use strict";
 
-/**
- * Pointer helper.
- *
- * @since 1.0.0
- */
-jQuery(document).ready(function ($) {
-  function open_pointer(i) {
-    if (wpws_pointers[i]) {
-      var pointer = wpws_pointers[i];
-      var options = $.extend(pointer.options, {
-        close: function close() {
-          $.post(ajaxurl, {
-            pointer: pointer.pointer_id,
-            action: 'wpws_dismiss_wp_pointer'
-          }); //	open next pointer if available
+jQuery(function () {
+  var __ = wp.i18n.__;
 
-          open_pointer(i + 1);
-        }
-      }); //	open the pointer
+  if (!anm_pointer_i18n.is_dismissed) {
+    jQuery('#' + anm_pointer_i18n.first_element_id).pointer({
+      content: "<h3>" + anm_pointer_i18n.content_title + "<\/h4>" + "<p>" + anm_pointer_i18n.content_text + "</p>",
+      position: {
+        edge: 'top',
+        align: 'center'
+      },
+      pointerClass: 'wp-pointer anm-pointer',
+      //pointerWidth: 20,
+      close: function close() {
+        jQuery.post(ajaxurl, {
+          pointer: anm_pointer_i18n.menu_name,
+          action: 'dismiss-wp-pointer'
+        });
+        second.pointer('open');
+      }
+    }).pointer('open');
+  }
 
-      var pp = $(pointer.target).first().pointer(options);
-      $('html, body').animate({
-        // scroll page to pointer
-        scrollTop: pp.offset().top - 30
-      }, 300, function () {
-        // when scroll complete
-        var $widget = pp.pointer('widget');
-        pp.pointer('open');
+  var second = jQuery('#' + anm_pointer_i18n.second_element_id).pointer({
+    content: "<h3>" + anm_pointer_i18n.second_content_title + "<\/h3>" + "<p>" + anm_pointer_i18n.second_content_title + "</p>",
+    position: {
+      edge: 'left',
+      align: 'center'
+    },
+    // pointerClass:
+    // 	'wp-pointer anm-pointer',
+    //pointerWidth: 20,
+    close: function close() {
+      jQuery.post(ajaxurl, {
+        pointer: anm_pointer_i18n.settings_menu_name,
+        action: 'dismiss-wp-pointer'
       });
     }
-  } //	open the first pointer
+  });
 
-
-  open_pointer(0);
+  if (anm_pointer_i18n.is_dismissed && !anm_pointer_i18n.settings_is_dismissed) {
+    second.pointer('open');
+  }
 });
