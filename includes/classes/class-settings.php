@@ -78,9 +78,12 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 				'popup'    => esc_html__( 'Popup', 'admin-notices-manager' ),
 			);
 
+			$notification_count = ( get_site_option( 'anm_update_notice_needed', false ) ) ? 1 : 0;
+			$notification_count ? sprintf( 'Admin notices settings <span style="position: absolute; margin-left: 3px;" class="awaiting-mod">%d</span>', $notification_count ) : __( 'Admin notices settings', 'admin-notices-manager' );
+
 			$pages = array(
 				self::$option_name => array(
-					'menu_title'  => esc_html__( 'Admin Notices', 'admin-notices-manager' ),
+					'menu_title'  => $notification_count ? sprintf( 'Admin notices settings <span style="position: absolute; margin-left: 3px;" class="awaiting-mod">%d</span>', $notification_count ) : __( 'Admin notices settings', 'admin-notices-manager' ),
 					'parent_slug' => 'options-general.php',
 					'page_title'  => esc_html__( 'Admin notices settings', 'admin-notices-manager' ),
 					'text'        => 'Use the settings in this page to configure how the plugin should handle different types of admin notices. Refer to the introduction to admin notices for a detailed explanation about the different types of admin notices available in WordPress.',
