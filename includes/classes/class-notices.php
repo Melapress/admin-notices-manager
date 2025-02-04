@@ -174,7 +174,7 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 		 *
 		 * @return false|void
 		 *
-		 * @since 1.0.0
+		 * @since 1.6.0
 		 */
 		public static function display_notice() {
 			// If we have a nonce posted, check it.
@@ -198,7 +198,7 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 		 *
 		 * @return false|void
 		 *
-		 * @since 1.0.0
+		 * @since 1.6.0
 		 */
 		public static function hide_notice() {
 			// If we have a nonce posted, check it.
