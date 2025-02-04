@@ -336,6 +336,8 @@ function admin_scripts() {
 			'title_empty'        => esc_html__( 'No admin notices', 'admin-notices-manager' ),
 			'date_time_preamble' => esc_html__( 'First logged:', 'admin-notices-manager' ) . ' ',
 			'hide_notice_text'   => esc_attr__( 'Hide notice forever', 'admin-notices-manager' ),
+			'hide_notice'        => esc_attr__( 'Hide this notice', 'admin-notices-manager' ),
+			'display_notice'     => esc_attr__( 'Display notice as normal', 'admin-notices-manager' ),
 			'system_messages'    => $system_messages,
 			'settings'           => Settings::get_settings(),
 			'ajaxurl'            => admin_url( 'admin-ajax.php' ),

@@ -10,6 +10,7 @@
 .anm-notice-timestamp{border-top:1px solid #eee;padding:9px 0 10px;font-size:11px;margin-top:14px;display:block}
 .anm-notice-timestamp span{font-style:italic}
 .anm-notice-timestamp a{float:right}
+.anm-notice-timestamp,.anm-notice-hide{padding:4px 0 5px;font-size:11px;margin-top:14px;display:block;overflow:hidden}
 #anm-slide-in-content{max-height:calc(100vh - 100px);overflow-y:auto;direction:ltr;scrollbar-color:#333;scrollbar-width:thin}
 #anm-slide-in-content::-webkit-scrollbar{width:20px}
 #anm-slide-in-content::-webkit-scrollbar-track{background-color:#222;border-radius:100px}
@@ -22,7 +23,9 @@
 #anm-notice-purged-text.visible{opacity:1;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
 .settings_page_admin_notices_settings #setting-error-settings_updated+#setting-error-settings_updated{display:none}
 .anm-notices-wrapper{display:none !important;opacity:0 !important;visibility:hidden !important}
-div.updated:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]),div.error:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]),div.notice:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]),#message:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"]){display:none !important}
+div.updated:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice),div.error:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice),div.notice:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice),#message:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice){display:none !important}
 #anm-container-slide-in div.updated,#anm-container-slide-in div.error,#anm-container-slide-in div.notice,#anm-container-slide-in #message{display:block !important}
+[data-display-notice]{margin-right:10px}
+.anm-display-notice{margin-left:0}
 @media all and (max-width:540px){#anm-container-slide-in{right:-330px;width:330px}
 }

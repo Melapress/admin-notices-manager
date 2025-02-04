@@ -92,6 +92,14 @@
   }
 }
 
+.anm-notice-timestamp, .anm-notice-hide {
+  padding: 4px 0 5px;
+  font-size: 11px;
+  margin-top: 14px;
+  display: block;
+  overflow: hidden;
+}
+
 #anm-slide-in-content {
   max-height: calc( 100vh - 100px );
   overflow-y: auto;
@@ -160,7 +168,7 @@
   visibility: hidden !important;
 }
 
-div.updated:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ), div.error:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ), div.notice:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ), #message:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ) {
+div.updated:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ), div.error:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ), div.notice:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ), #message:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ) {
   display: none !important;
 }
 
@@ -168,4 +176,12 @@ div.updated:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"] ), 
   div.updated, div.error, div.notice, #message {
     display: block !important;
   }  
+}
+
+[data-display-notice] {
+  margin-right: 10px;
+}
+
+.anm-display-notice {
+  margin-left: 0;
 }
