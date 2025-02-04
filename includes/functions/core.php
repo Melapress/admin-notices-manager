@@ -31,6 +31,49 @@ function setup() {
 	\add_action( 'wp_ajax_anm_purge_notices', $n( 'purge_notices' ) );
 
 	\do_action( 'admin_notices_manager_loaded' );
+
+	\add_action( 'admin_init', $n( 'on_plugin_update' ), 10 );
+	\add_action( 'admin_notices', array( '\AdminNoticesManager\PluginUpdatedBanner', 'plugin_was_updated_banner' ), 10, 3 );
+	\add_action( 'wp_ajax_dismiss_anm_update_notice', array( '\AdminNoticesManager\PluginUpdatedBanner', 'dismiss_update_notice' ) );
+}
+
+/**
+ * Handle plugin updated and notices.
+ *
+ * @return void
+ *
+ * @since 1.0.0
+ */
+function on_plugin_update() {
+	$stored_version    = get_site_option( 'anm_active_version', false );
+	$existing_settings = get_site_option( 'anm_settings', false );
+
+	// Has existing settings.
+	if ( $existing_settings && ! empty( $existing_settings ) ) {
+		if ( ! empty( $stored_version ) && version_compare( $stored_version, ADMIN_NOTICES_MANAGER_VERSION, '<' ) ) {
+			update_site_option( 'anm_active_version', ADMIN_NOTICES_MANAGER_VERSION );
+			update_site_option( 'anm_show_update_notice', true );
+			\do_action( 'admin_notices_manager_updated' );
+		} elseif ( empty( $stored_version ) ) {
+			update_site_option( 'anm_active_version', ADMIN_NOTICES_MANAGER_VERSION );
+			update_site_option( 'anm_show_update_notice', true );
+		}
+	}
+
+	if ( ! $stored_version ) {
+		update_site_option( 'anm_active_version', ADMIN_NOTICES_MANAGER_VERSION );
+	}
+
+	if ( get_site_option( 'anm_show_update_notice', false ) ) {
+		delete_site_option( 'anm_show_update_notice' );
+		update_site_option( 'anm_update_notice_needed', true );
+		$args = array(
+			'page' => 'admin_notices_settings',
+		);
+		$url  = add_query_arg( $args, network_admin_url( 'options-general.php' ) );
+		wp_safe_redirect( $url );
+		exit;
+	}
 }
 
 /**
