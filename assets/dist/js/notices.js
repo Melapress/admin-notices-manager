@@ -1,7 +1,7 @@
 "use strict";
 
 jQuery(function () {
-  var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+  var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice';
 
   if (anm_i18n.settings['css_selector'].length > 0) {
     ignore_selector += ', ' + anm_i18n.settings['css_selector'];
@@ -285,8 +285,20 @@ jQuery(function () {
           var newCount = currentCount - 1;
 
           _this.updateCounterBubble(newCount);
+        } else if (data[index][0] == 'display-notice') {
+          jQuery(notice).addClass('anm-display-notice');
+          jQuery(notice).insertAfter('.anm-notices-wrapper');
+          var timeAndDate = '<div class="anm-notice-hide"><a href="#" data-hide-notice="' + data[index][1] + '">' + anm_i18n.hide_notice + '</a></div>';
+
+          if (!jQuery(notice).find('.anm-notice-hide').length) {
+            jQuery(timeAndDate).appendTo(notice);
+          }
+
+          var newCount = currentCount - 1;
+
+          _this.updateCounterBubble(newCount);
         } else {
-          var timeAndDate = '<div class="anm-notice-timestamp"><span class="anm-time">' + anm_i18n.date_time_preamble + data[index][1] + '</span><a href="#" data-hide-notice-forever="' + data[index][0] + '">' + anm_i18n.hide_notice_text + '</a></div>';
+          var timeAndDate = '<div class="anm-notice-timestamp"><span class="anm-time">' + anm_i18n.date_time_preamble + data[index][1] + '</span><a href="#" data-hide-notice-forever="' + data[index][0] + '">' + anm_i18n.hide_notice_text + '</a> <a href="#" data-display-notice="' + data[index][0] + '">' + anm_i18n.display_notice + '</a></div>';
 
           if (!jQuery(notice).find('.anm-notice-timestamp').length) {
             jQuery(timeAndDate).appendTo(notice);
@@ -365,6 +377,58 @@ jQuery(function () {
             var newCount = counter - 1;
 
             _this2.updateCounterBubble(newCount);
+          }
+        });
+      });
+      jQuery(document).on('click', '[data-display-notice]', function (e) {
+        e.preventDefault();
+        var itemHash = jQuery(this).attr('data-display-notice');
+        var itemToHide = jQuery(this).closest('.notice');
+        var counter = $('.anm-notification-counter span.count').text();
+        var _this2 = _this;
+        jQuery.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: anm_i18n.ajaxurl,
+          data: {
+            action: 'anm_display_notice',
+            _wpnonce: anm_i18n.nonce,
+            notice_hash: itemHash
+          },
+          complete: function complete(data) {
+            jQuery(itemToHide).find('.anm-notice-timestamp').remove();
+            jQuery(itemToHide).addClass('anm-display-notice');
+            var timeAndDate = '<div class="anm-notice-hide"><a href="#" data-hide-notice="' + itemHash + '">' + anm_i18n.hide_notice + '</a></div>';
+
+            if (!jQuery(itemToHide).find('.anm-notice-hide').length) {
+              jQuery(timeAndDate).appendTo(itemToHide);
+            }
+
+            jQuery(itemToHide).insertAfter('.anm-notices-wrapper');
+            itemToHide.slideDown();
+            var newCount = counter - 1;
+
+            _this2.updateCounterBubble(newCount);
+          }
+        });
+      });
+      jQuery(document).on('click', '[data-hide-notice]', function (e) {
+        e.preventDefault();
+        var itemHash = jQuery(this).attr('data-hide-notice');
+        var itemToHide = jQuery(this).closest('.notice');
+        var counter = $('.anm-notification-counter span.count').text();
+        var _this2 = _this;
+        jQuery.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: anm_i18n.ajaxurl,
+          data: {
+            action: 'anm_hide_notice',
+            _wpnonce: anm_i18n.nonce,
+            notice_hash: itemHash
+          },
+          complete: function complete(data) {
+            location.reload();
           }
         });
       });

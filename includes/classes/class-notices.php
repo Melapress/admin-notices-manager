@@ -41,6 +41,8 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 
 			\add_action( 'wp_ajax_anm_log_notices', array( __CLASS__, 'log_notices' ) );
 			\add_action( 'wp_ajax_anm_hide_notice_forever', array( __CLASS__, 'hide_notice_forever' ) );
+			\add_action( 'wp_ajax_anm_display_notice', array( __CLASS__, 'display_notice' ) );
+			\add_action( 'wp_ajax_anm_hide_notice', array( __CLASS__, 'hide_notice' ) );
 		}
 
 		/**
@@ -112,6 +114,7 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 			if ( isset( $post_array['notices'] ) && ( ! empty( $post_array['notices'] && is_array( $post_array['notices'] ) ) ) ) {
 				$currently_held_options = \get_option( 'anm-notices', array() );
 				$hidden_forever         = \get_option( 'anm-hidden-notices', array() );
+				$displayed_forever      = \get_option( 'anm-displayed-notices', array() );
 				$hashed_notices         = array();
 				$details                = array();
 				$format                 = \get_option( 'date_format' ) . ' ' . \get_option( 'time_format' );
@@ -131,6 +134,8 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 
 					if ( in_array( $hash, $hidden_forever, true ) ) {
 						$details[ $index ] = 'do-not-display';
+					} elseif ( in_array( $hash, $displayed_forever, true ) ) {
+						$details[ $index ] = array( 'display-notice', $hash, date_i18n( $format, $currently_held_options[ $hash ] ) );
 					}
 				}
 
@@ -160,6 +165,58 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 				$currently_held_options = \get_option( 'anm-hidden-notices', array() );
 				array_push( $currently_held_options, sanitize_text_field( wp_unslash( $_POST['notice_hash'] ) ) );
 				\update_option( 'anm-hidden-notices', $currently_held_options );
+				\wp_send_json_success();
+			}
+		}
+
+		/**
+		 * Handles AJAX requests for showing a notice as usual.
+		 *
+		 * @return false|void
+		 *
+		 * @since 1.0.0
+		 */
+		public static function display_notice() {
+			// If we have a nonce posted, check it.
+			if ( \wp_doing_ajax() && isset( $_POST['_nonce'] ) ) {
+				$nonce_check = \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_POST['_nonce'] ) ), 'anm-ajax-nonce' );
+				if ( ! $nonce_check ) {
+					return false;
+				}
+			}
+
+			if ( isset( $_POST['notice_hash'] ) ) {
+				$currently_held_options = \get_option( 'anm-displayed-notices', array() );
+				array_push( $currently_held_options, sanitize_text_field( wp_unslash( $_POST['notice_hash'] ) ) );
+				\update_option( 'anm-displayed-notices', $currently_held_options );
+				\wp_send_json_success();
+			}
+		}
+
+		/**
+		 * Handles AJAX requests for hiding a notice.
+		 *
+		 * @return false|void
+		 *
+		 * @since 1.0.0
+		 */
+		public static function hide_notice() {
+			// If we have a nonce posted, check it.
+			if ( \wp_doing_ajax() && isset( $_POST['_nonce'] ) ) {
+				$nonce_check = \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_POST['_nonce'] ) ), 'anm-ajax-nonce' );
+				if ( ! $nonce_check ) {
+					return false;
+				}
+			}
+
+			if ( isset( $_POST['notice_hash'] ) ) {
+				$currently_held_options = \get_option( 'anm-displayed-notices', array() );
+				foreach ( $currently_held_options as $index => $notice ) {
+					if ( $notice === sanitize_text_field( wp_unslash( $_POST['notice_hash'] ) ) ) {
+						unset( $currently_held_options[ $index ] );
+					}
+				}
+				\update_option( 'anm-displayed-notices', $currently_held_options );
 				\wp_send_json_success();
 			}
 		}
