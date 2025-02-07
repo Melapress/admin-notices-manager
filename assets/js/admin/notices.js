@@ -98,7 +98,7 @@ jQuery(function() {
 			}
 
 			// Return a default so its handled by ANM.
-			return 'information'
+			return 'misc'
 		},
 		checkMigrationInterval () {
 			//	clear the interval after given time or when there are no notices left to move
@@ -131,8 +131,7 @@ jQuery(function() {
 			return ignore_selector
 		},
 		transferNotices () {
-			const notices = $('#wpbody-content .wrap, .SimpleHistoryWrap').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
-
+			const notices = $( '#wpwrap ').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
 			//	filter out the system notices
 			notices.each((index, notice) => {
 				const smCount = this.system_messages.length

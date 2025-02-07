@@ -107,7 +107,7 @@ jQuery(function () {
       } // Return a default so its handled by ANM.
 
 
-      return 'information';
+      return 'misc';
     },
     checkMigrationInterval: function checkMigrationInterval() {
       //	clear the interval after given time or when there are no notices left to move
@@ -144,7 +144,7 @@ jQuery(function () {
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $('#wpbody-content .wrap, .SimpleHistoryWrap').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
+      var notices = $('#wpwrap ').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this4.system_messages.length;
