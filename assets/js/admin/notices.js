@@ -97,7 +97,8 @@ jQuery(function() {
 				return 'success'
 			}
 
-			return 'no'
+			// Return a default so its handled by ANM.
+			return 'information'
 		},
 		checkMigrationInterval () {
 			//	clear the interval after given time or when there are no notices left to move
