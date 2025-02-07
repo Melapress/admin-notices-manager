@@ -104,9 +104,10 @@ jQuery(function () {
 
       if (jqNotice.hasClass('notice-success') || jqNotice.hasClass('updated')) {
         return 'success';
-      }
+      } // Return a default so its handled by ANM.
 
-      return 'no';
+
+      return 'information';
     },
     checkMigrationInterval: function checkMigrationInterval() {
       //	clear the interval after given time or when there are no notices left to move
