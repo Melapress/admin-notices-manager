@@ -370,12 +370,12 @@ function admin_styles() {
 }
 
 /**
- * Simple functioon to clear hidden notices.
+ * Simple function to clear hidden notices.
  *
  * @return void
  */
 function purge_notices() {
-	if ( ! isset( $_REQUEST['nonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_REQUEST['nonce'] ), 'anm_purgce_notices_nonce' ) ) ) {
+	if ( ! isset( $_REQUEST['nonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_REQUEST['nonce'] ), 'anm_purge_notices_nonce' ) ) ) {
 		exit;
 	}
 	\update_option( 'anm-hidden-notices', array() );

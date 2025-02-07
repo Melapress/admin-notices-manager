@@ -17,16 +17,19 @@
 
   jQuery(document).on('click', '#anm-purge-btn', function (e) {
     e.preventDefault();
+    console.log('x');
+    console.log(anm_settings.ajaxurl);
     var nonce = jQuery(this).attr('data-nonce');
     jQuery.ajax({
-      type: "post",
-      dataType: "json",
+      type: 'POST',
+      dataType: 'json',
       url: anm_settings.ajaxurl,
       data: {
         action: 'anm_purge_notices',
         nonce: nonce
       },
-      success: function success(response) {
+      complete: function complete(data) {
+        console.log(data);
         $('#anm-notice-purged-text').not('.visible').addClass('visible');
         setTimeout(function () {
           $('#anm-notice-purged-text.visible').removeClass('visible');

@@ -335,7 +335,7 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		 */
 		public static function render_purge_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
-			$nonce = wp_create_nonce( 'anm_purgce_notices_nonce' );
+			$nonce = wp_create_nonce( 'anm_purge_notices_nonce' );
 			echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ) . '">' . esc_html__( 'Reset', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
 		}
 
