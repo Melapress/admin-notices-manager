@@ -19,6 +19,7 @@
 #anm-system-notices .notice p,#anm-error-notices .notice p,#anm-warning-notices .notice p,#anm-success-notices .notice p,#anm-information-notices .notice p{width:calc(100% - 38px);font-size:13px;line-height:22px}
 #anm-system-notices .notice.is-dismissible,#anm-error-notices .notice.is-dismissible,#anm-warning-notices .notice.is-dismissible,#anm-success-notices .notice.is-dismissible,#anm-information-notices .notice.is-dismissible{padding-right:12px !important}
 #anm-system-notices .notice-addon-available,#anm-error-notices .notice-addon-available,#anm-warning-notices .notice-addon-available,#anm-success-notices .notice-addon-available,#anm-information-notices .notice-addon-available{display:block}
+#anm-system-notices .update-nag,#anm-error-notices .update-nag,#anm-warning-notices .update-nag,#anm-success-notices .update-nag,#anm-information-notices .update-nag{display:block;margin:5px 15px 15px}
 #anm-notice-purged-text{opacity:0;color:green;display:inline-block;font-size:12px;padding:7px 12px;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
 #anm-notice-purged-text.visible{opacity:1;-webkit-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
 .settings_page_admin_notices_settings #setting-error-settings_updated+#setting-error-settings_updated{display:none}
