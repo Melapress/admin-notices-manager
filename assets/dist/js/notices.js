@@ -85,7 +85,6 @@ jQuery(function () {
     },
     getNoticeType: function getNoticeType(noticeElm) {
       var jqNotice = $(noticeElm);
-      console.log(jqNotice);
 
       if (jqNotice.hasClass('notice-system')) {
         return 'system';
@@ -145,11 +144,9 @@ jQuery(function () {
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $(document).find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector());
-      console.log(notices.length); //	filter out the system notices
+      var notices = $('#wpwrap ').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
 
       notices.each(function (index, notice) {
-        console.log(notice);
         var smCount = _this4.system_messages.length;
 
         for (var i = 0; i < smCount; i++) {
@@ -168,8 +165,6 @@ jQuery(function () {
       var notifications_count = 0;
       var _container = this.container;
       notices.each(function (index, notice) {
-        console.log(notice);
-
         var noticeType = _this4.getNoticeType(notice);
 
         var actionTypeKey = 'system' === noticeType ? 'wordpress_system_admin_notices' : noticeType + '_level_notices';
