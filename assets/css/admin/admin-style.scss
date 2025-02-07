@@ -172,7 +172,7 @@ div.updated:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .a
   display: none !important;
 }
 
-#anm-container-slide-in {
+#anm-container-slide-in, #TB_ajaxContent {
   div.updated, div.error, div.notice, #message {
     display: block !important;
   }  

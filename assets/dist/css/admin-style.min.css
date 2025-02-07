@@ -24,7 +24,7 @@
 .settings_page_admin_notices_settings #setting-error-settings_updated+#setting-error-settings_updated{display:none}
 .anm-notices-wrapper{display:none !important;opacity:0 !important;visibility:hidden !important}
 div.updated:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice),div.error:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice),div.notice:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice),#message:not(.hidden,.hide-if-js,.update-message,[aria-hidden="true"],.anm-display-notice){display:none !important}
-#anm-container-slide-in div.updated,#anm-container-slide-in div.error,#anm-container-slide-in div.notice,#anm-container-slide-in #message{display:block !important}
+#anm-container-slide-in div.updated,#anm-container-slide-in div.error,#anm-container-slide-in div.notice,#anm-container-slide-in #message,#TB_ajaxContent div.updated,#TB_ajaxContent div.error,#TB_ajaxContent div.notice,#TB_ajaxContent #message{display:block !important}
 [data-display-notice]{margin-right:10px}
 .anm-display-notice{margin-left:0}
 @media all and (max-width:540px){#anm-container-slide-in{right:-330px;width:330px}
