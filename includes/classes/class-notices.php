@@ -52,7 +52,7 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 		 */
 		public static function start_output_capturing() {
 			// Hidden by default to prevent a flash of unstyled content on page load.
-			echo '<div class="anm-notices-wrapper" style="display: none;">';
+			echo '<div class="anm-notices-wrapper">';
 		}
 
 		/**
@@ -135,7 +135,7 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 					if ( in_array( $hash, $hidden_forever, true ) ) {
 						$details[ $index ] = 'do-not-display';
 					} elseif ( in_array( $hash, $displayed_forever, true ) ) {
-						$details[ $index ] = array( 'display-notice', $hash, date_i18n( $format, $currently_held_options[ $hash ] ) );
+						$details[ $index ] = array( 'display-notice', $hash, date_i18n( $format, $hash ) );
 					}
 				}
 
@@ -188,6 +188,7 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 			if ( isset( $_POST['notice_hash'] ) ) {
 				$currently_held_options = \get_option( 'anm-displayed-notices', array() );
 				array_push( $currently_held_options, sanitize_text_field( wp_unslash( $_POST['notice_hash'] ) ) );
+
 				\update_option( 'anm-displayed-notices', $currently_held_options );
 				\wp_send_json_success();
 			}
@@ -212,10 +213,11 @@ if ( ! class_exists( '\AdminNoticesManager\Notices' ) ) {
 			if ( isset( $_POST['notice_hash'] ) ) {
 				$currently_held_options = \get_option( 'anm-displayed-notices', array() );
 				foreach ( $currently_held_options as $index => $notice ) {
-					if ( $notice === sanitize_text_field( wp_unslash( $_POST['notice_hash'] ) ) ) {
+					if ( sanitize_text_field( wp_unslash( $_POST['notice_hash'] ) ) === $notice ) {
 						unset( $currently_held_options[ $index ] );
 					}
 				}
+
 				\update_option( 'anm-displayed-notices', $currently_held_options );
 				\wp_send_json_success();
 			}
