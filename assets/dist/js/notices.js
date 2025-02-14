@@ -129,7 +129,7 @@ jQuery(function () {
       }
     },
     getIgnoreSelector: function getIgnoreSelector() {
-      var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+      var ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice';
 
       if (anm_i18n.settings['css_selector'].length > 0) {
         ignore_selector += ', ' + anm_i18n.settings['css_selector'];
@@ -144,7 +144,8 @@ jQuery(function () {
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $('#wpwrap ').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
+      var notices = $('#wpwrap ').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector());
+      var displayAsNormal = anm_i18n.displayed_notices; //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this4.system_messages.length;
@@ -185,6 +186,10 @@ jQuery(function () {
 
           $(notice).detach().addClass('notice').appendTo(typeWrapper);
           notifications_count++;
+        } else {
+          jQuery(notice).css({
+            'display': 'block'
+          }).addClass('leave-in-place');
         }
       }); //	number of notifications
 

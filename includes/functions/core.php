@@ -19,8 +19,8 @@ use AdminNoticesManager\Select2_WPWS;
  * @return void
  */
 function setup() {
-	$n = function ( $function ) {
-		return __NAMESPACE__ . "\\$function";
+	$n = function ( $anm_function ) {
+		return __NAMESPACE__ . "\\$anm_function";
 	};
 
 	\add_action( 'init', $n( 'i18n' ) );

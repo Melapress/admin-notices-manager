@@ -120,7 +120,7 @@ jQuery(function() {
 			}
 		},
 		getIgnoreSelector() {
-			let ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"]';
+			let ignore_selector = '.hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice';
 			if ( anm_i18n.settings['css_selector'].length > 0 ) {
 				ignore_selector += ', ' + anm_i18n.settings['css_selector']
 			}
@@ -131,7 +131,8 @@ jQuery(function() {
 			return ignore_selector
 		},
 		transferNotices () {
-			const notices = $( '#wpwrap ').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() )
+			const notices = $( '#wpwrap ').find('div.updated, div.error, div.notice, #message').not( this.getIgnoreSelector() );
+
 			//	filter out the system notices
 			notices.each((index, notice) => {
 				const smCount = this.system_messages.length
@@ -154,7 +155,7 @@ jQuery(function() {
 				const noticeType = this.getNoticeType(notice)
 				const actionTypeKey = ('system' === noticeType) ? 'wordpress_system_admin_notices' : noticeType + '_level_notices'
 				const actionType = anm_i18n.settings[actionTypeKey]
-				
+
 				if ('hide' === actionType) {
 					$(notice).remove()
 				} else if ('popup-only' === actionType || noticeType == 'misc') {
@@ -170,6 +171,10 @@ jQuery(function() {
 					}
 					$(notice).detach().addClass('notice').appendTo( typeWrapper )
 					notifications_count++
+				} else {
+					jQuery( notice ).css({
+						'display' : 'block'
+					}).addClass('leave-in-place');
 				}
 			})
 

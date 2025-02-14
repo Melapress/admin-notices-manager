@@ -166,13 +166,13 @@
   display: none;
 }
 
-.anm-notices-wrapper {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
+// .anm-notices-wrapper {
+//   display: none !important;
+//   opacity: 0 !important;
+//   visibility: hidden !important;
+// }
 
-div.updated:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ), div.error:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ), div.notice:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ), #message:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice ) {
+div.updated:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice, .leave-in-place ), div.error:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice, .leave-in-place ), div.notice:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice, .leave-in-place ), #message:not( .hidden, .hide-if-js, .update-message, [aria-hidden="true"], .anm-display-notice, .leave-in-place ) {
   display: none !important;
 }
 
