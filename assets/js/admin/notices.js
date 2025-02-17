@@ -362,7 +362,7 @@ jQuery(function() {
 					notice_hash: itemHash
 				  },
 				  complete: function( data ) {
-					itemToHide.slideUp();
+					itemToHide.slideUp(300).delay(300).remove();
 					var newCount = counter - 1;
 					_this2.updateCounterBubble( newCount );
 				  }
