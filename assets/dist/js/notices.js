@@ -144,8 +144,7 @@ jQuery(function () {
     transferNotices: function transferNotices() {
       var _this4 = this;
 
-      var notices = $('#wpwrap ').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector());
-      var displayAsNormal = anm_i18n.displayed_notices; //	filter out the system notices
+      var notices = $('#wpwrap ').find('div.updated, div.error, div.notice, #message').not(this.getIgnoreSelector()); //	filter out the system notices
 
       notices.each(function (index, notice) {
         var smCount = _this4.system_messages.length;
@@ -379,7 +378,7 @@ jQuery(function () {
             notice_hash: itemHash
           },
           complete: function complete(data) {
-            itemToHide.slideUp();
+            itemToHide.slideUp(300).delay(300).remove();
             var newCount = counter - 1;
 
             _this2.updateCounterBubble(newCount);
