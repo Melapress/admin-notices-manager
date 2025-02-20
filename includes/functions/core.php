@@ -62,7 +62,7 @@ function on_plugin_update() {
 
 	if ( ! $stored_version ) {
 		update_site_option( 'anm_active_version', ADMIN_NOTICES_MANAGER_VERSION );
-		update_site_option( 'anm_show_update_notice', true );
+		update_site_option( 'anm_show_update_notice', false );
 	}
 
 	if ( get_site_option( 'anm_show_update_notice', false ) ) {
