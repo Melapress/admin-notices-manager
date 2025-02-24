@@ -78,9 +78,11 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 				'popup'    => esc_html__( 'Popup', 'admin-notices-manager' ),
 			);
 
+			$notification_count = ( get_site_option( 'anm_update_notice_needed', false ) ) ? 1 : 0;
+
 			$pages = array(
 				self::$option_name => array(
-					'menu_title'  => esc_html__( 'Admin Notices', 'admin-notices-manager' ),
+					'menu_title'  => esc_html__( 'Admin notices settings', 'admin-notices-manager' ),
 					'parent_slug' => 'options-general.php',
 					'page_title'  => esc_html__( 'Admin notices settings', 'admin-notices-manager' ),
 					'text'        => 'Use the settings in this page to configure how the plugin should handle different types of admin notices. Refer to the introduction to admin notices for a detailed explanation about the different types of admin notices available in WordPress.',
@@ -332,7 +334,7 @@ if ( ! class_exists( '\AdminNoticesManager\Settings' ) ) {
 		 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		 */
 		public static function render_purge_field( $field, $page_key, $section_key, $field_key, $option_pages ) {
-			$nonce = wp_create_nonce( 'anm_purgce_notices_nonce' );
+			$nonce = wp_create_nonce( 'anm_purge_notices_nonce' );
 			echo '<a href="#" class="button button-secondary" id="anm-purge-btn" data-nonce="' . esc_attr( $nonce ) . '">' . esc_html__( 'Reset', 'admin-notices-manager' ) . '</a> <span id="anm-notice-purged-text">' . esc_html__( 'Notices restored', 'admin-notices-manager' ) . '</span>';
 		}
 

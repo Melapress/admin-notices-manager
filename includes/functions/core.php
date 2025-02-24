@@ -19,8 +19,8 @@ use AdminNoticesManager\Select2_WPWS;
  * @return void
  */
 function setup() {
-	$n = function ( $function ) {
-		return __NAMESPACE__ . "\\$function";
+	$n = function ( $anm_function ) {
+		return __NAMESPACE__ . "\\$anm_function";
 	};
 
 	\add_action( 'init', $n( 'i18n' ) );
@@ -31,6 +31,34 @@ function setup() {
 	\add_action( 'wp_ajax_anm_purge_notices', $n( 'purge_notices' ) );
 
 	\do_action( 'admin_notices_manager_loaded' );
+
+	\add_action( 'admin_init', $n( 'on_plugin_update' ), 10 );
+}
+
+/**
+ * Handle plugin updated and notices.
+ *
+ * @return void
+ *
+ * @since 1.0.0
+ */
+function on_plugin_update() {
+	$stored_version    = get_site_option( 'anm_active_version', false );
+	$existing_settings = get_site_option( 'anm_settings', false );
+
+	// Has existing settings.
+	if ( $existing_settings && ! empty( $existing_settings ) ) {
+		if ( ! empty( $stored_version ) && version_compare( $stored_version, ADMIN_NOTICES_MANAGER_VERSION, '<' ) ) {
+			update_site_option( 'anm_active_version', ADMIN_NOTICES_MANAGER_VERSION );
+			\do_action( 'admin_notices_manager_updated' );
+		} elseif ( empty( $stored_version ) ) {
+			update_site_option( 'anm_active_version', ADMIN_NOTICES_MANAGER_VERSION );
+		}
+	}
+
+	if ( ! $stored_version ) {
+		update_site_option( 'anm_active_version', ADMIN_NOTICES_MANAGER_VERSION );
+	}
 }
 
 /**
@@ -291,7 +319,10 @@ function admin_scripts() {
 		array(
 			'title'              => esc_html__( 'Admin notices', 'admin-notices-manager' ),
 			'title_empty'        => esc_html__( 'No admin notices', 'admin-notices-manager' ),
-			'date_time_preamble' => esc_html__( 'First logged: ', 'admin-notices-manager' ),
+			'date_time_preamble' => esc_html__( 'First logged:', 'admin-notices-manager' ) . ' ',
+			'hide_notice_text'   => esc_attr__( 'Hide notice forever', 'admin-notices-manager' ),
+			'hide_notice'        => esc_attr__( 'Hide this notice', 'admin-notices-manager' ),
+			'display_notice'     => esc_attr__( 'Display notice as normal', 'admin-notices-manager' ),
 			'system_messages'    => $system_messages,
 			'settings'           => Settings::get_settings(),
 			'ajaxurl'            => admin_url( 'admin-ajax.php' ),
@@ -324,14 +355,15 @@ function admin_styles() {
 }
 
 /**
- * Simple functioon to clear hidden notices.
+ * Simple function to clear hidden notices.
  *
  * @return void
  */
 function purge_notices() {
-	if ( ! isset( $_REQUEST['nonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_REQUEST['nonce'] ), 'anm_purgce_notices_nonce' ) ) ) {
+	if ( ! isset( $_REQUEST['nonce'] ) || ! \wp_verify_nonce( \sanitize_text_field( \wp_unslash( $_REQUEST['nonce'] ) ), 'anm_purge_notices_nonce' ) ) {
 		exit;
 	}
+	
 	\update_option( 'anm-hidden-notices', array() );
 	\wp_send_json_success();
 }
